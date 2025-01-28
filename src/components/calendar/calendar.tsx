@@ -4,6 +4,7 @@ import { CalendarHeader } from "../calendar-header/calendar-header";
 import { CalendarDayProps } from "../../types/calendar-day";
 import { CalendarDay } from "../calendar-day/calendar-day";
 import { Container } from "./styles";
+import { CalendarSubheader } from "../calendar-subheader/calendar-subheader";
 
 function generateCalendar(month: number, year: number): CalendarDayProps[] {
   const daysInWeek = 7;
@@ -61,6 +62,7 @@ export function Calendar() {
   return (
     <Container>
       <CalendarHeader />
+      <CalendarSubheader />
       <FlatList
         data={generateCalendar(
           new Date().getMonth() + 1,
