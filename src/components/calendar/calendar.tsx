@@ -1,14 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { CalendarHeader } from "../calendar-header/calendar-header";
 import { CalendarDayProps } from "../../types/calendar-day";
 import { CalendarDay } from "../calendar-day/calendar-day";
-
+import { Container } from "./styles";
 
 function generateCalendar(month: number, year: number): CalendarDayProps[] {
   const daysInWeek = 7;
   const date = new Date(year, month - 1, 1); // Start of the month (month is 0-indexed)
-  
+
   const firstDayOfWeek = date.getDay(); // Day of the week for the 1st of the month (0 = Sunday, 6 = Saturday)
   const daysInMonth = new Date(year, month, 0).getDate(); // Total days in the given month
 
@@ -16,7 +16,12 @@ function generateCalendar(month: number, year: number): CalendarDayProps[] {
   const prevMonthDays = new Date(year, month - 1, 0).getDate();
 
   let currentDay = 1 - firstDayOfWeek; // Start with the offset for the previous month
-  const daysOfMonth: {day: number, month: number, year: number, isReserved: boolean }[] = [];
+  const daysOfMonth: {
+    day: number;
+    month: number;
+    year: number;
+    isReserved: boolean;
+  }[] = [];
 
   while (currentDay <= daysInMonth) {
     for (let i = 0; i < daysInWeek; i++) {
@@ -54,34 +59,17 @@ function generateCalendar(month: number, year: number): CalendarDayProps[] {
 
 export function Calendar() {
   return (
-    <View style={styles.container}>
-      <CalendarHeader></CalendarHeader>
-      <View style={styles.week}>
-        <FlatList
-          data={generateCalendar(new Date().getMonth() + 1, new Date().getFullYear())}
-          renderItem={({ item }) => <CalendarDay {...item} />}
-          keyExtractor={(item) => item.toString()}
-          numColumns={7}
-        />
-      </View>
-      <Text style={styles.text}>Calendar Component</Text>
-    </View>
+    <Container>
+      <CalendarHeader />
+      <FlatList
+        data={generateCalendar(
+          new Date().getMonth() + 1,
+          new Date().getFullYear()
+        )}
+        renderItem={({ item }) => <CalendarDay {...item} />}
+        keyExtractor={(item) => item.toString()}
+        numColumns={7}
+      />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  week: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  text: {
-    fontSize: 20,
-    color: "#000",
-  },
-});
