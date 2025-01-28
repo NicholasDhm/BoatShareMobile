@@ -1,13 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
+import { CalendarDayProps } from "../../types/calendar-day";
 
-type CalendarDayProps = {
-  day: number;
-};
-
-export function CalendarDay({ day }: CalendarDayProps) {
+export function CalendarDay(calendarDay: CalendarDayProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{day}</Text>
+      <Text style={styles.text}>{calendarDay.day}</Text>
     </View>
   );
 }
