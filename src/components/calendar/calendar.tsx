@@ -79,6 +79,7 @@ export function Calendar() {
 
     return daysOfMonth;
   }
+
   return (
     <Container>
       <CalendarHeader
@@ -91,7 +92,7 @@ export function Calendar() {
       <FlatList
         data={generateCalendar()}
         renderItem={({ item }) => <CalendarDay {...item} />}
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item) => `${item.year}-${item.month}-${item.day}`}
         numColumns={7}
       />
     </Container>
