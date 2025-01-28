@@ -1,5 +1,5 @@
-import { ReservationStatus } from "./ReservationStatus";
-import { ReservationType } from "./ReservationType";
+import { ReservationStatus } from "./reservation-status";
+import { ReservationType } from "./reservation-type";
 
 export type Reservation = {
   reservationId: string;
