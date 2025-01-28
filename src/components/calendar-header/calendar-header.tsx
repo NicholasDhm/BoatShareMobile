@@ -2,21 +2,33 @@ import { ArrowLeft, ArrowRight } from "lucide-react-native";
 
 import { Container, TextContainer, Button, DateText } from "./styles";
 
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.toLocaleString("en-US", { month: "long" });
+type CalendarHeaderProps = {
+  year: number;
+  month: number;
+  onRightPress: () => void;
+  onLeftPress: () => void;
+};
 
-export function CalendarHeader() {
+export function CalendarHeader({
+  onRightPress,
+  onLeftPress,
+  year,
+  month,
+}: CalendarHeaderProps) {
+  const monthText = new Date(year, month - 1).toLocaleString("en-US", {
+    month: "long",
+  });
+
   return (
     <Container>
-      <Button>
+      <Button onPress={onLeftPress}>
         <ArrowLeft />
       </Button>
       <TextContainer>
-        <DateText>{currentYear}</DateText>
-        <DateText>{currentMonth}</DateText>
+        <DateText>{year}</DateText>
+        <DateText>{monthText}</DateText>
       </TextContainer>
-      <Button>
+      <Button onPress={onRightPress}>
         <ArrowRight />
       </Button>
     </Container>
