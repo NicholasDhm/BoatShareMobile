@@ -2,11 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import { Dashboard } from "./src/screens/dashboard";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Login } from "./src/screens/login";
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Dashboard />
+      <Login />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
