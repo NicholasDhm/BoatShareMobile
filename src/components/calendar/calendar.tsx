@@ -93,6 +93,7 @@ export function Calendar() {
         renderItem={({ item }) => <CalendarDay {...item} />}
         keyExtractor={(item) => item.toString()}
         numColumns={7}
+        style={{ width: "100%" }}
       />
     </Container>
   );

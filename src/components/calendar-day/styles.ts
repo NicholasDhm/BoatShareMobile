@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-  height: 86px;
-  width: 64px;
+  height: 48px;
+  flex: 1;
 
   border-width: 1px;
   border-color: gray;

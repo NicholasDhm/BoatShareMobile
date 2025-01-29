@@ -4,7 +4,6 @@ export const Container = styled.View`
   background-color: #a2d9eb;
   padding-inline: 16px;
   height: 64px;
-  width: 468px;
 
   flex-direction: row;
   justify-content: space-between;
@@ -22,8 +21,8 @@ export const TextContainer = styled.View`
 
 export const Button = styled.Pressable`
   background-color: #d7e2e9;
-  height: 48px;
-  width: 48px;
+  height: 32px;
+  width: 32px;
 
   justify-content: center;
   align-items: center;
@@ -34,5 +33,5 @@ export const Button = styled.Pressable`
 `;
 
 export const DateText = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
 `;

@@ -22,14 +22,14 @@ export function CalendarHeader({
   return (
     <Container>
       <Button onPress={onLeftPress}>
-        <ArrowLeft />
+        <ArrowLeft size={16} color={"black"} />
       </Button>
       <TextContainer>
         <DateText>{year}</DateText>
         <DateText>{monthText}</DateText>
       </TextContainer>
       <Button onPress={onRightPress}>
-        <ArrowRight />
+        <ArrowRight size={16} color={"black"} />
       </Button>
     </Container>
   );
