@@ -92,7 +92,9 @@ export function Calendar() {
       <FlatList
         data={generateCalendar()}
         renderItem={({ item }) => <CalendarDay {...item} />}
-        keyExtractor={(item) => `${item.year}-${item.month}-${item.day}`}
+        keyExtractor={(item, index) =>
+          `${item.year}-${item.month}-${item.day}-${index}`
+        }
         numColumns={7}
         style={{ width: "100%" }}
       />
