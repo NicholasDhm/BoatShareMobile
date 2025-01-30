@@ -8,7 +8,7 @@ export const Input = styled.TextInput`
   background-color: #fff;
 
   padding: 12px;
-  height: 48px;
+  height: 42px;
 
   border-width: 1px;
   border-radius: 6px;

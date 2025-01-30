@@ -1,23 +1,16 @@
-import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
-import { Dashboard } from "./src/screens/dashboard";
+import { StatusBar } from "expo-status-bar";
+
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Login } from "./src/screens/login";
+
+import { Routes } from "./src/routes";
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Login />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#e6f2ff" }}>
+      <Routes />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

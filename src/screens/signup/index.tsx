@@ -5,25 +5,27 @@ import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes"; // Import the type
 
-export function Login() {
+export function SignUp() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>(); // Use the type here
 
-  function handleUserLogin() {
-    console.log("User login");
+  function handleUserSignup() {
+    console.log("User signup");
   }
 
-  function handleUserToSignUp() {
-    navigation.navigate("signup");
+  function handleUserToLogin() {
+    navigation.goBack();
   }
 
   return (
     <Container>
       <Title>Boat Share</Title>
       <TextInput title="Username" />
+      <TextInput title="Email" />
       <TextInput title="Password" />
-      <Button title="Login" onPress={handleUserLogin} />
-      <Pressable onPress={handleUserToSignUp}>
-        <SubText>Create your account</SubText>
+      <TextInput title="Confirm password" />
+      <Button title="Create account" onPress={handleUserSignup} />
+      <Pressable onPress={handleUserToLogin}>
+        <SubText>Already have an account? Login</SubText>
       </Pressable>
     </Container>
   );

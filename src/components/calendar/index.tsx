@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FlatList } from "react-native";
-import { CalendarHeader } from "../calendar-header/calendar-header";
+import { CalendarHeader } from "../calendar-header";
 import { CalendarDayProps } from "../../types/calendar-day";
-import { CalendarDay } from "../calendar-day/calendar-day";
+import { CalendarDay } from "../calendar-day";
 import { Container } from "./styles";
-import { CalendarSubheader } from "../calendar-subheader/calendar-subheader";
+import { CalendarSubheader } from "../calendar-subheader";
 
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
