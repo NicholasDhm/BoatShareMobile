@@ -10,8 +10,8 @@ import { Profile } from "./src/screens/profile";
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#e6f2ff" }}>
-      {/* <Routes /> */}
-      <Profile></Profile>
+      <Routes />
+
       <StatusBar style="auto" />
     </SafeAreaView>
   );

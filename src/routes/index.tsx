@@ -9,7 +9,7 @@ export function Routes() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
-        <AuthRoutes />
+        <AppRoutes />
       </NavigationContainer>
     </SafeAreaView>
   );
