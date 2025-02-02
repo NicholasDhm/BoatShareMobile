@@ -1,10 +1,10 @@
-import { ReservationType } from "./reservation-type";
+import { Reservation } from "./reservation";
 
 export type CalendarDayProps = {
   day: number;
   month: number;
   year: number;
   isReserved: boolean;
-  reservationType?: ReservationType;
+  reservations: Reservation[];
 }
 
