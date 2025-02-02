@@ -7,6 +7,7 @@ import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
 import { Reservation } from "../../types/reservation";
 
+// MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
   "2/2/2025": [
     {
@@ -21,15 +22,15 @@ const reservationDict: { [key: string]: Reservation[] } = {
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
   ],
-  "3/2/2025": [
+  "6/2/2025": [
     {
       reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
       userId: "a8e6596f-2517-4b18-a866-48fa9eb14d41",
       boatId: "1",
       year: 2025,
       month: 2,
-      day: 2,
-      status: "Confirmed",
+      day: 6,
+      status: "Unconfirmed",
       type: "Contingency",
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
