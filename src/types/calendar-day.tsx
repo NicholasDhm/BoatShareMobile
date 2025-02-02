@@ -6,5 +6,4 @@ export type CalendarDayProps = {
   year: number;
   isReserved: boolean;
   reservations: Reservation[];
-}
-
+};

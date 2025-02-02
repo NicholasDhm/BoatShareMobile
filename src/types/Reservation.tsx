@@ -11,5 +11,4 @@ export type Reservation = {
   year: number;
   type: ReservationType;
   status: ReservationStatus;
-}
-
+};
