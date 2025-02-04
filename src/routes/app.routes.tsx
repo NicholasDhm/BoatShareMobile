@@ -30,10 +30,10 @@ export function AppRoutes() {
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#e6f2ff",
+          tabBarActiveTintColor: "#89c2ff",
           tabBarInactiveTintColor: "#fff",
           tabBarStyle: {
-            backgroundColor: "#858585",
+            backgroundColor: "#5f5f5f",
             borderTopWidth: 0,
             borderRadius: 50,
             height: 68,
@@ -48,14 +48,14 @@ export function AppRoutes() {
           name="dashboard"
           component={Dashboard}
           options={{
-            tabBarIcon: () => <CalendarDays size={32} color={"white"} />,
+            tabBarIcon: ({ color }) => <CalendarDays size={32} color={color} />,
           }}
         />
         <Screen
           name="profile"
           component={Profile}
           options={{
-            tabBarIcon: () => <User size={32} color={"white"} />,
+            tabBarIcon: ({ color }) => <User size={32} color={color} />,
           }}
         />
       </Navigator>
