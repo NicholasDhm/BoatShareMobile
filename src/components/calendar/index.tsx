@@ -83,12 +83,12 @@ export function Calendar() {
     }
   }
 
-  // function fetchReservations(boatId: string, reservation: Reservation) {
+  function fetchReservations(boatId: string, reservation: Reservation) {
   //   // setReservations(prevReservations => ({
   //   //   ...prevReservations,
   //   //   [boatId]: [...(prevReservations[boatId] || []), reservation]
   //   // }));
-  // }
+  }
 
   return (
     <Container>
