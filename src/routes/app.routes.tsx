@@ -6,12 +6,7 @@ import {
 import { Dashboard } from "../screens/dashboard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Profile } from "../screens/profile";
-import {
-  Calendar,
-  CalendarDays,
-  GitGraphIcon,
-  User,
-} from "lucide-react-native";
+import { CalendarDays, User } from "lucide-react-native";
 
 type AppRoutes = {
   home: undefined;
