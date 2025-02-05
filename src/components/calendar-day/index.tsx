@@ -17,7 +17,7 @@ export function CalendarDay({ day, reservations }: CalendarDayProps) {
 
   const firstReservation = FirstReservation();
   const isMine = firstReservation ? firstReservation.userId === userId : false;
-  const isConfirmed = firstReservation?.status === 'Confirmed';
+  const isConfirmed = firstReservation ? firstReservation.status : false;
 
   return (
     <Container

@@ -1,68 +1,82 @@
+import React from "react";
 import {
   createBottomTabNavigator,
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
-
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from "@react-navigation/stack";
 import { Dashboard } from "../screens/dashboard";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Profile } from "../screens/profile";
-import { CalendarDays, User, Info } from "lucide-react-native";
 import { ReservationTypeInfo } from "../screens/reservation-type-info";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { CalendarDays, User, Info } from "lucide-react-native";
 
-type AppRoutes = {
-  home: undefined;
+type TabRoutes = {
   dashboard: undefined;
   profile: undefined;
+};
+
+type StackRoutes = {
+  tabNavigator: undefined;
   reservationTypeInfo: undefined;
 };
 
-export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
+export type TabNavigatorProps = BottomTabNavigationProp<TabRoutes>;
+export type StackNavigatorProps = StackNavigationProp<StackRoutes>;
 
-const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
+const Tab = createBottomTabNavigator<TabRoutes>();
+const Stack = createStackNavigator<StackRoutes>();
+
+function TabNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: "#89c2ff",
+        tabBarInactiveTintColor: "#fff",
+        tabBarStyle: {
+          backgroundColor: "#5f5f5f",
+          borderTopWidth: 0,
+          borderRadius: 50,
+          height: 68,
+          paddingTop: 15,
+          marginBottom: 10,
+          marginRight: 10,
+          marginLeft: 20,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="dashboard"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ color }) => <CalendarDays size={32} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => <User size={32} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export function AppRoutes() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarActiveTintColor: "#89c2ff",
-          tabBarInactiveTintColor: "#fff",
-          tabBarStyle: {
-            backgroundColor: "#5f5f5f",
-            borderTopWidth: 0,
-            borderRadius: 50,
-            height: 68,
-            paddingTop: 15,
-            marginBottom: 10,
-            marginRight: 10,
-            marginLeft: 20,
-          },
-        }}
-      >
-        <Screen
-          name="dashboard"
-          component={Dashboard}
-          options={{
-            tabBarIcon: ({ color }) => <CalendarDays size={32} color={color} />,
-          }}
-        />
-        <Screen
-          name="profile"
-          component={Profile}
-          options={{
-            tabBarIcon: ({ color }) => <User size={32} color={color} />,
-          }}
-        />
-        <Screen
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="tabNavigator" component={TabNavigator} />
+        <Stack.Screen
           name="reservationTypeInfo"
           component={ReservationTypeInfo}
-          options={{
-            tabBarIcon: ({ color }) => <Info size={32} color={color} />,
-          }}
         />
-      </Navigator>
+      </Stack.Navigator>
     </SafeAreaView>
   );
 }
