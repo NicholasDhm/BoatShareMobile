@@ -45,7 +45,9 @@ export function generateCalendar(
         year,
         isReserved: reservations.length > 0,
         reservations,
+        currentMonth,
       });
+
 
       currentDay++;
     }
