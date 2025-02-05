@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { CalendarHeader } from "../calendar-header";
 import { CalendarDay } from "../calendar-day";
-import { Container } from "./styles";
+import { styles } from "./styles";
 import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
 import { Reservation } from "../../types/reservation";
@@ -91,7 +91,7 @@ export function Calendar() {
   }
 
   return (
-    <Container>
+    <View style={styles.container}>
       <CalendarHeader
         onRightPress={handlePressRight}
         onLeftPress={handleLeftRight}
@@ -108,6 +108,6 @@ export function Calendar() {
         numColumns={7}
         style={{ width: "100%" }}
       />
-    </Container>
+    </View>
   );
 }

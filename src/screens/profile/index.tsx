@@ -1,36 +1,37 @@
-import { Container, Title, SubText, DataContainer } from "./styles";
+import { View, Text } from "react-native";
+import { styles } from "./styles";
 
 export function Profile() {
     return (
     // <Header></Header>
-    <Container>
-      <Title>Profile</Title>
-      <DataContainer>
-        <SubText>Username: Nick</SubText>
+    <View style={styles.container}>
+      <Text style={styles.title}>Profile</Text>
+      <View style={styles.dataContainer}>
+        <Text style={styles.subText}>Username: Nick</Text>
         {/* <SubText>Id: 1</SubText> */}
-        <SubText>Email: nick@gmail.com</SubText>
-        <SubText>Password: nickisthebesthumanalive</SubText>
+        <Text style={styles.subText}>Email: nick@gmail.com</Text>
+        <Text style={styles.subText}>Password: nickisthebesthumanalive</Text>
         {/* <SubText>Role: Admin</SubText> */}
-      </DataContainer>
+      </View>
 
-      <Title>Your Boats:</Title>
+      <Text style={styles.title}>Your Boats:</Text>
       {/* border bottom and a dropdown with a arrow that spins to display or not opened */}
-      <DataContainer>
+      <View style={styles.dataContainer}>
         {/* Reutilize description from the calendar to show calendar */}
-        <SubText>Standard: 2</SubText>
-        <SubText>Substitution: 2</SubText>
-        <SubText>Contingency: 1</SubText>
-      </DataContainer>
+        <Text style={styles.subText}>Standard: 2</Text>
+        <Text style={styles.subText}>Substitution: 2</Text>
+        <Text style={styles.subText}>Contingency: 1</Text>
+      </View>
 
-      <Title>Your Quotas:</Title>
-      <DataContainer>
+      <Text style={styles.title}>Your Quotas:</Text>
+      <View style={styles.dataContainer}>
         {/* Reutilize description from the calendar to show calendar */}
-        <SubText>Standard: 2</SubText>
-        <SubText>Substitution: 2</SubText>
-        <SubText>Contingency: 1</SubText>
-      </DataContainer>
+        <Text style={styles.subText}>Standard: 2</Text>
+        <Text style={styles.subText}>Substitution: 2</Text>
+        <Text style={styles.subText}>Contingency: 1</Text>
+      </View>
 
       {/* <History></History> */}
-    </Container>
+    </View>
   );
 }

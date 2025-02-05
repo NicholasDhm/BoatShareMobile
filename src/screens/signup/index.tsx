@@ -1,12 +1,12 @@
-import { Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { TextInput } from "../../components/text-input";
-import { Container, Title, SubText } from "./styles";
 import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "../../routes/auth.routes"; // Import the type
+import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
+import { styles } from "./styles";
 
 export function SignUp() {
-  const navigation = useNavigation<AuthNavigatorRoutesProps>(); // Use the type here
+  const navigation = useNavigation<AuthNavigatorRoutesProps>(); 
 
   function handleUserSignup() {
     console.log("User signup");
@@ -17,16 +17,16 @@ export function SignUp() {
   }
 
   return (
-    <Container>
-      <Title>Boat Share</Title>
+    <View style={styles.container}>
+      <Text style={styles.title}>Boat Share</Text>
       <TextInput title="Username" />
       <TextInput title="Email" />
       <TextInput title="Password" />
       <TextInput title="Confirm password" />
       <Button title="Create account" onPress={handleUserSignup} />
       <Pressable onPress={handleUserToLogin}>
-        <SubText>Already have an account? Login</SubText>
+        <Text style={styles.subText}>Already have an account? Login</Text>
       </Pressable>
-    </Container>
+    </View>
   );
 }

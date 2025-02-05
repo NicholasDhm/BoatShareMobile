@@ -1,7 +1,7 @@
-import { FlatList, Pressable } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import { Calendar } from "../../components/calendar";
 import { InfoIcon } from "../../components/info-icon";
-import { Container, Subcontainer } from "./styles";
+import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
@@ -20,8 +20,8 @@ export function Dashboard() {
   }
 
   return (
-    <Container>
-      <Subcontainer>
+    <View style={styles.container}>
+      <View style={styles.subcontainer}>
         <Pressable onPress={handleInfoIconPress}>
           <FlatList
             data={list}
@@ -42,7 +42,7 @@ export function Dashboard() {
         </Pressable>
 
         <Calendar />
-      </Subcontainer>
-    </Container>
+      </View>
+    </View>
   );
 }

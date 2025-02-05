@@ -1,5 +1,6 @@
+import { View, Text } from "react-native";
 import { CalendarDayProps } from "../../types/calendar-day";
-import { Container, DayText } from "./styles";
+import { styles, getBackgroundColor } from "./styles";
 
 // TEMPORARY USER ID FOR TEST PURPOSES
 const userId = "a8e6596f-2517-4b18-a866-48fa9eb14d41";
@@ -17,15 +18,20 @@ export function CalendarDay({ day, reservations }: CalendarDayProps) {
 
   const firstReservation = FirstReservation();
   const isMine = firstReservation ? firstReservation.userId === userId : false;
-  const isConfirmed = firstReservation ? firstReservation.status : false;
+  const isConfirmed = firstReservation ? firstReservation.status === "Confirmed" : false;
 
   return (
-    <Container
-      reservationType={firstReservation ? firstReservation.type : ""}
-      isMine={isMine}
-      isConfirmed={isConfirmed}
+    <View 
+      style={[
+        styles.container, 
+        { backgroundColor: getBackgroundColor(
+          firstReservation ? firstReservation.type : "",
+          isMine,
+          isConfirmed
+        )}
+      ]}
     >
-      <DayText>{day}</DayText>
-    </Container>
+      <Text style={styles.dayText}>{day}</Text>
+    </View>
   );
 }

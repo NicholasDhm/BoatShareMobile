@@ -1,24 +1,22 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-export const Container = styled.View`
-  background-color: #e6f2ff;
-  padding: 32px;
-  border-radius: 8px;
-  gap: 10px;
-`;
-
-export const DataContainer = styled.View`
-  background-color:rgb(192, 199, 206);
-
-  padding: 16px;
-  border-radius: 8px;
-  gap: 6px;
-`;  
-
-export const Title = styled.Text`
-  font-size: 24px;
-`;
-
-export const SubText = styled.Text`
-  font-size: 16px;
-`;
+export const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#e6f2ff',
+    padding: 32,
+    borderRadius: 8,
+    gap: 10,
+  },
+  dataContainer: {
+    backgroundColor: 'rgb(192, 199, 206)',
+    padding: 16,
+    borderRadius: 8,
+    gap: 6,
+  },
+  title: {
+    fontSize: 24,
+  },
+  subText: {
+    fontSize: 16,
+  },
+});

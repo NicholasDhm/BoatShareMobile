@@ -1,17 +1,16 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-export const ButtonContainer = styled.TouchableOpacity`
-  height: 42px;
-  width: 60%;
-
-  background-color: rgb(36, 122, 219);
-  border-radius: 6px;
-
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Title = styled.Text`
-  font-size: 16px;
-  color: #fff;
-`;
+export const styles = StyleSheet.create({
+  buttonContainer: {
+    height: 42,
+    width: '60%',
+    backgroundColor: 'rgb(36, 122, 219)',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 16,
+    color: '#fff',
+  },
+});

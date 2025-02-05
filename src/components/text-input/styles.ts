@@ -1,21 +1,18 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-export const Container = styled.View`
-  width: 100%;
-`;
-
-export const Input = styled.TextInput`
-  background-color: #fff;
-
-  padding: 12px;
-  height: 42px;
-
-  border-width: 1px;
-  border-radius: 6px;
-`;
-
-export const Title = styled.Text`
-  font-size: 16px;
-
-  padding-bottom: 4px;
-`;
+export const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+  input: {
+    backgroundColor: '#fff',
+    padding: 12,
+    height: 42,
+    borderWidth: 1,
+    borderRadius: 6,
+  },
+  title: {
+    fontSize: 16,
+    paddingBottom: 4,
+  },
+});

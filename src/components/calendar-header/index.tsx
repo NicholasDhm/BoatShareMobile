@@ -1,6 +1,6 @@
+import { View, Text, Pressable } from "react-native";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
-
-import { Container, TextContainer, Button, DateText } from "./styles";
+import { styles } from "./styles";
 
 type CalendarHeaderProps = {
   year: number;
@@ -20,17 +20,17 @@ export function CalendarHeader({
   });
 
   return (
-    <Container>
-      <Button onPress={onLeftPress}>
+    <View style={styles.container}>
+      <Pressable style={styles.button} onPress={onLeftPress}>
         <ArrowLeft size={16} color={"black"} />
-      </Button>
-      <TextContainer>
-        <DateText>{year}</DateText>
-        <DateText>{monthText}</DateText>
-      </TextContainer>
-      <Button onPress={onRightPress}>
+      </Pressable>
+      <View style={styles.textContainer}>
+        <Text style={styles.dateText}>{year}</Text>
+        <Text style={styles.dateText}>{monthText}</Text>
+      </View>
+      <Pressable style={styles.button} onPress={onRightPress}>
         <ArrowRight size={16} color={"black"} />
-      </Button>
-    </Container>
+      </Pressable>
+    </View>
   );
 }

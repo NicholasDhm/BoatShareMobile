@@ -1,16 +1,17 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-export const Container = styled.View`
-  height: 100%;
-  width: 100%;
-  flex: 1;
-`;
-
-export const Subcontainer = styled.View`
-  height: 75%;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-`;
+export const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    width: '100%',
+    flex: 1,
+  },
+  subcontainer: {
+    height: '75%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    gap: 10,
+  },
+});

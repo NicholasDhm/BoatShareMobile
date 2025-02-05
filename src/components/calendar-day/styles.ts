@@ -1,33 +1,23 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-interface ContainerProps {
-  reservationType: string;
-  isMine: boolean;
-  isConfirmed: boolean;
-}
+export const styles = StyleSheet.create({
+  container: {
+    height: 48,
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'gray',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dayText: {
+    fontSize: 18,
+  },
+});
 
-export const Container = styled.View<ContainerProps>`
-  height: 48px;
-  flex: 1;
-
-  border-width: 1px;
-  border-color: gray;
-
-  justify-content: center;
-  align-items: center;
-
-  background-color: ${({
-    reservationType,
-    isMine,
-    isConfirmed,
-  }: ContainerProps) => {
-    if (reservationType && !isMine) return "red";
-    if (reservationType && isMine && isConfirmed) return "blue";
-    if (reservationType && isMine && !isConfirmed) return "orange";
-    return "white";
-  }};
-`;
-
-export const DayText = styled.Text`
-  font-size: 18px;
-`;
+// Função auxiliar para determinar a cor de fundo
+export const getBackgroundColor = (reservationType: string, isMine: boolean, isConfirmed: boolean) => {
+  if (reservationType && !isMine) return 'red';
+  if (reservationType && isMine && isConfirmed) return 'blue';
+  if (reservationType && isMine && !isConfirmed) return 'orange';
+  return 'white';
+};

@@ -1,11 +1,11 @@
-import styled from "styled-components/native";
+import { StyleSheet } from 'react-native';
 
-export const Container = styled.View`
-  width: 80%;
-
-  align-self: center;
-
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-`;
+export const styles = StyleSheet.create({
+  container: {
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+});
