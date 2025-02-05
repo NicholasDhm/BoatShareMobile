@@ -7,9 +7,9 @@ import { ReservationType } from "../../types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
 
 const list: { name: string; type: ReservationType }[] = [
-  { name: "John Doe", type: "Standard" },
-  { name: "Jane Doe", type: "Substitution" },
-  { name: "John Smith", type: "Contingency" },
+  { name: "John Doe", type: ReservationType.STANDARD },
+  { name: "Jane Doe", type: ReservationType.SUBSTITUTION },
+  { name: "John Smith", type: ReservationType.CONTINGENCY },
 ];
 
 export function Dashboard() {

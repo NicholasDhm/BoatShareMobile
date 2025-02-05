@@ -2,14 +2,15 @@ import React from "react";
 import { Text, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { styles } from "./styles";
+import { ReservationType } from "../../types/reservation-type";
 
-export function InfoIcon({ name, type }: { name: string; type: string }) {
+export function InfoIcon({ name, type }: { name: string; type: ReservationType }) {
   const backgroundColor =
-    type === "Standard"
+    type === ReservationType.STANDARD
       ? "blue"
-      : type === "Substitution"
+      : type === ReservationType.SUBSTITUTION
       ? "red"
-      : type === "Contingency"
+      : type === ReservationType.CONTINGENCY
       ? "orange"
       : "transparent";
 
