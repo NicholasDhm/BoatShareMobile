@@ -6,12 +6,14 @@ import {
 import { Dashboard } from "../screens/dashboard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Profile } from "../screens/profile";
-import { CalendarDays, User } from "lucide-react-native";
+import { CalendarDays, User, Info } from "lucide-react-native";
+import { ReservationTypeInfo } from "../screens/reservation-type-info";
 
 type AppRoutes = {
   home: undefined;
   dashboard: undefined;
   profile: undefined;
+  reservationTypeInfo: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -51,6 +53,13 @@ export function AppRoutes() {
           component={Profile}
           options={{
             tabBarIcon: ({ color }) => <User size={32} color={color} />,
+          }}
+        />
+        <Screen
+          name="reservationTypeInfo"
+          component={ReservationTypeInfo}
+          options={{
+            tabBarIcon: ({ color }) => <Info size={32} color={color} />,
           }}
         />
       </Navigator>
