@@ -1,22 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-
-import { Routes } from "./src/routes";
-import { Profile } from "./src/screens/profile";
+import { AuthProvider } from './src/contexts/auth';
+import { Routes } from './src/routes';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
+    <AuthProvider>
       <Routes />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#e6f2ff",
-  },
-});

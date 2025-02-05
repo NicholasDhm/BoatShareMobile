@@ -1,15 +1,35 @@
-import { View, Text, Pressable } from "react-native";
+import { useState } from "react";
+import { View, Text, Pressable, Alert } from "react-native";
 import { TextInput } from "../../components/text-input";
 import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
 import { styles } from "./styles";
+import { useAuth } from "../../contexts/auth";
 
 export function SignUp() {
-  const navigation = useNavigation<AuthNavigatorRoutesProps>(); 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const { signUp } = useAuth();
 
-  function handleUserSignup() {
-    console.log("User signup");
+  async function handleUserSignup() {
+    try {
+      if (!name.trim() || !email.trim() || !password || !confirmPassword) {
+        return Alert.alert('Erro', 'Por favor, preencha todos os campos');
+      }
+
+      if (password !== confirmPassword) {
+        return Alert.alert('Erro', 'As senhas não conferem');
+      }
+      
+      await signUp(name, email, password);
+    } catch (error) {
+      Alert.alert('Erro no cadastro', 'Não foi possível criar a conta');
+    }
   }
 
   function handleUserToLogin() {
@@ -19,10 +39,30 @@ export function SignUp() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Boat Share</Text>
-      <TextInput title="Username" />
-      <TextInput title="Email" />
-      <TextInput title="Password" />
-      <TextInput title="Confirm password" />
+      <TextInput 
+        title="Username" 
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput 
+        title="Email" 
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput 
+        title="Password" 
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <TextInput 
+        title="Confirm password" 
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
       <Button title="Create account" onPress={handleUserSignup} />
       <Pressable onPress={handleUserToLogin}>
         <Text style={styles.subText}>Already have an account? Login</Text>

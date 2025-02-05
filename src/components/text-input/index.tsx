@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, TextInput as RNTextInput } from "react-native";
+import { View, Text, TextInput as RNTextInput, TextInputProps } from "react-native";
 import { styles } from "./styles";
 
-type TextInputProps = {
+type Props = TextInputProps & {
   title?: string;
 };
 
-export function TextInput({ title, ...rest }: TextInputProps) {
+export function TextInput({ title, ...rest }: Props) {
   return (
     <View style={styles.container}>
       {title ? <Text style={styles.title}>{title}</Text> : null}

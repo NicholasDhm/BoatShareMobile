@@ -1,16 +1,19 @@
 import { View, Text } from "react-native";
 import { styles } from "./styles";
+import { Button } from "../../components/button";
+import { useAuth } from "../../contexts/auth";
 
 export function Profile() {
-    return (
+  const { signOut, user } = useAuth();
+
+  return (
     // <Header></Header>
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.dataContainer}>
-        <Text style={styles.subText}>Username: Nick</Text>
+        <Text style={styles.subText}>Username: {user?.name}</Text>
         {/* <SubText>Id: 1</SubText> */}
-        <Text style={styles.subText}>Email: nick@gmail.com</Text>
-        <Text style={styles.subText}>Password: nickisthebesthumanalive</Text>
+        <Text style={styles.subText}>Email: {user?.email}</Text>
         {/* <SubText>Role: Admin</SubText> */}
       </View>
 
@@ -30,6 +33,8 @@ export function Profile() {
         <Text style={styles.subText}>Substitution: 2</Text>
         <Text style={styles.subText}>Contingency: 1</Text>
       </View>
+
+      <Button title="Logout" onPress={signOut} />
 
       {/* <History></History> */}
     </View>
