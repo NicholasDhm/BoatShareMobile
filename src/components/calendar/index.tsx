@@ -7,6 +7,7 @@ import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
 import { Reservation } from "../../types/reservation";
 import { ReservationType } from "../../types/reservation-type";
+import { ReservationStatus } from "../../types/reservation-status";
 
 // MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
@@ -18,7 +19,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
       year: 2025,
       month: 2,
       day: 2,
-      status: "Confirmed",
+      status: ReservationStatus.Confirmed,
       type: ReservationType.CONTINGENCY,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
@@ -31,7 +32,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
       year: 2025,
       month: 2,
       day: 6,
-      status: "Unconfirmed",
+      status: ReservationStatus.Unconfirmed,
       type: ReservationType.CONTINGENCY,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
@@ -44,7 +45,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
       year: 2025,
       month: 2,
       day: 3,
-      status: "Unconfirmed",
+      status: ReservationStatus.Unconfirmed,
       type: ReservationType.STANDARD,
 
       createdAtIsoDate: "02/01/2025 7:24:06 PM",
@@ -56,7 +57,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
       year: 2025,
       month: 2,
       day: 3,
-      status: "Pending",
+      status: ReservationStatus.Pending,
       type: ReservationType.SUBSTITUTION,
       createdAtIsoDate: "02/01/2025 7:24:42 PM",
     },

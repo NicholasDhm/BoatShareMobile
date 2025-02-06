@@ -1,6 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { CalendarDayProps } from "../../types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
+import { ReservationStatus } from "../../types/reservation-status";
 
 // TEMPORARY USER ID FOR TEST PURPOSES
 const userId = "1";
@@ -26,7 +27,7 @@ export function CalendarDay({ day, month, year, reservations, currentMonth }: Ca
 
   const firstReservation = getFirstReservation();
   const isMine = firstReservation ? firstReservation.userId === userId : false;
-  const isConfirmed = firstReservation ? firstReservation.status === "Confirmed" : false;
+  const isConfirmed = firstReservation ? firstReservation.status === ReservationStatus.Confirmed : false;
 
   function getReservationStyle() {
     const baseStyles = [
@@ -48,7 +49,16 @@ export function CalendarDay({ day, month, year, reservations, currentMonth }: Ca
 
   return (
     <View style={getReservationStyle()}>
-      <Text style={styles.dayText}>{day}</Text>
+      <Pressable
+        onPress={() => {}}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? "green" : "transparent"
+          }
+        ]}
+      >
+        <Text style={styles.dayText}>{day}</Text>
+      </Pressable>
     </View>
   );
 }
