@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 import { CalendarHeader } from "../calendar-header";
 import { CalendarDay } from "../calendar-day";
 import { styles } from "./styles";
@@ -8,6 +8,8 @@ import { generateCalendar } from "./methods";
 import { Reservation } from "../../types/reservation";
 import { ReservationType } from "../../types/reservation-type";
 import { ReservationStatus } from "../../types/reservation-status";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigatorProps } from "../../routes/app.routes";
 
 // MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
@@ -67,6 +69,11 @@ const reservationDict: { [key: string]: Reservation[] } = {
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const navigation = useNavigation<StackNavigatorProps>();
+
+  function handlePressDay(day: number, month: number, year: number) {
+    navigation.navigate("reservationInfo", { day, month, year });
+  }
 
   function handlePressRight() {
     if (currentMonth === 12) {
@@ -87,10 +94,10 @@ export function Calendar() {
   }
 
   function fetchReservations(boatId: string, reservation: Reservation) {
-  //   // setReservations(prevReservations => ({
-  //   //   ...prevReservations,
-  //   //   [boatId]: [...(prevReservations[boatId] || []), reservation]
-  //   // }));
+  // setReservations(prevReservations => ({
+  //   ...prevReservations,
+  //   [boatId]: [...(prevReservations[boatId] || []), reservation]
+  // }));
   }
 
   return (
@@ -105,7 +112,11 @@ export function Calendar() {
       <View style={styles.calendarGrid}>
         {generateCalendar(currentYear, currentMonth, reservationDict).map((item, index) => (
           <View style={styles.dayWrapper} key={`${item.year}-${item.month}-${item.day}-${index}`}>
-            <CalendarDay {...item} currentMonth={currentMonth} />
+            <CalendarDay
+              {...item}
+              currentMonth={currentMonth}
+              onPress={() => handlePressDay(item.day, item.month, item.year)}
+            />
           </View>
         ))}
       </View>

@@ -11,16 +11,18 @@ import { Dashboard } from "../screens/dashboard";
 import { Profile } from "../screens/profile";
 import { ReservationTypeInfo } from "../screens/reservation-type-info";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CalendarDays, User, Info } from "lucide-react-native";
+import { CalendarDays, User } from "lucide-react-native";
+import { ReservationInfo } from "../screens/reservation-info";
 
 type TabRoutes = {
   dashboard: undefined;
   profile: undefined;
 };
 
-type StackRoutes = {
+export type StackRoutes = {
   tabNavigator: undefined;
   reservationTypeInfo: undefined;
+  reservationInfo: { day: number; month: number; year: number };
 };
 
 export type TabNavigatorProps = BottomTabNavigationProp<TabRoutes>;
@@ -75,6 +77,10 @@ export function AppRoutes() {
         <Stack.Screen
           name="reservationTypeInfo"
           component={ReservationTypeInfo}
+        />
+        <Stack.Screen
+          name="reservationInfo"
+          component={ReservationInfo}
         />
       </Stack.Navigator>
     </SafeAreaView>

@@ -6,7 +6,7 @@ import { ReservationStatus } from "../../types/reservation-status";
 // TEMPORARY USER ID FOR TEST PURPOSES
 const userId = "1";
 
-export function CalendarDay({ day, month, year, reservations, currentMonth }: CalendarDayProps) {
+export function CalendarDay({ day, month, year, reservations, currentMonth, onPress }: CalendarDayProps) {
   const today = new Date();
   const isToday = 
     today.getDate() === day && 
@@ -48,17 +48,11 @@ export function CalendarDay({ day, month, year, reservations, currentMonth }: Ca
   }
 
   return (
-    <View style={getReservationStyle()}>
-      <Pressable
-        onPress={() => {}}
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? "green" : "transparent"
-          }
-        ]}
-      >
-        <Text style={styles.dayText}>{day}</Text>
-      </Pressable>
-    </View>
+    <Pressable
+      onPress={onPress}
+      style={getReservationStyle()}
+    >
+      <Text style={styles.dayText}>{day}</Text>
+    </Pressable>
   );
 }
