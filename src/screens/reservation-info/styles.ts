@@ -5,6 +5,11 @@ export const styles = StyleSheet.create({
       padding: 20,
       backgroundColor: "#fff",
     },
+    subcontainer: {
+      flexDirection: "column",
+      display: "flex",
+      gap: 20,
+    },
     title: {
       fontSize: 24,
       fontWeight: "bold",
@@ -23,24 +28,16 @@ export const styles = StyleSheet.create({
       fontWeight: "bold",
     },
     infoBox: {
-      marginBottom: 20,
       padding: 15,
       backgroundColor: "#f9f9f9",
       borderRadius: 10,
       borderColor: "#ddd",
       borderWidth: 1,
     },
-    calendarInfoBox: {
-      padding: 10,
-      backgroundColor: "#e8f0fe",
-      borderRadius: 10,
-      borderColor: "#bbb",
-      borderWidth: 1,
-    },
     row: {
       flexDirection: "row",
       alignItems: "center",
-      marginBottom: 20,
+      justifyContent: "space-between",
     },
     button: {
       backgroundColor: '#007AFF',

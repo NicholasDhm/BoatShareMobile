@@ -2,9 +2,20 @@ import { View, Text, Pressable } from "react-native";
 import { CalendarDayProps } from "../../types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
 import { ReservationStatus } from "../../types/reservation-status";
+import { Reservation } from "../../types/reservation";
 
 // TEMPORARY USER ID FOR TEST PURPOSES
 const userId = "1";
+
+export function getFirstReservation(reservations: Reservation[]) {
+  if (reservations?.length === 0) return null;
+  return reservations?.reduce((earliest, current) => {
+    return new Date(earliest.createdAtIsoDate) <
+      new Date(current.createdAtIsoDate)
+      ? earliest
+      : current;
+  });
+}
 
 export function CalendarDay({ day, month, year, reservations, currentMonth, onPress }: CalendarDayProps) {
   const today = new Date();
@@ -15,17 +26,8 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
   
   const isOtherMonth = month !== currentMonth;
 
-  function getFirstReservation() {
-    if (reservations?.length === 0) return null;
-    return reservations?.reduce((earliest, current) => {
-      return new Date(earliest.createdAtIsoDate) <
-        new Date(current.createdAtIsoDate)
-        ? earliest
-        : current;
-    });
-  }
 
-  const firstReservation = getFirstReservation();
+  const firstReservation = getFirstReservation(reservations);
   const isMine = firstReservation ? firstReservation.userId === userId : false;
   const isConfirmed = firstReservation ? firstReservation.status === ReservationStatus.Confirmed : false;
 

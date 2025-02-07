@@ -13,7 +13,7 @@ import { ReservationTypeInfo } from "../screens/reservation-type-info";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CalendarDays, User } from "lucide-react-native";
 import { ReservationInfo } from "../screens/reservation-info";
-import { ReservationType } from "../types/reservation-type";
+import { CalendarDayProps } from "../types/calendar-day";
 import { CreateBoat } from "../screens/create-boat";
 
 type TabRoutes = {
@@ -25,8 +25,6 @@ export type StackRoutes = {
   tabNavigator: undefined;
   reservationTypeInfo: undefined;
   reservationInfo: { day: number; month: number; year: number; isReserved: boolean };
-  createBoat: undefined;
-  profile: undefined;
 };
 
 

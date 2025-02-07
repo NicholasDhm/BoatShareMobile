@@ -29,11 +29,11 @@ export const getBackgroundColor = (
 
   switch (type) {
     case ReservationType.STANDARD:
-      return '#E8F5E9';  // very light green
-    case ReservationType.SUBSTITUTION:
       return '#E3F2FD';  // very light blue
-    case ReservationType.CONTINGENCY:
+    case ReservationType.SUBSTITUTION:
       return '#FFEBEE';  // very light red
+    case ReservationType.CONTINGENCY:
+      return '#FFF3E0';  // very light orange
     default:
       return '#FFFFFF';
   }
