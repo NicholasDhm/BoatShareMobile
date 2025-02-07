@@ -2,7 +2,7 @@ import { ChevronLeft } from "lucide-react-native";
 import { View, Text, Pressable } from "react-native";
 import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigatorProps } from "../../routes/app.routes";
+import { TabNavigatorProps } from "../../routes/app.routes";
 import { TextInput } from "../../components/text-input";
 import { Button } from "../../components/button";
 import { useState } from "react";
@@ -12,27 +12,33 @@ import { useAuth } from "../../contexts/auth";
 export function CreateBoat() {
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [boatName, setBoatName] = useState('');
-  const navigation = useNavigation<StackNavigatorProps>();
-  const {user} = useAuth();
+  const navigation = useNavigation<TabNavigatorProps>();
+  const { user, updateUser } = useAuth();
+
 
   function handleGoBack() {
     navigation.goBack();
   }
 
   function handleCreateBoat() {
-    console.log(boatName, selectedNumber);
-    navigation.navigate("profile");
-    user?.boats.push({
-      id: user.boats.length + 1,
-      name: boatName,
-      capacity: selectedNumber,
-      adminsIds: [user.id],
-    });
+    if (!user) return;
 
+    const updatedUser = {
+      ...user,
+      boats: [
+        ...user.boats,
+        {
+          id: user.boats.length + 1,
+          name: boatName,
+          capacity: selectedNumber,
+          adminsIds: [user.id],
+        }
+      ]
+    };
+
+    updateUser(updatedUser);
+    navigation.goBack();
   }
-
-
-
 
   return (
     <View style={styles.container}>

@@ -7,5 +7,5 @@ export interface CalendarDayProps {
   isReserved: boolean;
   reservations: Reservation[];
   currentMonth: number;
-  onPress: () => void;
+  onPress?: () => void;
 }

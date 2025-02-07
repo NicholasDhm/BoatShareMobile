@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { styles } from "./styles";
 import { Button } from "../../components/button";
 import { useAuth } from "../../contexts/auth";
@@ -10,16 +10,18 @@ export function Profile() {
   const navigation = useNavigation<StackNavigatorProps>();
 
   function createBoat() {
-    navigation.navigate('createBoat');
+    navigation.navigate("createBoat");
   }
 
-
-
   return (
-    // <Header></Header>
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <View style={styles.dataContainer}>
+    <ScrollView 
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Profile</Text>
+        <View style={styles.dataContainer}>
+
         <Text style={styles.subText}>Username: {user?.name}</Text>
         {/* <SubText>Id: 1</SubText> */}
         <Text style={styles.subText}>Email: {user?.email}</Text>
@@ -51,8 +53,8 @@ export function Profile() {
       </View>
 
       <Button title="Logout" onPress={signOut} />
-
+      </View>
       {/* <History></History> */}
-    </View>
+    </ScrollView>
   );
 }

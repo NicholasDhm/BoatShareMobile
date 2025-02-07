@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#e6f2ff',
     padding: 32,
     borderRadius: 8,
-    gap: 10,
+    gap: 18,
   },
   dataContainer: {
     backgroundColor: 'rgb(192, 199, 206)',

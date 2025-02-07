@@ -1,22 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  password?: string;
-  boats: {
-    id: number;
-    name: string;
-    capacity: number;
-    adminsIds: string[];
-  }[];
-
-};
-
-
-
+import { User } from '../types/user';
 
 type AuthContextData = {
   user: User | null;
@@ -24,6 +8,7 @@ type AuthContextData = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   signUp: (name: string, email: string, password: string) => Promise<void>;
+  updateUser: (user: User) => void;
 };
 
 type AuthProviderProps = {
@@ -130,6 +115,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+  };
+
   useState(() => {
     loadUserData();
   });
@@ -140,7 +129,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       isLoading,
       signIn,
       signOut,
-      signUp
+      signUp,
+      updateUser,
     }}>
       {children}
     </AuthContext.Provider>

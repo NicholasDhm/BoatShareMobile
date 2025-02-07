@@ -17,7 +17,9 @@ export function ReservationInfo() {
   const route = useRoute<ReservationInfoRouteProp>();
   const calendarDay = route.params.calendarDay;
 
+
   const activeReservation = getFirstReservation(calendarDay.reservations);
+
   const reservationColors = {
     [ReservationType.STANDARD]: { primary: colors.bluePrimary, secondary: colors.blueLight },
     [ReservationType.SUBSTITUTION]: { primary: colors.redPrimary, secondary: colors.redLight },
