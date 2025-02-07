@@ -5,16 +5,34 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import { StackNavigatorProps, StackRoutes } from "../../routes/app.routes";
 import { styles } from "./styles";
+import { getFirstReservation } from "../../components/calendar-day";
+import Svg, { Path } from "react-native-svg";
+import { ReservationType } from "../../types/reservation-type";
 
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 
 export function ReservationInfo() {
   const route = useRoute<ReservationInfoRouteProp>();
-  const { day, month, year, isReserved } = route.params;
+  const calendarDay = route.params.calendarDay;
+
+  const activeReservation = getFirstReservation(calendarDay.reservations);
+  const backgroundColor = activeReservation
+    ? activeReservation.type === ReservationType.STANDARD
+      ? "blue"
+      : activeReservation.type === ReservationType.SUBSTITUTION
+      ? "red"
+      : activeReservation.type === ReservationType.CONTINGENCY
+      ? "orange"
+      : "blue"
+    : "blue";
+
+
   const navigation = useNavigation<StackNavigatorProps>();
   
-  const date = new Date(year, month - 1, day);
+  const date = new Date(calendarDay.year, calendarDay.month - 1, calendarDay.day);
+  const confirmationStartDate = new Date(date.getDate());
+  const confirmationEndDate = new Date(date.getDate());
 
   function handleGoBack() {
     navigation.goBack();
@@ -22,82 +40,68 @@ export function ReservationInfo() {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.row}>
-        <Pressable onPress={handleGoBack}>
-          <ChevronLeft size={30} color={"black"} />
-        </Pressable>
-        <Text style={styles.title}>Reservation</Text>
-      </View>
+      <View style={styles.subcontainer}>
+        <View style={styles.row}>
+          <View style={styles.row}>
+            <Pressable onPress={handleGoBack}>
+              <ChevronLeft size={30} color={"black"} />
+            </Pressable>
+            <Text style={styles.title}>Reservation</Text>
+          </View>
+          
+          <Svg width={30} height={30} viewBox="0 0 576 512">
+            <Path
+              fill={backgroundColor}
+              d="M192 32c0-17.7 14.3-32 32-32L352 0c17.7 0 32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 128 44.4 14.8c23.1 7.7 29.5 37.5 11.5 53.9l-101 92.6c-16.2 9.4-34.7 15.1-50.9 15.1c-19.6 0-40.8-7.7-59.2-20.3c-22.1-15.5-51.6-15.5-73.7 0c-17.1 11.8-38 20.3-59.2 20.3c-16.2 0-34.7-5.7-50.9-15.1l-101-92.6c-18-16.5-11.6-46.2 11.5-53.9L96 240l0-128c0-26.5 21.5-48 48-48l48 0 0-32zM160 218.7l107.8-35.9c13.1-4.4 27.3-4.4 40.5 0L416 218.7l0-90.7-256 0 0 90.7zM306.5 421.9C329 437.4 356.5 448 384 448c26.9 0 55.4-10.8 77.4-26.1c0 0 0 0 0 0c11.9-8.5 28.1-7.8 39.2 1.7c14.4 11.9 32.5 21 50.6 25.2c17.2 4 27.9 21.2 23.9 38.4s-21.2 27.9-38.4 23.9c-24.5-5.7-44.9-16.5-58.2-25C449.5 501.7 417 512 384 512c-31.9 0-60.6-9.9-80.4-18.9c-5.8-2.7-11.1-5.3-15.6-7.7c-4.5 2.4-9.7 5.1-15.6 7.7c-19.8 9-48.5 18.9-80.4 18.9c-33 0-65.5-10.3-94.5-25.8c-13.4 8.4-33.7 19.3-58.2 25c-17.2 4-34.4-6.7-38.4-23.9s6.7-34.4 23.9-38.4c18.1-4.2 36.2-13.3 50.6-25.2c11.1-9.4 27.3-10.1 39.2-1.7c0 0 0 0 0 0C136.7 437.2 165.1 448 192 448c27.5 0 55-10.6 77.5-26.1c11.1-7.9 25.9-7.9 37 0z"
+            />
+          </Svg>
+        </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.subTitle}>Select Date</Text>
-        {/* <Button onPress={() => setShowDatePicker(true)} title="Choose Date" />
-        {showDatePicker && (
-          // <DateTimePicker
-          //   value={date}
-          //   mode="date"
-          //   display="default"
-          //   onChange={onChange}
-          // />
-        )} */}
-        <Text style={styles.description}>Selected Date: {date.toDateString()}</Text>
-      </View>
+        <View style={styles.infoBox}>
+          <Text style={styles.subTitle}>{date.toDateString()}</Text>
+        </View>
 
-      {!isReserved ? (
-        <>
-          <View style={[styles.infoBox, { backgroundColor: '#e6ffe6' }]}>
+        <View style={styles.infoBox}>
+          <Text style={styles.description}>
+            Confirmation window: { confirmationStartDate.toLocaleDateString() } - { confirmationEndDate.toLocaleDateString() }
+          </Text>
+          
+            <Text style={styles.description}>
+            This reservation consumes a {" "}
+            <Text style={[styles.description, { color: backgroundColor, fontWeight: 'bold' }]}>
+              {activeReservation?.type ?? "Standard"} Quota.
+            </Text>
+            </Text>
+        </View>
+
+        {!calendarDay.isReserved ? (
+          <>
+            <View style={[styles.infoBox, { backgroundColor: '#e6ffe6' }]}>
+              <Text style={styles.subTitle}>Reservation Status</Text>
+              <Text style={styles.description}>
+                This date is available for reservation
+              </Text>
+            </View>          
+            <Pressable 
+              style={[styles.infoBox, { backgroundColor: '#007AFF', alignItems: 'center' }]} 
+              onPress={() => {
+                // TODO: Implement reservation logic
+                console.log('Making reservation for:', date.toDateString());
+              }}
+            >
+              <Text style={[styles.description, { color: 'white' }]}>
+                Place Reservation
+              </Text>
+            </Pressable>
+          </>
+        ) : (
+          <View style={[styles.infoBox, { backgroundColor: '#ffe6e6' }]}>
             <Text style={styles.subTitle}>Reservation Status</Text>
             <Text style={styles.description}>
-              This date is available for reservation
+              This date is already reserved
             </Text>
-          </View>          
-          <Pressable 
-            style={[styles.infoBox, { backgroundColor: '#007AFF', alignItems: 'center' }]} 
-            onPress={() => {
-              // TODO: Implement reservation logic
-              console.log('Making reservation for:', date.toDateString());
-            }}
-          >
-            <Text style={[styles.description, { color: 'white' }]}>
-              Place Reservation
-            </Text>
-          </Pressable>
-        </>
-      ) : (
-        <View style={[styles.infoBox, { backgroundColor: '#ffe6e6' }]}>
-          <Text style={styles.subTitle}>Reservation Status</Text>
-          <Text style={styles.description}>
-            This date is already reserved
-          </Text>
-        </View>
-      )}
-
-
-      <View style={styles.infoBox}>
-        <Text style={styles.subTitle}>Reservation Type</Text>
-        <Text style={styles.description}>Standard Reservation</Text>
-      </View>
-
-      <View style={styles.infoBox}>
-        <Text style={styles.subTitle}>More Information</Text>
-        <Text style={styles.description}>
-          This type of reservation allows you to book a boat for the specified
-          date. It is the most common type of reservation and consumes a
-          Standard Quota.
-        </Text>
-      </View>
-
-      <View style={styles.calendarInfoBox}>
-        <Text style={styles.subTitle}>Calendar Status</Text>
-        <Text style={styles.description}>
-          <Text style={styles.bold}>Blue:</Text> Available{"\n"}
-          <Text style={styles.bold}>Red:</Text> Available for Substitution{"\n"}
-          <Text style={styles.bold}>Yellow:</Text> Available for Contingency
-          {"\n"}
-          <Text style={styles.bold}>Red dot:</Text> Confirmation Needed{"\n"}
-          <Text style={styles.bold}>Green dot:</Text> Confirmed Reservation
-          {"\n"}
-        </Text>
+          </View>
+        )}
       </View>
     </ScrollView>
   );

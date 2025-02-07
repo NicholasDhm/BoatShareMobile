@@ -10,6 +10,7 @@ import { ReservationType } from "../../types/reservation-type";
 import { ReservationStatus } from "../../types/reservation-status";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
+import { CalendarDayProps } from "../../types/calendar-day";
 
 // MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
@@ -32,10 +33,23 @@ const reservationDict: { [key: string]: Reservation[] } = {
       userId: "1",
       boatId: "1",
       year: 2025,
-      month: 2,
-      day: 6,
+      month: 6,
+      day: 2,
       status: ReservationStatus.Unconfirmed,
-      type: ReservationType.CONTINGENCY,
+      type: ReservationType.STANDARD,
+      createdAtIsoDate: "02/01/2025 7:24:20 PM",
+    },
+  ],
+  "2/4/2025": [
+    {
+      reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
+      userId: "1",
+      boatId: "1",
+      year: 2025,
+      month: 2,
+      day: 4,
+      status: ReservationStatus.Unconfirmed,
+      type: ReservationType.STANDARD,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
   ],
@@ -71,8 +85,8 @@ export function Calendar() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
 
-  function handlePressDay(day: number, month: number, year: number, isReserved: boolean) {
-    navigation.navigate("reservationInfo", { day, month, year, isReserved });
+  function handlePressDay(item: CalendarDayProps) {
+    navigation.navigate("reservationInfo", { calendarDay: item });
   }
 
 
@@ -116,7 +130,7 @@ export function Calendar() {
             <CalendarDay
               {...item}
               currentMonth={currentMonth}
-              onPress={() => handlePressDay(item.day, item.month, item.year, item.isReserved)}
+              onPress={() => handlePressDay(item)}
             />
           </View>
         ))}
