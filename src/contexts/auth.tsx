@@ -6,7 +6,16 @@ export type User = {
   name: string;
   email: string;
   password?: string;
+  boats: {
+    id: number;
+    name: string;
+    capacity: number;
+    adminsIds: string[];
+  }[];
+
 };
+
+
 
 
 type AuthContextData = {
@@ -35,10 +44,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
         id: '1',
         name: 'Usuário Teste',
         email: email,
-        password: password
+        password: password,
+        boats: [
+          {
+            id: 1,
+            name: 'Boat 1', 
+            capacity: 2,
+            adminsIds: ['1']
+          },
+
+          {
+            id: 2,
+            name: 'Boat 2',
+            capacity: 2,
+            adminsIds: ['1']
+          },
+
+          {
+            id: 3,
+            name: 'Boat 3',
+            capacity: 1,
+            adminsIds: ['1']
+          }
+
+        ]
       };
 
+
+
       setUser(mockUser);
+
       await AsyncStorage.setItem('@boatshare:user', JSON.stringify(mockUser));
     } catch (error) {
       throw error;
@@ -55,10 +90,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         id: '1',
         name: name,
         email: email,
-        password: password
+        password: password,
+        boats: []
       };
 
       setUser(mockUser);
+
       await AsyncStorage.setItem('@boatshare:user', JSON.stringify(mockUser));
     } catch (error) {
       throw error;

@@ -27,4 +27,4 @@ export const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
   },
-});
+}); 
