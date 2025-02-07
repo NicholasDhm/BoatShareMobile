@@ -11,7 +11,7 @@ type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 
 export function ReservationInfo() {
   const route = useRoute<ReservationInfoRouteProp>();
-  const { day, month, year } = route.params;
+  const { day, month, year, isReserved } = route.params;
   const navigation = useNavigation<StackNavigatorProps>();
   
   const date = new Date(year, month - 1, day);
@@ -42,6 +42,36 @@ export function ReservationInfo() {
         )} */}
         <Text style={styles.description}>Selected Date: {date.toDateString()}</Text>
       </View>
+
+      {!isReserved ? (
+        <>
+          <View style={[styles.infoBox, { backgroundColor: '#e6ffe6' }]}>
+            <Text style={styles.subTitle}>Reservation Status</Text>
+            <Text style={styles.description}>
+              This date is available for reservation
+            </Text>
+          </View>          
+          <Pressable 
+            style={[styles.infoBox, { backgroundColor: '#007AFF', alignItems: 'center' }]} 
+            onPress={() => {
+              // TODO: Implement reservation logic
+              console.log('Making reservation for:', date.toDateString());
+            }}
+          >
+            <Text style={[styles.description, { color: 'white' }]}>
+              Place Reservation
+            </Text>
+          </Pressable>
+        </>
+      ) : (
+        <View style={[styles.infoBox, { backgroundColor: '#ffe6e6' }]}>
+          <Text style={styles.subTitle}>Reservation Status</Text>
+          <Text style={styles.description}>
+            This date is already reserved
+          </Text>
+        </View>
+      )}
+
 
       <View style={styles.infoBox}>
         <Text style={styles.subTitle}>Reservation Type</Text>

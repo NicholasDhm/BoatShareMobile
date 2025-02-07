@@ -46,6 +46,7 @@ export function generateCalendar(
         isReserved: reservations.length > 0,
         reservations,
         currentMonth,
+        onPress: () => {},
       });
 
 

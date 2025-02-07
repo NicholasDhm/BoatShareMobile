@@ -71,9 +71,10 @@ export function Calendar() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
 
-  function handlePressDay(day: number, month: number, year: number) {
-    navigation.navigate("reservationInfo", { day, month, year });
+  function handlePressDay(day: number, month: number, year: number, isReserved: boolean) {
+    navigation.navigate("reservationInfo", { day, month, year, isReserved });
   }
+
 
   function handlePressRight() {
     if (currentMonth === 12) {
@@ -115,11 +116,11 @@ export function Calendar() {
             <CalendarDay
               {...item}
               currentMonth={currentMonth}
-              onPress={() => handlePressDay(item.day, item.month, item.year)}
+              onPress={() => handlePressDay(item.day, item.month, item.year, item.isReserved)}
             />
           </View>
         ))}
       </View>
     </View>
   );
-}
+} 

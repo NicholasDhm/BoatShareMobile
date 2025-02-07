@@ -42,5 +42,17 @@ export const styles = StyleSheet.create({
       alignItems: "center",
       marginBottom: 20,
     },
+    button: {
+      backgroundColor: '#007AFF',
+      alignItems: 'center',
+      padding: 15,
+      borderRadius: 8,
+      marginTop: 10,
+    },
+    buttonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: '600',
+    },
   });
   
