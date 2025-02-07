@@ -21,11 +21,15 @@ type TabRoutes = {
   profile: undefined;
 };
 
+
 export type StackRoutes = {
   tabNavigator: undefined;
   reservationTypeInfo: undefined;
   reservationInfo: { day: number; month: number; year: number; isReserved: boolean };
+  createBoat: undefined;
+  profile: undefined;
 };
+
 
 
 export type TabNavigatorProps = BottomTabNavigationProp<TabRoutes>;
