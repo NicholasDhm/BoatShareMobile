@@ -3,9 +3,7 @@ import { CalendarDayProps } from "../../types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
 import { ReservationStatus } from "../../types/reservation-status";
 import { Reservation } from "../../types/reservation";
-
-// TEMPORARY USER ID FOR TEST PURPOSES
-const userId = "1";
+import { useAuth } from "../../contexts/auth";
 
 export function getFirstReservation(reservations: Reservation[]) {
   if (reservations?.length === 0) return null;
@@ -23,12 +21,13 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
     today.getDate() === day && 
     today.getMonth() + 1 === month && 
     today.getFullYear() === year;
+  const { user } = useAuth();
   
   const isOtherMonth = month !== currentMonth;
 
 
   const firstReservation = getFirstReservation(reservations);
-  const isMine = firstReservation ? firstReservation.userId === userId : false;
+  const isMine = firstReservation ? firstReservation.userId === user?.id : false;
   const isConfirmed = firstReservation ? firstReservation.status === ReservationStatus.Confirmed : false;
 
   function getReservationStyle() {

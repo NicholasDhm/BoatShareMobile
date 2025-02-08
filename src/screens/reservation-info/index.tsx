@@ -6,10 +6,10 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigatorProps, StackRoutes } from "../../routes/app.routes";
 import { styles } from "./styles";
 import { getFirstReservation } from "../../components/calendar-day";
-import Svg, { Path } from "react-native-svg";
 import { ReservationType } from "../../types/reservation-type";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
+import { useAuth } from "../../contexts/auth";
 
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
@@ -17,6 +17,8 @@ type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
+  const { user } = useAuth();
+
   const calendarDay = route.params.calendarDay;
 
   const activeReservation = getFirstReservation(calendarDay.reservations);

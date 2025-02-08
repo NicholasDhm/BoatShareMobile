@@ -30,7 +30,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
   "6/2/2025": [
     {
       reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
-      userId: "1",
+      userId: "2",
       boatId: "1",
       year: 2025,
       month: 6,
@@ -68,7 +68,7 @@ const reservationDict: { [key: string]: Reservation[] } = {
     },
     {
       reservationId: "4ca96f74-d06b-47a3-8bab-bebe2fb59037",
-      userId: "1",
+      userId: "2",
       boatId: "1",
       year: 2025,
       month: 2,

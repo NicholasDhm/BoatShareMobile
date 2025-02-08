@@ -14,4 +14,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
   },
+  dropdown: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    display: 'flex',
+  },
 });

@@ -5,6 +5,13 @@ import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
+import { DropdownList } from "../../components/dropdown-list";
+
+const dropdownList = [
+  { id: 1, label: "Option 1" },
+  { id: 2, label: "Option 2" },
+  { id: 3, label: "Option 3" },
+]
 
 const list: { name: string; type: ReservationType }[] = [
   { name: "John Doe", type: ReservationType.STANDARD },
@@ -22,6 +29,11 @@ export function Dashboard() {
   return (
     <View style={styles.container}>
       <View style={styles.subcontainer}>
+
+        <View style={styles.dropdown}>
+          <DropdownList list={dropdownList}/>
+        </View>
+
         <Pressable onPress={handleInfoIconPress}>
           <FlatList
             data={list}
