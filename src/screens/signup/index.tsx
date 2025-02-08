@@ -6,6 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
 import { styles } from "./styles";
 import { useAuth } from "../../contexts/auth";
+import { SvgIcon } from "../../components/svg";
+import { colors } from "../../themes/colors";
 
 export function SignUp() {
   const [name, setName] = useState('');
@@ -38,30 +40,39 @@ export function SignUp() {
 
   return (
     <View style={styles.container}>
+      <SvgIcon icon="boat" size={48} color={colors.bluePrimary } />
       <Text style={styles.title}>Boat Share</Text>
       <TextInput 
         title="Username" 
+        placeholder="Username"
         value={name}
         onChangeText={setName}
+
       />
       <TextInput 
         title="Email" 
+        placeholder="Email"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+
       />
       <TextInput 
         title="Password" 
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+
       />
       <TextInput 
         title="Confirm password" 
+        placeholder="Confirm password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
+
       />
       <Button title="Create account" onPress={handleUserSignup} />
       <Pressable onPress={handleUserToLogin}>

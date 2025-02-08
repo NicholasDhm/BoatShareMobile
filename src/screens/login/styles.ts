@@ -1,13 +1,13 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e6f2ff',
+    backgroundColor: colors.blueLight,
     padding: 64,
-    borderRadius: 8,
     gap: 18,
   },
   title: {
