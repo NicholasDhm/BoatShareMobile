@@ -15,6 +15,7 @@ import { CalendarDays, User } from "lucide-react-native";
 import { ReservationInfo } from "../screens/reservation-info";
 import { CreateBoat } from "../screens/create-boat";
 import { CalendarDayProps } from "../types/calendar-day";
+import { colors } from "../themes/colors";
 
 type TabRoutes = {
   dashboard: undefined;
@@ -84,6 +85,7 @@ export function AppRoutes() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="tabNavigator" component={TabNavigator} />
         <Stack.Screen
+
           name="reservationTypeInfo"
           component={ReservationTypeInfo}
         />

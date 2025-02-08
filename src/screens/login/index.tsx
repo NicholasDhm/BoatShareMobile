@@ -6,6 +6,8 @@ import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
 import { useAuth } from "../../contexts/auth";
+import { colors } from "../../themes/colors";
+import { SvgIcon } from "../../components/svg";
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -31,9 +33,12 @@ export function Login() {
 
   return (
     <View style={styles.container}>
+      <SvgIcon icon="boat" size={48} color={colors.bluePrimary } />
       <Text style={styles.title}>Boat Share</Text>
       <TextInput 
         title="Email" 
+        placeholder="Email"
+
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -41,9 +46,11 @@ export function Login() {
       />
       <TextInput 
         title="Password" 
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+
       />
       <Button title="Login" onPress={handleUserSignIn} />
       <Pressable onPress={handleUserToSignUp}>

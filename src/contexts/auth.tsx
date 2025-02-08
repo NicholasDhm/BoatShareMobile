@@ -18,7 +18,7 @@ type AuthProviderProps = {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>();
   const [isLoading, setIsLoading] = useState(true);
 
   async function signIn(email: string, password: string) {
@@ -101,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider value={{
-      user,
+      user: user || null,
       isLoading,
       signIn,
       signOut,

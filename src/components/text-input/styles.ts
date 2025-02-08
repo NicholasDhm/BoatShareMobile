@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,14 +16,16 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 48,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: colors.grayDark,
     borderRadius: 8,
     paddingHorizontal: 16,
     fontSize: 16,
+    backgroundColor: colors.white,
   },
   inputError: {
     borderColor: 'red',
   },
+
   error: {
     color: 'red',
     fontSize: 12,

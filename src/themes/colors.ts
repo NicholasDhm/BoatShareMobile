@@ -9,4 +9,5 @@ export const colors = {
 
   grayDark: "#595959",
   grayLight: "#EAEAEA",
+  white: "#FFFFFF",
 };

@@ -55,7 +55,7 @@ export function Profile() {
                 size={26}
                 color={colors.grayDark}
               />
-              <Text key={boat.name} style={styles.subText && styles.boatName}>
+              <Text style={styles.subText && styles.boatName}>
                 {boat.name}
               </Text>
               <User size={16} color="black" style={styles.userIcon}/>
