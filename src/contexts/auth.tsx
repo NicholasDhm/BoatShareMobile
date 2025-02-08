@@ -30,32 +30,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         name: 'Usuário Teste',
         email: email,
         password: password,
-        boats: [
-          {
-            id: 1,
-            name: 'Boat 1', 
-            capacity: 2,
-            adminsIds: ['1']
-          },
-
-          {
-            id: 2,
-            name: 'Boat 2',
-            capacity: 2,
-            adminsIds: ['1']
-          },
-
-          {
-            id: 3,
-            name: 'Boat 3',
-            capacity: 1,
-            adminsIds: ['1']
-          }
-
-        ]
+        boats: []
       };
-
-
 
       setUser(mockUser);
 

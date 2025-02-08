@@ -32,7 +32,7 @@ export function Profile() {
       {/* border bottom and a dropdown with a arrow that spins to display or not opened */}
       <View style={styles.dataContainer}>
         {/* Reutilize description from the calendar to show calendar */}
-        {user?.boats ? (
+        {user?.boats && user.boats.length > 0 ? (
           user.boats.map((boat) => (
             <Text key={boat.name} style={styles.subText}>
               {boat.name}
