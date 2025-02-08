@@ -37,7 +37,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.grayDark,
   },
-
+  boatReservationName: {
+    marginLeft: 12,
+    fontSize: 16,
+    color: colors.grayDark,
+  },
 
 
   boatContainer: {
@@ -56,13 +60,13 @@ export const styles = StyleSheet.create({
   dropdownTitle: {
     fontSize: 16,
   },
-  row: {
+  rowSpaced: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 10,
   },
-  boatRow: {
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
