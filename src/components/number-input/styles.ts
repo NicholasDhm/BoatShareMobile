@@ -14,13 +14,13 @@ export const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    backgroundColor: colors.white,
     height: 48,
     borderWidth: 1,
     borderColor: colors.grayDark,
     borderRadius: 8,
     paddingHorizontal: 16,
     fontSize: 16,
-
   },
   inputError: {
     borderColor: 'red',

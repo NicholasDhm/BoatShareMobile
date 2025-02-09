@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../themes/colors';
 
 
 export const s = StyleSheet.create({
@@ -9,16 +10,17 @@ export const s = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'lightgrey',
+    backgroundColor: colors.grayLight,
     borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 8,
     width: 200,
+
   },
   placeholder: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: colors.grayDark,
   },
   chevron: {
     transform: [{ rotate: '90deg' }],
@@ -28,28 +30,24 @@ export const s = StyleSheet.create({
     zIndex: 5,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     marginTop: 40,
     borderRadius: 4,
+
   },
   dropdownItem: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     paddingHorizontal: 12,
     paddingVertical: 10,
     width: 200,
+    borderRadius: 4,
   },
   dropdownItemSelected: {
-    backgroundColor: 'lightgrey',
+    backgroundColor: colors.grayLight,
     paddingHorizontal: 12,
     paddingVertical: 10,
     width: 200,
+    borderRadius: 4,
   },
-  first: {
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-  },
-  last: {
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-  },
+
 });

@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { ReservationType } from "../../types/reservation-type";
 import { SvgIcon } from "../svg";
 
-export function InfoIcon({ name, type }: { name: string; type: ReservationType }) {
+export function InfoIcon({ type }: { type: ReservationType }) {
   const backgroundColor =
     type === ReservationType.STANDARD
       ? "blue"

@@ -1,20 +1,37 @@
 import { View, Text, Pressable } from "react-native";
 import { s } from "./styles";
 import { ChevronRight } from "lucide-react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/auth";
 
 export type DropdownListProps = {
   list: { id: number; label: string }[];
+  onSelect?: (item: { id: number; label: string } | null) => void;
+  value?: { id: number; label: string } | null;
 };
 
-export function DropdownList({ list }: DropdownListProps) {
+export function DropdownList({ list, onSelect, value }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState<{ id: number; label: string } | null>(
-    list.length > 0 ? list[0] : null
+    value || (list.length > 0 ? list[0] : null)
   );
+
+  useEffect(() => {
+    if (list.length > 0 && selectedItem === null) {
+      setSelectedItem(list[0]);
+    }
+  }, [list]);
+
+
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
+  }
+
+  function handleSelect(item: { id: number; label: string }) {
+    setSelectedItem(item);
+    onSelect?.(item);
+    handlePress();
   }
 
   return (
@@ -35,12 +52,9 @@ export function DropdownList({ list }: DropdownListProps) {
             <Pressable
               key={item.id}
               style={[
-                s.dropdownItem,
-                selectedItem?.id === 1 && s.first,
-                selectedItem?.id === list.length && s.last,
-                selectedItem?.id === item.id && s.dropdownItemSelected,
+                selectedItem?.id === item.id ? s.dropdownItemSelected : s.dropdownItem,
               ]}
-              onPress={() => { setSelectedItem(item); handlePress(); }}
+              onPress={() => handleSelect(item)}
               // onPressOut={() => setSelectedItem(null)}
             >
               <Text>{item.label}</Text>

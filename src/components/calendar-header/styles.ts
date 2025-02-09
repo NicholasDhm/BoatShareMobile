@@ -1,14 +1,16 @@
 import { StyleSheet } from 'react-native';
-
+import { colors } from '../../themes/colors';
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#a2d9eb',
+    backgroundColor: colors.bluePrimary,
     paddingHorizontal: 16,
     height: 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 4,
+    marginBottom: 10,
+
   },
   textContainer: {
     flex: 1,
@@ -17,16 +19,19 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   button: {
-    backgroundColor: '#d7e2e9',
+    backgroundColor: colors.grayLight,
     height: 32,
     width: 32,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: '#bdbdbd',
+    borderColor: colors.grayDark,
+
+
   },
   dateText: {
     fontSize: 18,
+    color: colors.white,
   },
 });

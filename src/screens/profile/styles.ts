@@ -3,13 +3,8 @@ import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({
   container: {
-
     flex: 1,
-    padding: 32,
-    borderRadius: 8,
-    gap: 20,
   },
-
   dataContainer: {
     padding: 15,
     backgroundColor: colors.grayLight,
@@ -19,21 +14,13 @@ export const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 3,
     elevation: 5,
   },
-
-  title: {
+  dataContainerTitle: {
     fontSize: 20,
   },
-
-
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
-  subText: {
+  text: {
     fontSize: 16,
     color: colors.grayDark,
   },
@@ -42,8 +29,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.grayDark,
   },
-
-
   boatContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -77,6 +62,20 @@ export const styles = StyleSheet.create({
   },
   userIcon: {
     marginRight: 4,
+  },
+  headerContainer: {
+    width: '100%',
+    backgroundColor: colors.bluePrimary,
+    padding: 32
+  },
+  headerText: {
+    fontSize: 24,
+    color: colors.white,
+    fontWeight: 500,
+  },
+  contentContainer: {
+    padding: 32,
+    gap: 20,
   },
 });
 

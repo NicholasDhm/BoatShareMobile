@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import { CalendarHeader } from "../calendar-header";
 import { CalendarDay } from "../calendar-day";
 import { styles } from "./styles";
@@ -11,6 +11,8 @@ import { ReservationStatus } from "../../types/reservation-status";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { CalendarDayProps } from "../../types/calendar-day";
+import { InfoIcon } from "../info-icon";
+
 
 // MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
@@ -108,6 +110,7 @@ export function Calendar() {
     }
   }
 
+
   function fetchReservations(boatId: string, reservation: Reservation) {
   // setReservations(prevReservations => ({
   //   ...prevReservations,
@@ -117,6 +120,7 @@ export function Calendar() {
 
   return (
     <View style={styles.container}>
+
       <CalendarHeader
         onRightPress={handlePressRight}
         onLeftPress={handleLeftRight}
@@ -135,6 +139,7 @@ export function Calendar() {
           </View>
         ))}
       </View>
+
     </View>
   );
 } 

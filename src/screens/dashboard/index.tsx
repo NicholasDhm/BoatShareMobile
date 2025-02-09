@@ -1,4 +1,4 @@
-import { FlatList, Pressable, View } from "react-native";
+import { FlatList, Pressable, View, Text } from "react-native";
 import { Calendar } from "../../components/calendar";
 import { InfoIcon } from "../../components/info-icon";
 import { styles } from "./styles";
@@ -7,55 +7,63 @@ import { ReservationType } from "../../types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { DropdownList, DropdownListProps } from "../../components/dropdown-list";
 import { useAuth } from "../../contexts/auth";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const list: { name: string; type: ReservationType }[] = [
-  { name: "John Doe", type: ReservationType.STANDARD },
-  { name: "Jane Doe", type: ReservationType.SUBSTITUTION },
-  { name: "John Smith", type: ReservationType.CONTINGENCY },
+const list: { type: ReservationType }[] = [
+  { type: ReservationType.STANDARD },
+  { type: ReservationType.SUBSTITUTION },
+  { type: ReservationType.CONTINGENCY },
 ];
+
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
   const { user } = useAuth();
 
-  const dropdownList: DropdownListProps["list"] = user?.boats.map((boat) => ({
-    id: boat.id,
-    label: boat.name,
-  })) || [];
+  const [dropdownList, setDropdownList] = useState<DropdownListProps["list"]>([]);
 
+  useEffect(() => {
+    setDropdownList(user?.boats.map((boat) => ({
+      id: boat.id,
+      label: boat.name,
+    })) || []);
+  }, [user]);
 
   function handleInfoIconPress() {
     navigation.navigate("reservationTypeInfo");
   }
 
-
   return (
     <View style={styles.container}>
 
+
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Welcome back, {user?.name}!</Text>
+
         <View style={styles.dropdown}>
-          <DropdownList list={dropdownList}/>
+          <Text style={styles.dropdownUpperText}>Selected Boat</Text>
+          <DropdownList list={dropdownList} />
         </View>
+      </View>
 
-        <Pressable onPress={handleInfoIconPress}>
-          <FlatList
-            data={list}
-            renderItem={({ item }) => (
-              <InfoIcon name={item.name} type={item.type} />
-            )}
-            numColumns={3}
-            keyExtractor={(_, index) => String(index)}
-            style={{
-              height: "auto",
-              width: 300,
-              flexGrow: 0,
-            }}
-            columnWrapperStyle={{
-              justifyContent: "space-between",
-            }}
-          />
-        </Pressable>
 
-        <Calendar />
+
+      <View style={styles.contentContainer}>
+        <View style={styles.calendarContainer}>
+          <Pressable onPress={handleInfoIconPress}>
+            <View style={styles.iconGrid}>
+              {list.map((item, index) => (
+                <InfoIcon key={index} type={item.type} />
+              ))}
+            </View>
+          </Pressable>
+
+          <Calendar />
+        </View>
+      </View>
     </View>
+
+
   );
 }

@@ -27,7 +27,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // API call to login user
       const mockUser = {
         id: '1',
-        name: 'Usuário Teste',
+        name: 'Nick',
         email: email,
         password: password,
         boats: []
