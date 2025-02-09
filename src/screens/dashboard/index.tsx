@@ -5,13 +5,8 @@ import { styles } from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { DropdownList } from "../../components/dropdown-list";
-
-const dropdownList = [
-  { id: 1, label: "Option 1" },
-  { id: 2, label: "Option 2" },
-  { id: 3, label: "Option 3" },
-]
+import { DropdownList, DropdownListProps } from "../../components/dropdown-list";
+import { useAuth } from "../../contexts/auth";
 
 const list: { name: string; type: ReservationType }[] = [
   { name: "John Doe", type: ReservationType.STANDARD },
@@ -21,14 +16,21 @@ const list: { name: string; type: ReservationType }[] = [
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
+  const { user } = useAuth();
+
+  const dropdownList: DropdownListProps["list"] = user?.boats.map((boat) => ({
+    id: boat.id,
+    label: boat.name,
+  })) || [];
+
 
   function handleInfoIconPress() {
     navigation.navigate("reservationTypeInfo");
   }
 
+
   return (
     <View style={styles.container}>
-      <View style={styles.subcontainer}>
 
         <View style={styles.dropdown}>
           <DropdownList list={dropdownList}/>
@@ -54,7 +56,6 @@ export function Dashboard() {
         </Pressable>
 
         <Calendar />
-      </View>
     </View>
   );
 }
