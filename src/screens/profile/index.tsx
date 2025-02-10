@@ -34,9 +34,12 @@ export function Profile() {
         <View style={styles.contentContainer}>
 
           <View style={styles.dataContainer}>
+            <Text style={styles.dataContainerTitle}>Account Details</Text>
             <Text style={styles.text}>Username: {user?.name}</Text>
             <Text style={styles.text}>Email: {user?.email}</Text>
           </View>
+
+
 
           <View style={styles.dataContainer}>
             <View style={styles.rowSpaced}>

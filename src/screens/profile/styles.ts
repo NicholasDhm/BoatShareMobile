@@ -7,15 +7,15 @@ export const styles = StyleSheet.create({
   },
   dataContainer: {
     padding: 15,
-    backgroundColor: colors.grayLight,
+    backgroundColor: colors.white,
     borderRadius: 10,
     gap: 2,
 
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1,
   },
   dataContainerTitle: {
     fontSize: 20,
