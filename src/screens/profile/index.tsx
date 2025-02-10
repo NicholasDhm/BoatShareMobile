@@ -3,7 +3,7 @@ import { styles } from "./styles";
 import { useAuth } from "../../contexts/auth";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { Plus, User, LogOut, CalendarCheck, CalendarClock, CalendarX } from "lucide-react-native";
+import { Plus, User, LogOut, CalendarCheck, CalendarClock, CalendarX, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 
@@ -34,9 +34,19 @@ export function Profile() {
         <View style={styles.contentContainer}>
 
           <View style={styles.dataContainer}>
+            <View style={styles.rowSpaced}>
+              <Text style={styles.dataContainerTitle}>Account Details</Text>
+              <TouchableOpacity>
+                <Pencil size={20} color="black" />
+              </TouchableOpacity>
+            </View>
             <Text style={styles.text}>Username: {user?.name}</Text>
             <Text style={styles.text}>Email: {user?.email}</Text>
+
+
           </View>
+
+
 
           <View style={styles.dataContainer}>
             <View style={styles.rowSpaced}>
