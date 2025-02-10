@@ -1,13 +1,16 @@
 import { StyleSheet } from 'react-native';
 import { ReservationType } from '../../types/reservation-type';
+import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: "100%",
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 4,
+    gap: 4,
   },
   dayText: {
     fontSize: 14,
@@ -19,22 +22,19 @@ export const styles = StyleSheet.create({
   },
 });
 
-// Função auxiliar para determinar a cor de fundo
 export const getBackgroundColor = (
   type: ReservationType,
-  isMine: boolean,
-  isConfirmed: boolean
 ): string => {
-  if (!type) return '#FFFFFF';
+  if (!type) return colors.blueLightSecondary;
 
   switch (type) {
     case ReservationType.STANDARD:
-      return '#E3F2FD';  // very light blue
+      return colors.blueLightSecondary;
     case ReservationType.SUBSTITUTION:
-      return '#FFEBEE';  // very light red
+      return colors.redLightSecondary;
     case ReservationType.CONTINGENCY:
-      return '#FFF3E0';  // very light orange
+      return colors.orangeLightSecondary;
     default:
-      return '#FFFFFF';
+      return colors.blueLightSecondary;
   }
 };

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { FlatList, Pressable, View } from "react-native";
+import { View } from "react-native";
 import { CalendarHeader } from "../calendar-header";
-import { CalendarDay } from "../calendar-day";
 import { styles } from "./styles";
 import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
@@ -11,7 +10,7 @@ import { ReservationStatus } from "../../types/reservation-status";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { CalendarDayProps } from "../../types/calendar-day";
-import { InfoIcon } from "../info-icon";
+import { CalendarDay } from "../calendar-day";
 
 
 // MONTH DAY YEAR
@@ -120,14 +119,15 @@ export function Calendar() {
 
   return (
     <View style={styles.container}>
-
       <CalendarHeader
         onRightPress={handlePressRight}
         onLeftPress={handleLeftRight}
         year={currentYear}
         month={currentMonth}
       />
+
       <CalendarSubheader />
+
       <View style={styles.calendarGrid}>
         {generateCalendar(currentYear, currentMonth, reservationDict).map((item, index) => (
           <View style={styles.dayWrapper} key={`${item.year}-${item.month}-${item.day}-${index}`}>
@@ -139,7 +139,6 @@ export function Calendar() {
           </View>
         ))}
       </View>
-
     </View>
   );
 } 

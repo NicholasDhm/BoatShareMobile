@@ -1,9 +1,10 @@
-import { View, Text, Pressable } from "react-native";
+import { Text, Pressable, View } from "react-native";
 import { CalendarDayProps } from "../../types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
-import { ReservationStatus } from "../../types/reservation-status";
 import { Reservation } from "../../types/reservation";
 import { useAuth } from "../../contexts/auth";
+import { colors } from "../../themes/colors";
+import { Clock2 } from "lucide-react-native";
 
 export function getFirstReservation(reservations: Reservation[]) {
   if (reservations?.length === 0) return null;
@@ -24,16 +25,12 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
   const { user } = useAuth();
   
   const isOtherMonth = month !== currentMonth;
-
-
   const firstReservation = getFirstReservation(reservations);
-  const isMine = firstReservation ? firstReservation.userId === user?.id : false;
-  const isConfirmed = firstReservation ? firstReservation.status === ReservationStatus.Confirmed : false;
 
   function getReservationStyle() {
     const baseStyles = [
       styles.container,
-      isOtherMonth && styles.otherMonth
+      isOtherMonth && styles.otherMonth,
     ];
 
     if (!firstReservation) {
@@ -41,9 +38,8 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
     }
 
     const reservationStyle = {
-      backgroundColor: getBackgroundColor(firstReservation.type, isMine, isConfirmed),
+      backgroundColor: getBackgroundColor(firstReservation.type),
     };
-
 
     return [...baseStyles, reservationStyle];
   }
@@ -54,6 +50,12 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
       style={getReservationStyle()}
     >
       <Text style={styles.dayText}>{day}</Text>
+      {/* {firstReservation ? (
+        // <Clock2 size={10} color={getIconStyle().color} />
+        <View style={{width: 6, height: 6, borderRadius: 50, backgroundColor: "#4CAF50"}}/>
+      ) : (
+        <View style={{width: 6, height: 6, borderRadius: 50, backgroundColor: colors.grayDark}}/>
+      )} */}
     </Pressable>
   );
 }

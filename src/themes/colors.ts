@@ -7,7 +7,11 @@ export const colors = {
   redLight: "#FCC7CD",
   orangeLight: "#FFE3B2",
 
+  blueLightSecondary: "#E3F2FD",
+  redLightSecondary: "#FFEBEE",
+  orangeLightSecondary: "#FFF3E0",
+
   grayDark: "#595959",
-  grayLight: "#EAEAEA",
+  grayLight: "#EAEAEA", //use this later for past reservation background colors
   white: "#FFFFFF",
 };
