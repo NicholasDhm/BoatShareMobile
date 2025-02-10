@@ -15,56 +15,57 @@ import { CalendarDay } from "../calendar-day";
 
 // MONTH DAY YEAR
 const reservationDict: { [key: string]: Reservation[] } = {
-  "2/2/2025": [
+  "2/10/2025": [
     {
       reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
       userId: "1",
       boatId: "1",
       year: 2025,
       month: 2,
-      day: 2,
+      day: 10,
       status: ReservationStatus.Confirmed,
       type: ReservationType.CONTINGENCY,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
     },
   ],
-  "6/2/2025": [
+  "2/19/2025": [
     {
       reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
       userId: "2",
       boatId: "1",
       year: 2025,
-      month: 6,
-      day: 2,
+      month: 2,
+      day: 19,
       status: ReservationStatus.Unconfirmed,
       type: ReservationType.STANDARD,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
+
     },
   ],
-  "2/4/2025": [
+  "2/22/2025": [
     {
       reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
       userId: "1",
       boatId: "1",
       year: 2025,
       month: 2,
-      day: 4,
+      day: 22,
       status: ReservationStatus.Unconfirmed,
       type: ReservationType.STANDARD,
       createdAtIsoDate: "02/01/2025 7:24:20 PM",
+
     },
   ],
-  "2/3/2025": [
+  "2/23/2025": [
     {
-      reservationId: "7b58e2f7-5ed5-4ed9-a0cc-0892fd5a4c69",
+      reservationId: "9266b22d-d455-4e1c-8739-190d4fd77fd6",
       userId: "1",
       boatId: "1",
       year: 2025,
       month: 2,
-      day: 3,
+      day: 23,
       status: ReservationStatus.Unconfirmed,
       type: ReservationType.STANDARD,
-
       createdAtIsoDate: "02/01/2025 7:24:06 PM",
     },
     {
@@ -73,13 +74,14 @@ const reservationDict: { [key: string]: Reservation[] } = {
       boatId: "1",
       year: 2025,
       month: 2,
-      day: 3,
+      day: 23,
       status: ReservationStatus.Pending,
       type: ReservationType.SUBSTITUTION,
       createdAtIsoDate: "02/01/2025 7:24:42 PM",
     },
   ],
 };
+
 
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
@@ -111,10 +113,10 @@ export function Calendar() {
 
 
   function fetchReservations(boatId: string, reservation: Reservation) {
-  // setReservations(prevReservations => ({
-  //   ...prevReservations,
-  //   [boatId]: [...(prevReservations[boatId] || []), reservation]
-  // }));
+    // setReservations(prevReservations => ({
+    //   ...prevReservations,
+    //   [boatId]: [...(prevReservations[boatId] || []), reservation]
+    // }));
   }
 
   return (
@@ -130,7 +132,7 @@ export function Calendar() {
 
       <View style={styles.calendarGrid}>
         {generateCalendar(currentYear, currentMonth, reservationDict).map((item, index) => (
-          <View style={styles.dayWrapper} key={`${item.year}-${item.month}-${item.day}-${index}`}>
+          <View style={styles.dayWrapper} key={`${index}`}>
             <CalendarDay
               {...item}
               currentMonth={currentMonth}

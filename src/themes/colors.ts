@@ -14,4 +14,6 @@ export const colors = {
   grayDark: "#595959",
   grayLight: "#EAEAEA", //use this later for past reservation background colors
   white: "#FFFFFF",
+
+  green: "#4CAF50",
 };

@@ -4,7 +4,7 @@ import { styles, getBackgroundColor } from "./styles";
 import { Reservation } from "../../types/reservation";
 import { useAuth } from "../../contexts/auth";
 import { colors } from "../../themes/colors";
-import { Clock2 } from "lucide-react-native";
+import { Dot, Check, Clock2, X } from "lucide-react-native";
 
 export function getFirstReservation(reservations: Reservation[]) {
   if (reservations?.length === 0) return null;
@@ -18,12 +18,12 @@ export function getFirstReservation(reservations: Reservation[]) {
 
 export function CalendarDay({ day, month, year, reservations, currentMonth, onPress }: CalendarDayProps) {
   const today = new Date();
-  const isToday = 
-    today.getDate() === day && 
-    today.getMonth() + 1 === month && 
+  const isToday =
+    today.getDate() === day &&
+    today.getMonth() + 1 === month &&
     today.getFullYear() === year;
   const { user } = useAuth();
-  
+
   const isOtherMonth = month !== currentMonth;
   const firstReservation = getFirstReservation(reservations);
 
@@ -50,12 +50,19 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
       style={getReservationStyle()}
     >
       <Text style={styles.dayText}>{day}</Text>
-      {/* {firstReservation ? (
-        // <Clock2 size={10} color={getIconStyle().color} />
-        <View style={{width: 6, height: 6, borderRadius: 50, backgroundColor: "#4CAF50"}}/>
+      {day === 10 ? (
+        <Check size={12} color={colors.green} strokeWidth={5} />
       ) : (
-        <View style={{width: 6, height: 6, borderRadius: 50, backgroundColor: colors.grayDark}}/>
-      )} */}
+        day === 19 || day === 22 ? (
+          <Clock2 size={10} color={colors.grayDark} strokeWidth={3} />
+        ) : (
+          day === 23 ? (
+            <X size={10} color={colors.redPrimary} strokeWidth={5} />
+          ) : (
+            <Dot size={10} color={colors.grayDark} strokeWidth={8} />
+          )
+        )
+      )}
     </Pressable>
   );
 }
