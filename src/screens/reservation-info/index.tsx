@@ -31,7 +31,7 @@ export function ReservationInfo() {
   const { primary: primaryColor, secondary: secondaryColor } = activeReservation
     ? reservationColors[activeReservation.type] || { primary: colors.bluePrimary, secondary: colors.blueLight }
     : { primary: colors.bluePrimary, secondary: colors.blueLight };
-  
+
   const date = new Date(calendarDay.year, calendarDay.month - 1, calendarDay.day);
   const confirmationStartDate = new Date(date);
   confirmationStartDate.setDate(date.getDate() - 5);
@@ -43,7 +43,7 @@ export function ReservationInfo() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: primaryColor }}>
       <ScrollView style={styles.container}>
         <View style={styles.subcontainer}>
           <View style={styles.row}>
@@ -53,7 +53,7 @@ export function ReservationInfo() {
               </Pressable>
               <Text style={styles.title}>Reservation</Text>
             </View>
-            
+
             <SvgIcon
               icon="boat"
               size={30}
@@ -67,15 +67,15 @@ export function ReservationInfo() {
 
           <View style={styles.infoBox}>
             <Text style={styles.description}>
-              Confirmation window: { confirmationStartDate.toLocaleDateString() } - { confirmationEndDate.toLocaleDateString() }
+              Confirmation window: {confirmationStartDate.toLocaleDateString()} - {confirmationEndDate.toLocaleDateString()}
             </Text>
-            
-              <Text style={styles.description}>
-                This reservation consumes a{" "}
-                <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
-                  {activeReservation?.type ?? "Standard"} Quota.
-                </Text>
+
+            <Text style={styles.description}>
+              This reservation consumes a{" "}
+              <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
+                {activeReservation?.type ?? "Standard"} Quota.
               </Text>
+            </Text>
           </View>
 
           {!calendarDay.isReserved ? (
@@ -85,9 +85,9 @@ export function ReservationInfo() {
                 <Text style={styles.description}>
                   This date is available for reservation
                 </Text>
-              </View>          
-              <Pressable 
-                style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]} 
+              </View>
+              <Pressable
+                style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]}
                 onPress={() => {
                   // TODO: Implement reservation logic
                   console.log('Making reservation for:', date.toDateString());
