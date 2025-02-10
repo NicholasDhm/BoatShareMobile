@@ -11,15 +11,16 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     gap: 2,
 
-    shadowColor: "black",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   dataContainerTitle: {
     fontSize: 20,
   },
+
   text: {
     fontSize: 16,
     color: colors.grayDark,
