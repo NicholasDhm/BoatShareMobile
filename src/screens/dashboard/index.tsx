@@ -16,7 +16,6 @@ const list: { type: ReservationType }[] = [
   { type: ReservationType.CONTINGENCY },
 ];
 
-
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
   const { user } = useAuth();
@@ -30,13 +29,12 @@ export function Dashboard() {
     })) || []);
   }, [user]);
 
-  function handleInfoIconPress() {
-    navigation.navigate("reservationTypeInfo");
+  function handleInfoIconPress(type: ReservationType) {
+    navigation.navigate("reservationTypeInfo", { reservationType: type });
   }
 
   return (
     <View style={styles.container}>
-
 
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Welcome back, {user?.name}!</Text>
@@ -47,23 +45,20 @@ export function Dashboard() {
         </View>
       </View>
 
-
-
       <View style={styles.contentContainer}>
         <View style={styles.calendarContainer}>
-          <Pressable onPress={handleInfoIconPress}>
             <View style={styles.iconGrid}>
               {list.map((item, index) => (
-                <InfoIcon key={index} type={item.type} />
+                <Pressable onPress={() => handleInfoIconPress(item.type)}>
+                  <InfoIcon key={index} type={item.type} />
+                </Pressable>
               ))}
             </View>
-          </Pressable>
 
           <Calendar />
         </View>
       </View>
+
     </View>
-
-
   );
 }

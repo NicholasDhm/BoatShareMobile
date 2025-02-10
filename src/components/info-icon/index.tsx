@@ -3,15 +3,16 @@ import { Text, View } from "react-native";
 import { styles } from "./styles";
 import { ReservationType } from "../../types/reservation-type";
 import { SvgIcon } from "../svg";
+import { colors } from "../../themes/colors";
 
 export function InfoIcon({ type }: { type: ReservationType }) {
   const backgroundColor =
     type === ReservationType.STANDARD
-      ? "blue"
+      ? colors.bluePrimary
       : type === ReservationType.SUBSTITUTION
-      ? "red"
+      ? colors.redPrimary
       : type === ReservationType.CONTINGENCY
-      ? "orange"
+      ? colors.orangePrimary
       : "transparent";
 
   return (

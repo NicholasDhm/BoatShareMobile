@@ -10,6 +10,7 @@ import { ReservationType } from "../../types/reservation-type";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { useAuth } from "../../contexts/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
@@ -42,69 +43,71 @@ export function ReservationInfo() {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.subcontainer}>
-        <View style={styles.row}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.subcontainer}>
           <View style={styles.row}>
-            <Pressable onPress={handleGoBack}>
-              <ChevronLeft size={30} color={"black"} />
-            </Pressable>
-            <Text style={styles.title}>Reservation</Text>
+            <View style={styles.row}>
+              <Pressable onPress={handleGoBack}>
+                <ChevronLeft size={30} color={"black"} />
+              </Pressable>
+              <Text style={styles.title}>Reservation</Text>
+            </View>
+            
+            <SvgIcon
+              icon="boat"
+              size={30}
+              color={primaryColor}
+            />
           </View>
-          
-          <SvgIcon
-            icon="boat"
-            size={30}
-            color={primaryColor}
-          />
-        </View>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.subTitle}>{date.toDateString()}</Text>
-        </View>
+          <View style={styles.infoBox}>
+            <Text style={styles.subTitle}>{date.toDateString()}</Text>
+          </View>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.description}>
-            Confirmation window: { confirmationStartDate.toLocaleDateString() } - { confirmationEndDate.toLocaleDateString() }
-          </Text>
-          
+          <View style={styles.infoBox}>
             <Text style={styles.description}>
-              This reservation consumes a {" "}
-              <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
-                {activeReservation?.type ?? "Standard"} Quota.
-              </Text>
+              Confirmation window: { confirmationStartDate.toLocaleDateString() } - { confirmationEndDate.toLocaleDateString() }
             </Text>
-        </View>
+            
+              <Text style={styles.description}>
+                This reservation consumes a{" "}
+                <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
+                  {activeReservation?.type ?? "Standard"} Quota.
+                </Text>
+              </Text>
+          </View>
 
-        {!calendarDay.isReserved ? (
-          <>
+          {!calendarDay.isReserved ? (
+            <>
+              <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
+                <Text style={styles.subTitle}>Reservation Status</Text>
+                <Text style={styles.description}>
+                  This date is available for reservation
+                </Text>
+              </View>          
+              <Pressable 
+                style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]} 
+                onPress={() => {
+                  // TODO: Implement reservation logic
+                  console.log('Making reservation for:', date.toDateString());
+                }}
+              >
+                <Text style={[styles.description, { color: 'white' }]}>
+                  Place Reservation
+                </Text>
+              </Pressable>
+            </>
+          ) : (
             <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
               <Text style={styles.subTitle}>Reservation Status</Text>
               <Text style={styles.description}>
-                This date is available for reservation
+                This date is already reserved
               </Text>
-            </View>          
-            <Pressable 
-              style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]} 
-              onPress={() => {
-                // TODO: Implement reservation logic
-                console.log('Making reservation for:', date.toDateString());
-              }}
-            >
-              <Text style={[styles.description, { color: 'white' }]}>
-                Place Reservation
-              </Text>
-            </Pressable>
-          </>
-        ) : (
-          <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
-            <Text style={styles.subTitle}>Reservation Status</Text>
-            <Text style={styles.description}>
-              This date is already reserved
-            </Text>
-          </View>
-        )}
-      </View>
-    </ScrollView>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

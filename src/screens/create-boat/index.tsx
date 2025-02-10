@@ -8,6 +8,8 @@ import { Button } from "../../components/button";
 import { useState } from "react";
 import { NumberInput } from "../../components/number-input";
 import { useAuth } from "../../contexts/auth";
+import { colors } from "../../themes/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function CreateBoat() {
   const [selectedNumber, setSelectedNumber] = useState(0);
@@ -41,31 +43,33 @@ export function CreateBoat() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
+      <View style={styles.container}>
+        <View style={styles.row}>
 
-        <Pressable onPress={handleGoBack}>
-          <ChevronLeft size={30} color={"black"} />
-        </Pressable>
-        <Text style={styles.title}>Create Boat</Text>
+          <Pressable onPress={handleGoBack}>
+            <ChevronLeft size={30} color={"black"} />
+          </Pressable>
+          <Text style={styles.title}>Create Boat</Text>
+        </View>
+
+        <View style={styles.form}>
+          <TextInput 
+            title="Name" 
+            placeholder="Name" 
+            value={boatName}
+            onChangeText={setBoatName}
+          />
+          
+          <NumberInput 
+            title="Capacity"
+            value={selectedNumber.toString()}
+            onChangeNumber={setSelectedNumber}
+          />
+
+          <Button title="Create" onPress={handleCreateBoat} />
+        </View>
       </View>
-
-      <View style={styles.form}>
-        <TextInput 
-          title="Name" 
-          placeholder="Name" 
-          value={boatName}
-          onChangeText={setBoatName}
-        />
-        
-        <NumberInput 
-          title="Capacity"
-          value={selectedNumber.toString()}
-          onChangeNumber={setSelectedNumber}
-        />
-
-        <Button title="Create" onPress={handleCreateBoat} />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
