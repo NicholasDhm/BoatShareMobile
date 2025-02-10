@@ -18,7 +18,7 @@ import { CalendarDayProps } from "../types/calendar-day";
 import { ReservationType } from "../types/reservation-type";
 import { colors } from "../themes/colors";
 import { getBackgroundColor } from "../components/calendar-day/styles";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 
 type TabRoutes = {
   dashboard: undefined;
@@ -28,7 +28,7 @@ type TabRoutes = {
 
 export type StackRoutes = {
   tabNavigator: undefined;
-  reservationTypeInfo:  {
+  reservationTypeInfo: {
     reservationType: ReservationType;
   };
   reservationInfo: {
@@ -62,9 +62,10 @@ function TabNavigator() {
               borderRadius: 50,
               height: 68,
               paddingTop: 15,
-              marginBottom: 10,
+              marginBottom: Platform.OS === "ios" ? 40 : 10,
               marginRight: 10,
               marginLeft: 20,
+
             },
           }}
         >
