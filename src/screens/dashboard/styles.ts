@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 
   contentContainer: {
     width: '100%',
-    padding: 32,
+    padding: "8%",
     gap: 10,
   },
   calendarContainer: {
