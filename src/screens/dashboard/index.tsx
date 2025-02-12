@@ -47,13 +47,13 @@ export function Dashboard() {
 
       <View style={styles.contentContainer}>
         <View style={styles.calendarContainer}>
-            <View style={styles.iconGrid}>
-              {list.map((item, index) => (
-                <Pressable onPress={() => handleInfoIconPress(item.type)}>
-                  <InfoIcon key={index} type={item.type} />
-                </Pressable>
-              ))}
-            </View>
+          <View style={styles.iconGrid}>
+            {list.map((item, index) => (
+              <Pressable onPress={() => handleInfoIconPress(item.type)} key={index}>
+                <InfoIcon type={item.type} />
+              </Pressable>
+            ))}
+          </View>
 
           <Calendar />
         </View>
