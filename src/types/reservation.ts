@@ -3,12 +3,9 @@ import { ReservationType } from "./reservation-type";
 
 export type Reservation = {
   reservationId: string;
-  boatId: string;
-  userId: string;
-  createdAtIsoDate: string;
-  day: number;
-  month: number;
-  year: number;
+  userBoatId: string;
+  date: string;
+  createdAtDate: string;
   type: ReservationType;
   status: ReservationStatus;
 };
