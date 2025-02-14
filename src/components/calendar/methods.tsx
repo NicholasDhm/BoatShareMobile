@@ -4,8 +4,17 @@ import { Reservation } from "../../@types/reservation";
 export function generateCalendar(
   currentYear: number,
   currentMonth: number,
-  reservationDict: { [key: string]: Reservation[] }
+  reservations: Reservation[]
 ): CalendarDayProps[] {
+  const reservationDict: { [key: string]: Reservation[] } = {};
+  reservations.forEach(reservation => {
+    const dateKey = `${new Date(reservation.date).getMonth() + 1}/${new Date(reservation.date).getDate()}/${new Date(reservation.date).getFullYear()}`;
+    if (!reservationDict[dateKey]) {
+      reservationDict[dateKey] = [];
+    }
+    reservationDict[dateKey].push(reservation);
+  });
+
   const daysInWeek = 7;
   const date = new Date(currentYear, currentMonth - 1, 1); // Start of the month (month is 0-indexed)
 
@@ -47,8 +56,6 @@ export function generateCalendar(
         reservations,
         currentMonth,
       });
-
-
 
       currentDay++;
     }

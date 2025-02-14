@@ -1,6 +1,6 @@
 export enum ReservationStatus {
-  CONFIRMED = "Confirmed",
-  UNCONFIRMED = "Unconfirmed",
-  PENDING = "Pending",
-  LEGACY = "Legacy"
+  CONFIRMED = "confirmed",
+  UNCONFIRMED = "unconfirmed",
+  PENDING = "pending",
+  LEGACY = "legacy"
 }

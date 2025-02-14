@@ -1,5 +1,5 @@
 export enum ReservationType {
-  STANDARD = "Standard",
-  SUBSTITUTION = "Substitution",
-  CONTINGENCY = "Contingency",
+  STANDARD = "standard",
+  SUBSTITUTION = "substitution",
+  CONTINGENCY = "contingency",
 } 

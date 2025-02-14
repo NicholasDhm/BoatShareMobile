@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     color: "#000",
-    marginLeft: 5,
+    marginLeft: 4,
+    textTransform: "capitalize",
   },
 });

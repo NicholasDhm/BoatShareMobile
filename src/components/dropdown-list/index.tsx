@@ -5,14 +5,14 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/auth";
 
 export type DropdownListProps = {
-  list: { id: number; label: string }[];
-  onSelect?: (item: { id: number; label: string } | null) => void;
-  value?: { id: number; label: string } | null;
+  list: { id: string; label: string }[];
+  onSelect?: (item: { id: string; label: string } | null) => void;
+  value?: { id: string; label: string } | null;
 };
 
 export function DropdownList({ list, onSelect, value }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<{ id: number; label: string } | null>(
+  const [selectedItem, setSelectedItem] = useState<{ id: string; label: string } | null>(
     value || (list.length > 0 ? list[0] : null)
   );
 
@@ -28,7 +28,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
     setViewDropdown(!viewDropdown);
   }
 
-  function handleSelect(item: { id: number; label: string }) {
+  function handleSelect(item: { id: string; label: string }) {
     setSelectedItem(item);
     onSelect?.(item);
     handlePress();
