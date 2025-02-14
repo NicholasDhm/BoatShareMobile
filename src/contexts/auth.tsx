@@ -2,6 +2,8 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '../types/user';
 
+const temporaryUserId = '123e4567-e89b-12d3-a456-426614174000'
+
 type AuthContextData = {
   user: User | null;
   isLoading: boolean;
@@ -26,11 +28,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoading(true);
       // API call to login user
       const mockUser = {
-        id: '1',
+        userId: temporaryUserId,
         name: 'Nick',
         email: email,
         password: password,
-        boats: []
       };
 
       setUser(mockUser);
@@ -48,11 +49,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoading(true);
       // API call to create user
       const mockUser = {
-        id: '1',
+        userId: temporaryUserId,
         name: name,
         email: email,
         password: password,
-        boats: []
       };
 
       setUser(mockUser);

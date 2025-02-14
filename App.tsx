@@ -10,8 +10,5 @@ export default function App() {
       <StatusBar translucent backgroundColor="transparent" style="light"/>
     </AuthProvider>
 
-
-
-
   );
 }

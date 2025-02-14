@@ -1,12 +1,17 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.1.100:3000'; // Use your local backend URL or ngrok link
+const BASE_URL = 'http://192.168.1.12:3333/user-boats'; // Use your local backend URL or ngrok link
 
 export const userBoatsApi = {
-  createUserBoat: async (userId: string, boatId: string, role: string, standardQuota: number, substitutionQuota: number, contingencyQuota: number) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/userBoats`, {
-        userId, boatId, role, standardQuota, substitutionQuota, contingencyQuota
+  createUserBoat: async (userId: string, boatId: string) => {
+    try {    
+      const response = await axios.post(`${BASE_URL}`, {
+        userId,
+        boatId,
+        role: "Admin",
+        standardQuota: 2,
+        substitutionQuota: 2,
+        contingencyQuota: 1,
       });
       return response.data;
     } catch (error) {
@@ -17,7 +22,7 @@ export const userBoatsApi = {
 
   getUserBoats: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/userBoats`);
+      const response = await axios.get(`${BASE_URL}`);
       return response.data.userBoats;
     } catch (error) {
       console.error('Error fetching user-boats:', error);
@@ -27,7 +32,7 @@ export const userBoatsApi = {
 
   getUserBoatsByUserId: async (userId: string) => {
     try {
-      const response = await axios.get(`${BASE_URL}/userBoats/getByUser/${userId}`);
+      const response = await axios.get(`${BASE_URL}/getByUser/${userId}`);
       return response.data.userBoat;
     } catch (error) {
       console.error('Error fetching user-boat by user ID:', error);
@@ -37,7 +42,7 @@ export const userBoatsApi = {
 
   getUserBoatsByBoatId: async (boatId: string) => {
     try {
-      const response = await axios.get(`${BASE_URL}/userBoats/getByBoat/${boatId}`);
+      const response = await axios.get(`${BASE_URL}/getByBoat/${boatId}`);
       return response.data.userBoat;
     } catch (error) {
       console.error('Error fetching user-boat by boat ID:', error);

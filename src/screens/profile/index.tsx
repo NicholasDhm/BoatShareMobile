@@ -6,12 +6,32 @@ import { StackNavigatorProps } from "../../routes/app.routes";
 import { Plus, User, LogOut, CalendarCheck, CalendarClock, CalendarX, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
+import { useEffect, useState } from "react";
+import { boatsApi } from "../../apis/boatsApi";
+import { Boat } from "../../types/boat";
 
 export function Profile() {
   const { signOut, user } = useAuth();
   const navigation = useNavigation<StackNavigatorProps>();
-
-  function createBoat() {
+  const [userBoats, setUserBoats] = useState<Boat[]>([]);
+  
+  useEffect(() => {
+    async function fetchBoats() {
+      try {
+        if (user?.userId) {
+          const boats = await boatsApi.getBoatsByUserId(user.userId);
+          setUserBoats(boats);
+        }
+      } catch (error) {
+        console.error("Error fetching boats:", error);
+      }
+    }
+  
+    if (user?.userId) {
+      fetchBoats();
+    }
+  }, [user]);
+  function addBoat() {
     navigation.navigate("createBoat");
   }
 
@@ -51,14 +71,14 @@ export function Profile() {
           <View style={styles.dataContainer}>
             <View style={styles.rowSpaced}>
               <Text style={styles.dataContainerTitle}>Your Boats</Text>
-              <TouchableOpacity onPress={createBoat}>
+              <TouchableOpacity onPress={addBoat}>
                 <Plus size={24} color="black" />
               </TouchableOpacity>
             </View>
 
-            {user?.boats && user.boats.length > 0 ? (
-              user.boats.map((boat) => (
-                <View key={boat.id} style={styles.row}>
+            {userBoats.length > 0 ? (
+              userBoats.map((boat) => (
+                <View key={boat.boatId} style={styles.row}>
                   <SvgIcon
                     icon="boat"
                     size={26}

@@ -1,67 +1,67 @@
 import axios from 'axios';
 import { Reservation } from '../types/reservation';
 
-const apiUrl = 'http://localhost:3000'; // Replace with your backend API URL
+const apiUrl = 'http://192.168.1.12:3333/reservations'; // Replace with your backend API URL
 
 class ReservationsAPI {
   // Fetch all reservations
   static async getAllReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/reservations`);
+    const response = await axios.get(`${apiUrl}`);
     return response.data.reservations;
   }
 
   // Fetch reservation by reservation id
   static async getReservationById(id: string): Promise<Reservation> {
-    const response = await axios.get(`${apiUrl}/reservations/${id}`);
+    const response = await axios.get(`${apiUrl}/${id}`);
     return response.data.reservation;
   }
 
   // Fetch all active reservations (non-legacy)
   static async getActiveReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/reservations/active`);
+    const response = await axios.get(`${apiUrl}/active`);
     return response.data.activeReservations;
   }
 
   // Fetch all legacy reservations
   static async getLegacyReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/reservations/legacy`);
+    const response = await axios.get(`${apiUrl}/legacy`);
     return response.data.legacyReservations;
   }
 
   // Fetch all reservations by user id
   static async getReservationsByUserId(userId: string): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/reservations/user/${userId}`);
+    const response = await axios.get(`${apiUrl}/user/${userId}`);
     return response.data.reservations;
   }
 
   // Fetch all reservations by boat id
   static async getReservationsByBoatId(boatId: string): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/reservations/boat/${boatId}`);
+    const response = await axios.get(`${apiUrl}/boat/${boatId}`);
     return response.data.reservations;
   }
 
   // Post a new reservation
   static async createReservation(reservation: Omit<Reservation, 'reservationId'>): Promise<void> {
-    await axios.post(`${apiUrl}/reservations`, reservation);
+    await axios.post(`${apiUrl}`, reservation);
   }
   // Delete reservation by reservation id
   static async deleteReservation(id: string): Promise<void> {
-    await axios.delete(`${apiUrl}/reservations/${id}`);
+    await axios.delete(`${apiUrl}/${id}`);
   }
 
   // Update reservation status to 'Legacy' for all reservations where the date has passed
   static async updateLegacyStatus(): Promise<void> {
-    await axios.put(`${apiUrl}/reservations/updateLegacyStatus`);
+    await axios.put(`${apiUrl}/updateLegacyStatus`);
   }
 
   // Update reservation status from 'Pending' to 'Unconfirmed'
   static async updatePendingToUnconfirmed(id: string): Promise<void> {
-    await axios.put(`${apiUrl}/reservations/${id}/pendingToUnconfirmed`);
+    await axios.put(`${apiUrl}/${id}/pendingToUnconfirmed`);
   }
 
   // Update reservation status from 'Unconfirmed' to 'Confirmed'
   static async updateUnconfirmedToConfirmed(id: string): Promise<void> {
-    await axios.put(`${apiUrl}/reservations/${id}/unconfirmedToConfirmed`);
+    await axios.put(`${apiUrl}/${id}/unconfirmedToConfirmed`);
   }
 }
 
