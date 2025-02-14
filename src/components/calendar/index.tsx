@@ -4,12 +4,12 @@ import { CalendarHeader } from "../calendar-header";
 import { styles } from "./styles";
 import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
-import { Reservation } from "../../types/reservation";
-import { ReservationType } from "../../types/reservation-type";
-import { ReservationStatus } from "../../types/reservation-status";
+import { Reservation } from "../../@types/reservation";
+import { ReservationType } from "../../@types/reservation-type";
+import { ReservationStatus } from "../../@types/reservation-status";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { CalendarDayProps } from "../../types/calendar-day";
+import { CalendarDayProps } from "../../@types/calendar-day";
 import { CalendarDay } from "../calendar-day";
 
 

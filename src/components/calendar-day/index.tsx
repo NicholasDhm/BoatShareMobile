@@ -1,7 +1,7 @@
 import { Text, Pressable, View } from "react-native";
-import { CalendarDayProps } from "../../types/calendar-day";
+import { CalendarDayProps } from "../../@types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
-import { Reservation } from "../../types/reservation";
+import { Reservation } from "../../@types/reservation";
 import { useAuth } from "../../contexts/auth";
 import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, X } from "lucide-react-native";

@@ -18,7 +18,7 @@ export function CreateBoat() {
   const [boatName, setBoatName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TabNavigatorProps>();
-  const { user, updateUser } = useAuth();
+  const { user, getUserBoatsFromApi, getBoatsFromApi } = useAuth();
 
   function handleGoBack() {
     navigation.goBack();
@@ -26,25 +26,25 @@ export function CreateBoat() {
 
   async function handleCreateBoat() {
     if (!user) return;
-  
+
     if (!boatName.trim() || selectedNumber <= 0) {
       Alert.alert("Error", "Please enter a valid name and capacity.");
       return;
     }
-  
+
     try {
       setLoading(true);
-  
-      // Create boat
+
+      // Create boat and save to API
       const newBoat = await boatsApi.createBoat(boatName, selectedNumber);
-  
-      if (!newBoat || !newBoat.boatId) {
-        throw new Error("Boat creation failed, invalid response from server.");
-      }
-  
-      // Create user-boat relationship
+
+      // Create user-boat relationship and save to API
       await userBoatsApi.createUserBoat(user.userId, newBoat.boatId);
-  
+
+      // Update local storage
+      await getUserBoatsFromApi();
+      await getBoatsFromApi();
+
       Alert.alert("Success", "Boat created successfully!");
       navigation.goBack();
     } catch (error) {
@@ -53,8 +53,8 @@ export function CreateBoat() {
     } finally {
       setLoading(false);
     }
-  }  
-  
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
@@ -67,14 +67,14 @@ export function CreateBoat() {
         </View>
 
         <View style={styles.form}>
-          <TextInput 
-            title="Name" 
-            placeholder="Name" 
+          <TextInput
+            title="Name"
+            placeholder="Name"
             value={boatName}
             onChangeText={setBoatName}
           />
-          
-          <NumberInput 
+
+          <NumberInput
             title="Capacity"
             value={selectedNumber.toString()}
             onChangeNumber={setSelectedNumber}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { styles } from "./styles";
-import { ReservationType } from "../../types/reservation-type";
+import { ReservationType } from "../../@types/reservation-type";
 import { SvgIcon } from "../svg";
 import { colors } from "../../themes/colors";
 
@@ -10,10 +10,10 @@ export function InfoIcon({ type }: { type: ReservationType }) {
     type === ReservationType.STANDARD
       ? colors.bluePrimary
       : type === ReservationType.SUBSTITUTION
-      ? colors.redPrimary
-      : type === ReservationType.CONTINGENCY
-      ? colors.orangePrimary
-      : "transparent";
+        ? colors.redPrimary
+        : type === ReservationType.CONTINGENCY
+          ? colors.orangePrimary
+          : "transparent";
 
   return (
     <View style={[styles.container]}>

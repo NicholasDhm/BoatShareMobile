@@ -48,14 +48,14 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
 
       {viewDropdown && list.length > 0 ? (
         <View style={s.dropdownList}>
-          {list.map((item) => (
+          {list.map((item, index) => (
             <Pressable
-              key={item.id}
+              key={index}
               style={[
                 selectedItem?.id === item.id ? s.dropdownItemSelected : s.dropdownItem,
               ]}
               onPress={() => handleSelect(item)}
-              // onPressOut={() => setSelectedItem(null)}
+            // onPressOut={() => setSelectedItem(null)}
             >
               <Text>{item.label}</Text>
             </Pressable>

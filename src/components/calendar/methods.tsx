@@ -1,5 +1,5 @@
-import { CalendarDayProps } from "../../types/calendar-day";
-import { Reservation } from "../../types/reservation";
+import { CalendarDayProps } from "../../@types/calendar-day";
+import { Reservation } from "../../@types/reservation";
 
 export function generateCalendar(
   currentYear: number,

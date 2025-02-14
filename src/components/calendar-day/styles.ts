@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { ReservationType } from '../../types/reservation-type';
+import { ReservationType } from '../../@types/reservation-type';
 import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({

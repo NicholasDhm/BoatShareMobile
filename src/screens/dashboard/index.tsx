@@ -2,15 +2,19 @@ import { Pressable, View, Text } from "react-native";
 import { Calendar } from "../../components/calendar";
 import { InfoIcon } from "../../components/info-icon";
 import { styles } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { ReservationType } from "../../types/reservation-type";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { ReservationType } from "../../@types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { DropdownList, DropdownListProps } from "../../components/dropdown-list";
 import { useAuth } from "../../contexts/auth";
-import { useEffect } from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 import { boatsApi } from "../../apis/boatsApi";
 import { userBoatsApi } from "../../apis/userBoatsApi";
+import { storageUserBoatGet } from "../../storage/userBoatStorage";
+import { storageBoatGet } from "../../storage/boatStorage";
+import { Boat } from "../../@types/boat";
+import { UserBoat } from "../../@types/user-boat";
 
 const list: { type: ReservationType }[] = [
   { type: ReservationType.STANDARD },
@@ -24,26 +28,30 @@ export function Dashboard() {
 
   const [dropdownList, setDropdownList] = useState<DropdownListProps["list"]>([]);
 
-  useEffect(() => {
-    async function fetchUserBoats() {
-      try {
-        if (user) {
-          const boats = await boatsApi.getBoatsByUserId(user.userId);
-          setDropdownList(boats.map((boat) => ({
-            id: boat.boatId,
-            label: boat.name,
-          })));
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchUserBoats() {
+        try {
+          if (user) {
+            const userBoats = await storageUserBoatGet();
+            const boats = await storageBoatGet();
+            setDropdownList(userBoats.map((userBoat) => ({
+              key: Number(userBoat.boatId),
+              id: Number(userBoat.boatId),
+              label: boats.find((boat) => boat.boatId === userBoat.boatId)?.name || "",
+            })));
+          }
+        } catch (error) {
+          console.error("Error fetching boats:", error);
         }
-      } catch (error) {
-        console.error("Error fetching boats:", error);
       }
-    }
-  
-    if (user?.userId) {
-      fetchUserBoats();
-    }
-  }, [user]);
-  
+
+      if (user?.userId) {
+        fetchUserBoats();
+      }
+    }, [])
+  );
+
 
   function handleInfoIconPress(type: ReservationType) {
     navigation.navigate("reservationTypeInfo", { reservationType: type });
@@ -84,7 +92,7 @@ export function Dashboard() {
           }}>
             <Text>Show All UserBoats</Text>
           </Pressable>
-  
+
           {/* <Pressable onPress={async () => {
             const newBoat = { name: "Wanderer", capacity: 4 };
             await boatsApi.createBoat("Wanderer", 4);

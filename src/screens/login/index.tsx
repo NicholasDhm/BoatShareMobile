@@ -22,8 +22,9 @@ export function Login() {
       }
 
       await signIn(email, password);
-    } catch (error) {
-      Alert.alert('Erro na autenticação', 'Não foi possível fazer login');
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Unable to sign in';
+      Alert.alert('Sign in Error', message);
     }
   }
 
@@ -33,10 +34,10 @@ export function Login() {
 
   return (
     <View style={styles.container}>
-      <SvgIcon icon="boat" size={48} color={colors.bluePrimary } />
+      <SvgIcon icon="boat" size={48} color={colors.bluePrimary} />
       <Text style={styles.title}>Boat Share</Text>
-      <TextInput 
-        title="Email" 
+      <TextInput
+        title="Email"
         placeholder="Email"
 
         value={email}
@@ -44,8 +45,8 @@ export function Login() {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <TextInput 
-        title="Password" 
+      <TextInput
+        title="Password"
         placeholder="Password"
         value={password}
         onChangeText={setPassword}

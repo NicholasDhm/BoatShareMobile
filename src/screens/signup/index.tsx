@@ -14,23 +14,24 @@ export function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const { signUp } = useAuth();
 
   async function handleUserSignup() {
     try {
       if (!name.trim() || !email.trim() || !password || !confirmPassword) {
-        return Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        return Alert.alert('Error', 'Please fill in all fields');
       }
 
       if (password !== confirmPassword) {
-        return Alert.alert('Erro', 'As senhas não conferem');
+        return Alert.alert('Error', 'Passwords do not match');
       }
-      
+
       await signUp(name, email, password);
-    } catch (error) {
-      Alert.alert('Erro no cadastro', 'Não foi possível criar a conta');
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Unable to create account';
+      Alert.alert('Sign up Error', message);
     }
   }
 
@@ -40,17 +41,17 @@ export function SignUp() {
 
   return (
     <View style={styles.container}>
-      <SvgIcon icon="boat" size={48} color={colors.bluePrimary } />
+      <SvgIcon icon="boat" size={48} color={colors.bluePrimary} />
       <Text style={styles.title}>Boat Share</Text>
-      <TextInput 
-        title="Username" 
+      <TextInput
+        title="Username"
         placeholder="Username"
         value={name}
         onChangeText={setName}
 
       />
-      <TextInput 
-        title="Email" 
+      <TextInput
+        title="Email"
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
@@ -58,16 +59,16 @@ export function SignUp() {
         autoCapitalize="none"
 
       />
-      <TextInput 
-        title="Password" 
+      <TextInput
+        title="Password"
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
 
       />
-      <TextInput 
-        title="Confirm password" 
+      <TextInput
+        title="Confirm password"
         placeholder="Confirm password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}

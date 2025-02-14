@@ -6,7 +6,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigatorProps, StackRoutes } from "../../routes/app.routes";
 import { styles } from "./styles";
 import { getFirstReservation } from "../../components/calendar-day";
-import { ReservationType } from "../../types/reservation-type";
+import { ReservationType } from "../../@types/reservation-type";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { useAuth } from "../../contexts/auth";

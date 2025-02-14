@@ -1,45 +1,45 @@
-import axios from 'axios';
-
-const BASE_URL = 'http://192.168.1.12:3333/users'; // Use your local backend URL or ngrok link
+import { User } from '../@types/user';
+import { api } from './api';
+import * as Crypto from 'expo-crypto';
 
 export const usersApi = {
-  getUsers: async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}`);
-      return response.data.users;
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      throw error;
+  // Fetch all users
+  async getUsers(): Promise<User[]> {
+    const response = await api.get('/users');
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data.users;
   },
 
-  getUserById: async (id: string) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/${id}`);
-      return response.data.user;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
+  // Fetch user by id
+  async getUserById(id: string): Promise<User> {
+    const response = await api.get(`/users/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data.user;
   },
 
-  createUser: async (name: string, email: string, passwordHash: string) => {
-    try {
-      const response = await axios.post(`${BASE_URL}`, { name, email, passwordHash });
-      return response.data;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
+  // Create a new user
+  async createUser(name: string, email: string, password: string): Promise<User> {
+    const passwordHash = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      password
+    );
+    const response = await api.post('/users', { name, email, passwordHash });
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data;
   },
 
-  deleteUser: async (id: string) => {
-    try {
-      const response = await axios.delete(`${BASE_URL}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      throw error;
+  // Delete a user by id
+  async deleteUser(id: string): Promise<void> {
+    const response = await api.delete(`/users/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
-  },
+    return response.data;
+  }
 };

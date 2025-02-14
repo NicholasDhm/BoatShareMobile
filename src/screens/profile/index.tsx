@@ -1,36 +1,41 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { useAuth } from "../../contexts/auth";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { Plus, User, LogOut, CalendarCheck, CalendarClock, CalendarX, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { boatsApi } from "../../apis/boatsApi";
-import { Boat } from "../../types/boat";
+import { Boat } from "../../@types/boat";
+import { storageBoatGet } from "../../storage/boatStorage";
+import { storageUserBoatGet } from "../../storage/userBoatStorage";
 
 export function Profile() {
   const { signOut, user } = useAuth();
   const navigation = useNavigation<StackNavigatorProps>();
   const [userBoats, setUserBoats] = useState<Boat[]>([]);
-  
-  useEffect(() => {
-    async function fetchBoats() {
-      try {
-        if (user?.userId) {
-          const boats = await boatsApi.getBoatsByUserId(user.userId);
-          setUserBoats(boats);
+
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchBoats() {
+        try {
+          if (user?.userId) {
+            const boats = await storageBoatGet();
+            setUserBoats(boats);
+          }
+        } catch (error) {
+          console.error("Error fetching boats:", error);
         }
-      } catch (error) {
-        console.error("Error fetching boats:", error);
       }
-    }
-  
-    if (user?.userId) {
-      fetchBoats();
-    }
-  }, [user]);
+
+      if (user?.userId) {
+        fetchBoats();
+      }
+    }, [])
+  );
+
   function addBoat() {
     navigation.navigate("createBoat");
   }

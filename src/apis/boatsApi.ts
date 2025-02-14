@@ -1,56 +1,51 @@
-import axios from 'axios';
-import { Boat } from '../types/boat';
-
-const BASE_URL = 'http://192.168.1.12:3333/boats'; // Ensure correct base path
+import { Boat } from '../@types/boat';
+import { api } from './api';
 
 export const boatsApi = {
-  getBoats: async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}`);
-      return response.data.boats;
-    } catch (error) {
-      console.error('Error fetching boats:', error);
-      throw error;
+  // Fetch all boats
+  async getBoats(): Promise<Boat[]> {
+    const response = await api.get('/boats');
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data;
   },
 
-  getBoatById: async (id: string) => {
-    try {
-      const response = await axios.get(`${BASE_URL}/${id}`);
-      return response.data.boat;
-    } catch (error) {
-      console.error('Error fetching boat:', error);
-      throw error;
+  // Fetch boat by id
+  async getBoatById(id: string): Promise<Boat> {
+    const response = await api.get(`/boats/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data;
   },
 
-  getBoatsByUserId: async (userId: string): Promise<Boat[]> => {
-    try {
-      const response = await axios.get(`${BASE_URL}/${userId}/boats`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching user-boats:', error);
-      throw error;
+  // Fetch all boats for a specific user
+  async getBoatsByUserId(userId: string): Promise<Boat[]> {
+    const response = await api.get(`/boats/${userId}/boats`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
+    return response.data;
   },
 
-  createBoat: async (name: string, capacity: number) => {
-    try {
-      const response = await axios.post(`${BASE_URL}`, { name, capacity });
-      return response.data;
-    } catch (error) {
-      console.error('Error creating boat:', error);
-      throw error;
+  // Create a new boat
+  async createBoat(name: string, capacity: number): Promise<Boat> {
+    const response = await api.post('/boats', { name, capacity });
+
+    if (response.status !== 201) {
+      throw new Error(response.data.message);
     }
+
+    return response.data;
   },
 
-  deleteBoat: async (id: string) => {
-    try {
-      const response = await axios.delete(`${BASE_URL}/${id}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error deleting boat:', error);
-      throw error;
+  // Delete a boat by id
+  async deleteBoat(id: string): Promise<void> {
+    const response = await api.delete(`/boats/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
     }
-  },
+    return response.data;
+  }
 };

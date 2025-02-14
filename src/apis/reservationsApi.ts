@@ -1,68 +1,82 @@
-import axios from 'axios';
-import { Reservation } from '../types/reservation';
+import { Reservation } from '../@types/reservation';
+import { api } from './api';
 
-const apiUrl = 'http://192.168.1.12:3333/reservations'; // Replace with your backend API URL
-
-class ReservationsAPI {
+export const reservationsApi = {
   // Fetch all reservations
-  static async getAllReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}`);
+  async getAllReservations(): Promise<Reservation[]> {
+    const response = await api.get('/reservations');
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.reservations;
-  }
+  },
 
   // Fetch reservation by reservation id
-  static async getReservationById(id: string): Promise<Reservation> {
-    const response = await axios.get(`${apiUrl}/${id}`);
+  async getReservationById(id: string): Promise<Reservation> {
+    const response = await api.get(`/reservations/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.reservation;
-  }
+  },
 
   // Fetch all active reservations (non-legacy)
-  static async getActiveReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/active`);
+  async getActiveReservations(): Promise<Reservation[]> {
+    const response = await api.get('/reservations/active');
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.activeReservations;
-  }
+  },
 
   // Fetch all legacy reservations
-  static async getLegacyReservations(): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/legacy`);
+  async getLegacyReservations(): Promise<Reservation[]> {
+    const response = await api.get('/reservations/legacy');
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.legacyReservations;
-  }
+  },
 
   // Fetch all reservations by user id
-  static async getReservationsByUserId(userId: string): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/user/${userId}`);
+  async getReservationsByUserId(userId: string): Promise<Reservation[]> {
+    const response = await api.get(`/reservations/user/${userId}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.reservations;
-  }
+  },
 
   // Fetch all reservations by boat id
-  static async getReservationsByBoatId(boatId: string): Promise<Reservation[]> {
-    const response = await axios.get(`${apiUrl}/boat/${boatId}`);
+  async getReservationsByBoatId(boatId: string): Promise<Reservation[]> {
+    const response = await api.get(`/reservations/boat/${boatId}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
     return response.data.reservations;
-  }
+  },
 
   // Post a new reservation
-  static async createReservation(reservation: Omit<Reservation, 'reservationId'>): Promise<void> {
-    await axios.post(`${apiUrl}`, reservation);
-  }
+  async createReservation(reservation: Omit<Reservation, 'reservationId'>): Promise<void> {
+    const response = await api.post('/reservations', reservation);
+    if (response.status !== 201) {
+      throw new Error(response.data.message);
+    }
+  },
+
   // Delete reservation by reservation id
-  static async deleteReservation(id: string): Promise<void> {
-    await axios.delete(`${apiUrl}/${id}`);
-  }
+  async deleteReservation(id: string): Promise<void> {
+    const response = await api.delete(`/reservations/${id}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
+  },
 
-  // Update reservation status to 'Legacy' for all reservations where the date has passed
-  static async updateLegacyStatus(): Promise<void> {
-    await axios.put(`${apiUrl}/updateLegacyStatus`);
+  // Update reservation status
+  async updateReservationStatus(id: string, status: string): Promise<void> {
+    const response = await api.put(`/reservations/${id}/status`, { status });
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
   }
-
-  // Update reservation status from 'Pending' to 'Unconfirmed'
-  static async updatePendingToUnconfirmed(id: string): Promise<void> {
-    await axios.put(`${apiUrl}/${id}/pendingToUnconfirmed`);
-  }
-
-  // Update reservation status from 'Unconfirmed' to 'Confirmed'
-  static async updateUnconfirmedToConfirmed(id: string): Promise<void> {
-    await axios.put(`${apiUrl}/${id}/unconfirmedToConfirmed`);
-  }
-}
-
-export default ReservationsAPI;
+};

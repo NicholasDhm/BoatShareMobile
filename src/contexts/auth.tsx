@@ -1,8 +1,14 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from '../types/user';
-
-const temporaryUserId = '123e4567-e89b-12d3-a456-426614174000'
+import { User } from '../@types/user';
+import { usersApi } from '../apis/usersApi';
+import * as Crypto from 'expo-crypto';
+import { storageUserRemove, storageUserSave, storageUserGet } from '../storage/userStorage';
+import { userBoatsApi } from '../apis/userBoatsApi';
+import { storageUserBoatSaveMany } from '../storage/userBoatStorage';
+import { boatsApi } from '../apis/boatsApi';
+import { storageBoatSaveMany } from '../storage/boatStorage';
+import { reservationsApi } from '../apis/reservationsApi';
+import { storageReservationSaveMany } from '../storage/reservationStorage';
 
 type AuthContextData = {
   user: User | null;
@@ -11,6 +17,10 @@ type AuthContextData = {
   signOut: () => Promise<void>;
   signUp: (name: string, email: string, password: string) => Promise<void>;
   updateUser: (user: User) => void;
+  getUserDataFromApi: () => Promise<void>;
+  getUserBoatsFromApi: () => Promise<void>;
+  getBoatsFromApi: () => Promise<void>;
+  getReservationsFromApi: () => Promise<void>;
 };
 
 type AuthProviderProps = {
@@ -26,17 +36,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function signIn(email: string, password: string) {
     try {
       setIsLoading(true);
-      // API call to login user
-      const mockUser = {
-        userId: temporaryUserId,
-        name: 'Nick',
-        email: email,
-        password: password,
-      };
-
-      setUser(mockUser);
-
-      await AsyncStorage.setItem('@boatshare:user', JSON.stringify(mockUser));
+      try {
+        const allUsers = await usersApi.getUsers();
+        const passwordHash = await Crypto.digestStringAsync(
+          Crypto.CryptoDigestAlgorithm.SHA256,
+          password
+        );
+        const uniqueUser = allUsers.find(user =>
+          user.email === email &&
+          user.passwordHash === passwordHash
+        );
+        if (!uniqueUser) {
+          throw new Error('Invalid email or password');
+        }
+        setUser(uniqueUser);
+        await storageUserSave(uniqueUser);
+        await getUserDataFromApi();
+      } catch (error) {
+        throw error;
+      }
     } catch (error) {
       throw error;
     } finally {
@@ -47,17 +65,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function signUp(name: string, email: string, password: string) {
     try {
       setIsLoading(true);
-      // API call to create user
-      const mockUser = {
-        userId: temporaryUserId,
-        name: name,
-        email: email,
-        password: password,
-      };
+      await usersApi.createUser(name, email, password);
 
-      setUser(mockUser);
-
-      await AsyncStorage.setItem('@boatshare:user', JSON.stringify(mockUser));
     } catch (error) {
       throw error;
     } finally {
@@ -69,7 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true);
       setUser(null);
-      await AsyncStorage.removeItem('@boatshare:user');
+      await storageUserRemove();
     } catch (error) {
       throw error;
     } finally {
@@ -77,12 +86,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function loadUserData() {
+  async function getUserDataFromApi() {
     try {
-      const storedUser = await AsyncStorage.getItem('@boatshare:user');
-      
+      setIsLoading(true);
+      const storedUser = await storageUserGet();
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        setUser(storedUser);
+        const apiUserBoats = await userBoatsApi.getUserBoatsByUserId(storedUser.userId);
+        await storageUserBoatSaveMany(apiUserBoats);
+        const apiBoats = await boatsApi.getBoatsByUserId(storedUser.userId);
+        await storageBoatSaveMany(apiBoats);
+        const apiReservations = await reservationsApi.getReservationsByUserId(storedUser.userId);
+        await storageReservationSaveMany(apiReservations);
       }
     } catch (error) {
       console.error(error);
@@ -91,12 +106,48 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function getUserBoatsFromApi() {
+    try {
+      const storedUser = await storageUserGet();
+      if (storedUser) {
+        const apiUserBoats = await userBoatsApi.getUserBoatsByUserId(storedUser.userId);
+        await storageUserBoatSaveMany(apiUserBoats);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getBoatsFromApi() {
+    try {
+      const storedUser = await storageUserGet();
+      if (storedUser) {
+        const apiBoats = await boatsApi.getBoatsByUserId(storedUser.userId);
+        await storageBoatSaveMany(apiBoats);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getReservationsFromApi() {
+    try {
+      const storedUser = await storageUserGet();
+      if (storedUser) {
+        const apiReservations = await reservationsApi.getReservationsByUserId(storedUser.userId);
+        await storageReservationSaveMany(apiReservations);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const updateUser = (updatedUser: User) => {
     setUser(updatedUser);
   };
 
   useState(() => {
-    loadUserData();
+    getUserDataFromApi();
   });
 
   return (
@@ -107,6 +158,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       signOut,
       signUp,
       updateUser,
+      getUserDataFromApi,
+      getUserBoatsFromApi,
+      getBoatsFromApi,
+      getReservationsFromApi,
     }}>
       {children}
     </AuthContext.Provider>
