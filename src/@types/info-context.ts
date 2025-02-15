@@ -19,4 +19,5 @@ export type InfoContextData = {
   setCurrentUserBoats: (boats: Boat[]) => void;
   setUser: (user: User) => void;
   updateAllDataByFetchingFromApi: () => Promise<void>;
+  fetchReservations: () => Promise<void>;
 };

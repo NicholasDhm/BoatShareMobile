@@ -12,18 +12,16 @@ import { CalendarDay } from "../calendar-day";
 
 interface CalendarProps {
   reservations: Reservation[];
-  userBoatId: string;
 }
 
-export function Calendar({ reservations, userBoatId }: CalendarProps) {
+export function Calendar({ reservations }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
 
   function handlePressDay(calendarDay: CalendarDayProps) {
-    navigation.navigate("reservationInfo", { calendarDay: calendarDay, userBoatId: userBoatId });
+    navigation.navigate("reservationInfo", { calendarDay: calendarDay });
   }
-
 
   function handlePressRight() {
     if (currentMonth === 12) {

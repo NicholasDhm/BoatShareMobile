@@ -21,7 +21,7 @@ const list: { type: ReservationType }[] = [
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
-  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, currentUserContracts } = useInfo();
+  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, currentUserReservations } = useInfo();
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
@@ -30,8 +30,7 @@ export function Dashboard() {
     if (!boatSelectedInDropdown) return;
 
     try {
-      const data = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
-      setReservations(data);
+      setReservations(currentUserReservations);
     } catch (error) {
       console.error('Error fetching reservations:', error);
     }
@@ -59,7 +58,7 @@ export function Dashboard() {
   // TODO: Fetch reservations from the API when the selected boat changes
   useEffect(() => {
     fetchReservations();
-  }, [boatSelectedInDropdown]);
+  }, [boatSelectedInDropdown, currentUserReservations]);
 
   return (
     <View style={styles.container}>
@@ -87,7 +86,7 @@ export function Dashboard() {
             ))}
           </View>
 
-          <Calendar reservations={reservations} userBoatId={boatSelectedInDropdown?.id || ""} />
+          <Calendar reservations={reservations} />
 
           <Pressable onPress={async () => {
             const boats = await boatsApi.getBoats();

@@ -57,6 +57,10 @@ export function InfoProvider({ children }: InfoProviderProps) {
     try {
       setIsLoading(true);
       setUser(null);
+      setCurrentUserContracts([]);
+      setCurrentUserReservations([]);
+      setCurrentUserBoats([]);
+      setBoatSelectedInDropdown(null);
     } catch (error) {
       throw error;
     } finally {
@@ -81,6 +85,13 @@ export function InfoProvider({ children }: InfoProviderProps) {
     }
   }
 
+  async function fetchReservations() {
+    if (user) {
+      const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
+      setCurrentUserReservations(newUserReservations);
+    }
+  }
+
   return (
     <InfoContext.Provider value={{
       user: user || null,
@@ -98,6 +109,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setCurrentUserBoats,
       setBoatSelectedInDropdown,
       updateAllDataByFetchingFromApi,
+      fetchReservations,
     }}>
       {children}
     </InfoContext.Provider>
