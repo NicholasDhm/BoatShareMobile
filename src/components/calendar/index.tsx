@@ -4,26 +4,21 @@ import { CalendarHeader } from "../calendar-header";
 import { styles } from "./styles";
 import { CalendarSubheader } from "../calendar-subheader";
 import { generateCalendar } from "./methods";
-import { Reservation } from "../../@types/reservation";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { CalendarDayProps } from "../../@types/calendar-day";
 import { CalendarDay } from "../calendar-day";
+import { useInfo } from "../../contexts/info";
 
-interface CalendarProps {
-  reservations: Reservation[];
-  userBoatId: string;
-}
-
-export function Calendar({ reservations, userBoatId }: CalendarProps) {
+export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
+  const { currentBoatReservations } = useInfo();
 
   function handlePressDay(calendarDay: CalendarDayProps) {
-    navigation.navigate("reservationInfo", { calendarDay: calendarDay, userBoatId: userBoatId });
+    navigation.navigate("reservationInfo", { calendarDay: calendarDay });
   }
-
 
   function handlePressRight() {
     if (currentMonth === 12) {
@@ -55,7 +50,7 @@ export function Calendar({ reservations, userBoatId }: CalendarProps) {
       <CalendarSubheader />
 
       <View style={styles.calendarGrid}>
-        {generateCalendar(currentYear, currentMonth, reservations).map((item, index) => (
+        {generateCalendar(currentYear, currentMonth, currentBoatReservations).map((item, index) => (
           <CalendarDay
             key={`${index}`}
             {...item}

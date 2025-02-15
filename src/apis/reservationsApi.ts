@@ -59,8 +59,8 @@ export const reservationsApi = {
   },
 
   // Post a new reservation
-  async createReservation(userBoatId: string, date: string, status: ReservationStatus, type: ReservationType): Promise<void> {
-    const response = await api.post('/reservations', { userBoatId, date, status, type });
+  async createReservation(contractId: string, date: string, status: ReservationStatus, type: ReservationType): Promise<void> {
+    const response = await api.post('/reservations', { contractId, date, status, type });
     if (response.status !== 201) {
       throw new Error(response.data.message);
     }

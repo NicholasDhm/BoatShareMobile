@@ -6,6 +6,7 @@ import { User } from "./user";
 export type InfoContextData = {
   currentUserContracts: Contract[];
   currentUserReservations: Reservation[];
+  currentBoatReservations: Reservation[];
   currentUserBoats: Boat[];
   boatSelectedInDropdown: Boat | null;
   user: User | null;
@@ -19,4 +20,6 @@ export type InfoContextData = {
   setCurrentUserBoats: (boats: Boat[]) => void;
   setUser: (user: User) => void;
   updateAllDataByFetchingFromApi: () => Promise<void>;
+  setCurrentBoatReservations: (reservations: Reservation[]) => void;
+  fetchReservations: () => Promise<void>;
 };

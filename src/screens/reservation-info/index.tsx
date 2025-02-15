@@ -12,15 +12,16 @@ import { SvgIcon } from "../../components/svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { reservationsApi } from "../../apis/reservationsApi";
 import { ReservationStatus } from "../../@types/reservation-status";
+import { useInfo } from "../../contexts/info";
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
+  const { currentUserContracts, boatSelectedInDropdown, fetchReservations } = useInfo();
 
   const calendarDay = route.params.calendarDay;
-  const userBoatId = route.params.userBoatId;
 
   const activeReservation = getFirstReservation(calendarDay.reservations);
   const reservationColors = {
@@ -44,7 +45,9 @@ export function ReservationInfo() {
 
   async function handleMakeReservation() {
     try {
-      await reservationsApi.createReservation(userBoatId, date.toISOString(), ReservationStatus.PENDING, ReservationType.STANDARD);
+      const contract = currentUserContracts.find(contract => contract.boatId === boatSelectedInDropdown?.id);
+      await reservationsApi.createReservation(contract?.id || "", date.toISOString(), ReservationStatus.PENDING, ReservationType.STANDARD);
+      await fetchReservations();
       Alert.alert("Reservation created successfully");
       navigation.goBack();
     } catch (error) {

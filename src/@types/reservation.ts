@@ -3,7 +3,7 @@ import { ReservationType } from "./reservation-type";
 
 export type Reservation = {
   id: string;
-  boatId: string;
+  contractId: string;
   date: string;
   createdAtDate: string;
   type: ReservationType;

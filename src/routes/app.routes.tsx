@@ -32,7 +32,6 @@ export type StackRoutes = {
   };
   reservationInfo: {
     calendarDay: CalendarDayProps;
-    userBoatId: string;
   };
   profile: undefined;
   createBoat: undefined;
