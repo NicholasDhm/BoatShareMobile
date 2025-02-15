@@ -20,8 +20,8 @@ export function Calendar({ reservations, userBoatId }: CalendarProps) {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
 
-  function handlePressDay(item: CalendarDayProps) {
-    navigation.navigate("reservationInfo", { calendarDay: item, userBoatId: userBoatId });
+  function handlePressDay(calendarDay: CalendarDayProps) {
+    navigation.navigate("reservationInfo", { calendarDay: calendarDay, userBoatId: userBoatId });
   }
 
 

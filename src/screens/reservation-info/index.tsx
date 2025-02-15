@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable, Alert } from "react-native";
 import { ChevronLeft } from "lucide-react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 // import DateTimePicker from "@react-native-community/datetimepicker";
@@ -47,6 +47,7 @@ export function ReservationInfo() {
   async function handleMakeReservation() {
     try {
       await reservationsApi.createReservation(userBoatId, date.toISOString(), ReservationStatus.PENDING, ReservationType.STANDARD);
+      Alert.alert("Reservation created successfully");
       navigation.goBack();
     } catch (error) {
       console.error(error);

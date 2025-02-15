@@ -110,7 +110,6 @@ export function Dashboard() {
             ))}
           </View>
 
-          {/* Pass userBoatId instead of boatId */}
           <Calendar reservations={reservations} userBoatId={selectedBoat?.userBoatId || ""} />
 
           <Pressable onPress={async () => {
