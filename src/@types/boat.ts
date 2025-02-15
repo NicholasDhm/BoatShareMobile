@@ -1,5 +1,5 @@
 export type Boat = {
-  boatId: string;
+  id: string;
   name: string;
   capacity: number;
 };

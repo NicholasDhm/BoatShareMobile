@@ -2,7 +2,6 @@ import { Text, Pressable, View } from "react-native";
 import { CalendarDayProps } from "../../@types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
 import { Reservation } from "../../@types/reservation";
-import { useAuth } from "../../contexts/auth";
 import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, X } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
@@ -22,7 +21,6 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
     today.getDate() === day &&
     today.getMonth() + 1 === month &&
     today.getFullYear() === year;
-  const { user } = useAuth();
 
   const isOtherMonth = month !== currentMonth;
   const firstReservation = getFirstReservation(reservations);

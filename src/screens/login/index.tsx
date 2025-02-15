@@ -5,7 +5,7 @@ import { styles } from "./styles";
 import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
-import { useAuth } from "../../contexts/auth";
+import { useInfo } from "../../contexts/info";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 
@@ -13,7 +13,7 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const { signIn } = useAuth();
+  const { signIn } = useInfo();
 
   async function handleUserSignIn() {
     try {

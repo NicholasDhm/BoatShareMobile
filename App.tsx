@@ -1,14 +1,12 @@
-import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { AuthProvider } from './src/contexts/auth';
+import { InfoProvider } from './src/contexts/info';
 import { Routes } from './src/routes';
 
 export default function App() {
   return (
-    <AuthProvider>
+    <InfoProvider>
       <Routes />
-      <StatusBar translucent backgroundColor="transparent" style="light"/>
-    </AuthProvider>
-
+      <StatusBar translucent backgroundColor="transparent" style="light" />
+    </InfoProvider>
   );
 }

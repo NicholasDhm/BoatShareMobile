@@ -5,23 +5,13 @@ import { styles } from "./styles";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../@types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { DropdownList, DropdownListProps } from "../../components/dropdown-list";
-import { useAuth } from "../../contexts/auth";
+import { DropdownList } from "../../components/dropdown-list";
 import { useCallback, useEffect, useState } from "react";
 import { boatsApi } from "../../apis/boatsApi";
-import { userBoatsApi } from "../../apis/userBoatsApi";
-import { storageUserBoatGet } from "../../storage/userBoatStorage";
-import { storageBoatGet } from "../../storage/boatStorage";
 import { reservationsApi } from "../../apis/reservationsApi";
 import { Reservation } from "../../@types/reservation";
-
-// Define a new interface to include userBoatId
-interface DropdownBoatItem {
-  key: number;
-  id: string; // boatId
-  label: string;
-  userBoatId: string;
-}
+import { useInfo } from "../../contexts/info";
+import { contractsApi } from "../../apis/contractsApi";
 
 const list: { type: ReservationType }[] = [
   { type: ReservationType.STANDARD },
@@ -31,19 +21,16 @@ const list: { type: ReservationType }[] = [
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
-  const { user } = useAuth();
+  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, currentUserContracts } = useInfo();
 
-  // Update state to use DropdownBoatItem
-  const [dropdownList, setDropdownList] = useState<DropdownBoatItem[]>([]);
-  const [selectedBoat, setSelectedBoat] = useState<DropdownBoatItem | undefined>();
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   // Fetch reservations from the API
   async function fetchReservations() {
-    if (!selectedBoat) return;
+    if (!boatSelectedInDropdown) return;
 
     try {
-      const data = await reservationsApi.getReservationsByBoatId(selectedBoat.id);
+      const data = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
       setReservations(data);
     } catch (error) {
       console.error('Error fetching reservations:', error);
@@ -52,20 +39,14 @@ export function Dashboard() {
 
   // Fetch user boats from local storage and set the dropdown list
   async function fetchUserBoats() {
-    const userBoats = await storageUserBoatGet();
-    const boats = await storageBoatGet();
-    const boatsList: DropdownBoatItem[] = userBoats.map((userBoat) => ({
-      key: Number(userBoat.boatId),
-      id: userBoat.boatId,
-      label: boats.find((boat) => boat.boatId === userBoat.boatId)?.name || "",
-      userBoatId: userBoat.userBoatId, // Include userBoatId
-    }));
-    setDropdownList(boatsList);
-
     // Set initial selected boat if none is selected
-    if (!selectedBoat && boatsList.length > 0) {
-      setSelectedBoat(boatsList[0]);
+    if (!boatSelectedInDropdown && currentUserBoats.length > 0) {
+      setBoatSelectedInDropdown(currentUserBoats[0]);
     }
+  }
+
+  function handleInfoIconPress(type: ReservationType) {
+    navigation.navigate("reservationTypeInfo", { reservationType: type });
   }
 
   // Fetch data from local storage when the screen is focused
@@ -75,14 +56,10 @@ export function Dashboard() {
     }, [])
   );
 
-  function handleInfoIconPress(type: ReservationType) {
-    navigation.navigate("reservationTypeInfo", { reservationType: type });
-  }
-
-  // Fetch reservations from the API when the selected boat changes
+  // TODO: Fetch reservations from the API when the selected boat changes
   useEffect(() => {
     fetchReservations();
-  }, [selectedBoat]);
+  }, [boatSelectedInDropdown]);
 
   return (
     <View style={styles.container}>
@@ -93,9 +70,9 @@ export function Dashboard() {
         <View style={styles.dropdown}>
           <Text style={styles.dropdownUpperText}>Selected Boat</Text>
           <DropdownList
-            list={dropdownList}
-            onSelect={(item) => setSelectedBoat(item as DropdownBoatItem)}
-            value={selectedBoat}
+            list={currentUserBoats}
+            onSelect={(item) => setBoatSelectedInDropdown(item!)}
+            value={boatSelectedInDropdown}
           />
         </View>
       </View>
@@ -110,7 +87,7 @@ export function Dashboard() {
             ))}
           </View>
 
-          <Calendar reservations={reservations} userBoatId={selectedBoat?.userBoatId || ""} />
+          <Calendar reservations={reservations} userBoatId={boatSelectedInDropdown?.id || ""} />
 
           <Pressable onPress={async () => {
             const boats = await boatsApi.getBoats();
@@ -119,10 +96,10 @@ export function Dashboard() {
             <Text>Show All Boats</Text>
           </Pressable>
           <Pressable onPress={async () => {
-            const userBoats = await userBoatsApi.getUserBoats();
-            console.log(JSON.stringify(userBoats, null, 2));
+            const contracts = await contractsApi.getContractsByUserId(user?.id || "");
+            console.log(JSON.stringify(contracts, null, 2));
           }}>
-            <Text>Show All UserBoats</Text>
+            <Text>Show All User Contracts</Text>
           </Pressable>
 
           {/* <Pressable onPress={async () => {

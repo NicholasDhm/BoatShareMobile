@@ -5,7 +5,7 @@ import { Button } from "../../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../../routes/auth.routes";
 import { styles } from "./styles";
-import { useAuth } from "../../contexts/auth";
+import { useInfo } from "../../contexts/info";
 import { SvgIcon } from "../../components/svg";
 import { colors } from "../../themes/colors";
 
@@ -16,7 +16,7 @@ export function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const { signUp } = useAuth();
+  const { signUp } = useInfo();
 
   async function handleUserSignup() {
     try {

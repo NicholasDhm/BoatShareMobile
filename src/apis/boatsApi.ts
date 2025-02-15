@@ -26,6 +26,7 @@ export const boatsApi = {
     if (response.status !== 200) {
       throw new Error(response.data.message);
     }
+    console.log(response);
     return response.data;
   },
 

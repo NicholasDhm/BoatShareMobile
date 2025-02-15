@@ -7,18 +7,18 @@ import { TextInput } from "../../components/text-input";
 import { Button } from "../../components/button";
 import { useState } from "react";
 import { NumberInput } from "../../components/number-input";
-import { useAuth } from "../../contexts/auth";
+import { useInfo } from "../../contexts/info";
 import { colors } from "../../themes/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { boatsApi } from "../../apis/boatsApi";
-import { userBoatsApi } from "../../apis/userBoatsApi";
+import { contractsApi } from "../../apis/contractsApi";
 
 export function CreateBoat() {
   const [selectedNumber, setSelectedNumber] = useState(0);
   const [boatName, setBoatName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TabNavigatorProps>();
-  const { user, getUserBoatsFromApi, getBoatsFromApi } = useAuth();
+  const { user, updateAllDataByFetchingFromApi } = useInfo();
 
   function handleGoBack() {
     navigation.goBack();
@@ -39,11 +39,10 @@ export function CreateBoat() {
       const newBoat = await boatsApi.createBoat(boatName, selectedNumber);
 
       // Create user-boat relationship and save to API
-      await userBoatsApi.createUserBoat(user.userId, newBoat.boatId);
+      await contractsApi.createContract(user.id, newBoat.id);
 
       // Update local storage
-      await getUserBoatsFromApi();
-      await getBoatsFromApi();
+      await updateAllDataByFetchingFromApi();
 
       Alert.alert("Success", "Boat created successfully!");
       navigation.goBack();

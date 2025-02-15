@@ -2,17 +2,16 @@ import { View, Text, Pressable } from "react-native";
 import { s } from "./styles";
 import { ChevronRight } from "lucide-react-native";
 import { useState, useEffect } from "react";
-import { useAuth } from "../../contexts/auth";
-
+import { Boat } from "../../@types/boat";
 export type DropdownListProps = {
-  list: { id: string; label: string }[];
-  onSelect?: (item: { id: string; label: string } | null) => void;
-  value?: { id: string; label: string } | null;
+  list: Boat[];
+  onSelect?: (boat: Boat | null) => void;
+  value?: Boat | null;
 };
 
 export function DropdownList({ list, onSelect, value }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<{ id: string; label: string } | null>(
+  const [selectedItem, setSelectedItem] = useState<Boat | null>(
     value || (list.length > 0 ? list[0] : null)
   );
 
@@ -28,7 +27,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
     setViewDropdown(!viewDropdown);
   }
 
-  function handleSelect(item: { id: string; label: string }) {
+  function handleSelect(item: Boat) {
     setSelectedItem(item);
     onSelect?.(item);
     handlePress();
@@ -37,7 +36,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
   return (
     <View style={s.dropdown}>
       <Pressable style={s.container} onPress={handlePress}>
-        <Text style={s.placeholder}>{selectedItem?.label || "No boats"}</Text>
+        <Text style={s.placeholder}>{selectedItem?.name || "No boats"}</Text>
 
         <ChevronRight
           style={viewDropdown ? s.chevron : undefined}
@@ -57,7 +56,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
               onPress={() => handleSelect(item)}
             // onPressOut={() => setSelectedItem(null)}
             >
-              <Text>{item.label}</Text>
+              <Text>{item.name}</Text>
             </Pressable>
 
           ))}

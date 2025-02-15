@@ -27,8 +27,9 @@ export const usersApi = {
       Crypto.CryptoDigestAlgorithm.SHA256,
       password
     );
+    console.log(passwordHash);
     const response = await api.post('/users', { name, email, passwordHash });
-    if (response.status !== 200) {
+    if (response.status !== 201) {
       throw new Error(response.data.message);
     }
     return response.data;

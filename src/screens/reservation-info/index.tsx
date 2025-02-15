@@ -9,7 +9,6 @@ import { getFirstReservation } from "../../components/calendar-day";
 import { ReservationType } from "../../@types/reservation-type";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
-import { useAuth } from "../../contexts/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { reservationsApi } from "../../apis/reservationsApi";
 import { ReservationStatus } from "../../@types/reservation-status";
@@ -19,7 +18,6 @@ type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
-  const { user } = useAuth();
 
   const calendarDay = route.params.calendarDay;
   const userBoatId = route.params.userBoatId;

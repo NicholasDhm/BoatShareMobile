@@ -1,5 +1,5 @@
-export type UserBoat = {
-  userBoatId: string;
+export type Contract = {
+  contractId: string;
   userId: string;
   boatId: string;
   role: string;

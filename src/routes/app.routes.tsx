@@ -17,7 +17,6 @@ import { CreateBoat } from "../screens/create-boat";
 import { CalendarDayProps } from "../@types/calendar-day";
 import { ReservationType } from "../@types/reservation-type";
 import { colors } from "../themes/colors";
-import { getBackgroundColor } from "../components/calendar-day/styles";
 import { Platform, View } from "react-native";
 
 type TabRoutes = {

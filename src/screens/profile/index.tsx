@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
-import { useAuth } from "../../contexts/auth";
+import { useInfo } from "../../contexts/info";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { Plus, User, LogOut, CalendarCheck, Pencil } from "lucide-react-native";
@@ -8,41 +8,24 @@ import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { useCallback, useState } from "react";
 import { Boat } from "../../@types/boat";
-import { storageBoatGet } from "../../storage/boatStorage";
-import { storageUserBoatGet } from "../../storage/userBoatStorage";
-import { storageReservationGet } from "../../storage/reservationStorage";
 import { Reservation } from "../../@types/reservation";
-import { UserBoat } from "../../@types/user-boat";
 
 export function Profile() {
-  const { signOut, user } = useAuth();
+  const { signOut, user, currentUserBoats, currentUserReservations, updateAllDataByFetchingFromApi } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
-  const [boats, setBoats] = useState<Boat[]>([]);
-  const [userBoats, setUserBoats] = useState<UserBoat[]>([]);
-  const [reservations, setReservations] = useState<Reservation[]>([]);
-
 
   // Fetch data from local storage when the screen is focused
   useFocusEffect(
     useCallback(() => {
       async function fetchData() {
         try {
-          if (user?.userId) {
-            const boats = await storageBoatGet();
-            const userBoats = await storageUserBoatGet();
-            const userReservations = await storageReservationGet();
-            setBoats(boats);
-            setUserBoats(userBoats);
-            setReservations(userReservations);
-          }
+          await updateAllDataByFetchingFromApi();
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       }
 
-      if (user?.userId) {
-        fetchData();
-      }
+      fetchData();
     }, [])
   );
 
@@ -92,20 +75,20 @@ export function Profile() {
             </View>
 
             {/* show all boats that the user has */}
-            {userBoats.length > 0 ? (
-              userBoats.map((boat) => (
-                <View key={boat.boatId} style={styles.row}>
+            {currentUserBoats.length > 0 ? (
+              currentUserBoats.map((boat) => (
+                <View key={boat.id} style={styles.row}>
                   <SvgIcon
                     icon="boat"
                     size={26}
                     color={colors.grayDark}
                   />
                   <Text style={styles.text && styles.boatName}>
-                    {boats.find(b => b.boatId === boat.boatId)?.name}
+                    {boat.name}
                   </Text>
 
                   <User size={16} color="black" style={styles.userIcon} />
-                  <Text style={styles.text}>{boats.find(b => b.boatId === boat.boatId)?.capacity}</Text>
+                  <Text style={styles.text}>{boat.capacity}</Text>
                 </View>
               ))
             ) : (
@@ -121,18 +104,18 @@ export function Profile() {
             </View>
 
             {/* show all reservations that the user has */}
-            {reservations.length > 0 ? (
-              reservations.map((reservation) => {
-                const userBoat = userBoats.find(boat =>
-                  boat.userBoatId === reservation.userBoatId
+            {currentUserReservations.length > 0 ? (
+              currentUserReservations.map((reservation) => {
+                const userBoat = currentUserBoats.find(boat =>
+                  boat.id === reservation.boatId
                 );
-                const boat = userBoats.find(b => b.boatId === userBoat?.boatId);
+                const boat = currentUserBoats.find(b => b.id === userBoat?.id);
                 return (
-                  <View key={reservation.reservationId} style={styles.row}>
+                  <View key={reservation.id} style={styles.row}>
                     <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
                     <Text style={styles.text}>{reservation.date}</Text>
                     <Text style={styles.boatReservationName}>
-                      {boats.find(b => b.boatId === boat?.boatId)?.name}
+                      {boat?.name}
                     </Text>
                   </View>
                 );
