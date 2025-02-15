@@ -6,10 +6,8 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../@types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { DropdownList } from "../../components/dropdown-list";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { boatsApi } from "../../apis/boatsApi";
-import { reservationsApi } from "../../apis/reservationsApi";
-import { Reservation } from "../../@types/reservation";
 import { useInfo } from "../../contexts/info";
 import { contractsApi } from "../../apis/contractsApi";
 
@@ -21,16 +19,15 @@ const list: { type: ReservationType }[] = [
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
-  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, currentUserReservations } = useInfo();
-
-  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, setCurrentBoatReservations, currentUserReservations, currentUserContracts } = useInfo();
 
   // Fetch reservations from the API
   async function fetchReservations() {
     if (!boatSelectedInDropdown) return;
 
     try {
-      setReservations(currentUserReservations);
+      const currentBoatContract = currentUserContracts.find(contract => contract.boatId === boatSelectedInDropdown.id);
+      setCurrentBoatReservations(currentUserReservations.filter((reservation) => reservation.contractId === currentBoatContract?.id));
     } catch (error) {
       console.error('Error fetching reservations:', error);
     }
@@ -58,7 +55,7 @@ export function Dashboard() {
   // TODO: Fetch reservations from the API when the selected boat changes
   useEffect(() => {
     fetchReservations();
-  }, [boatSelectedInDropdown, currentUserReservations]);
+  }, [boatSelectedInDropdown]);
 
   return (
     <View style={styles.container}>
@@ -86,7 +83,7 @@ export function Dashboard() {
             ))}
           </View>
 
-          <Calendar reservations={reservations} />
+          <Calendar />
 
           <Pressable onPress={async () => {
             const boats = await boatsApi.getBoats();

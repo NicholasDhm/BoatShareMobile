@@ -23,6 +23,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
   const [currentUserBoats, setCurrentUserBoats] = useState<Boat[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [boatSelectedInDropdown, setBoatSelectedInDropdown] = useState<Boat | null>(null);
+  const [currentBoatReservations, setCurrentBoatReservations] = useState<Reservation[]>([]);
 
   async function signIn(email: string, password: string) {
     try {
@@ -61,6 +62,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setCurrentUserReservations([]);
       setCurrentUserBoats([]);
       setBoatSelectedInDropdown(null);
+      setCurrentBoatReservations([]);
     } catch (error) {
       throw error;
     } finally {
@@ -77,6 +79,8 @@ export function InfoProvider({ children }: InfoProviderProps) {
         setCurrentUserContracts(newUserContracts);
         const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
         setCurrentUserReservations(newUserReservations);
+        const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown?.id || "");
+        setCurrentBoatReservations(newUserBoatReservations);
         const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
         setCurrentUserBoats(newUserBoats);
       }
@@ -89,8 +93,13 @@ export function InfoProvider({ children }: InfoProviderProps) {
     if (user) {
       const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
       setCurrentUserReservations(newUserReservations);
+
+      const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown?.id || "");
+      setCurrentBoatReservations(newUserBoatReservations);
     }
   }
+
+
 
   return (
     <InfoContext.Provider value={{
@@ -109,6 +118,8 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setCurrentUserBoats,
       setBoatSelectedInDropdown,
       updateAllDataByFetchingFromApi,
+      currentBoatReservations,
+      setCurrentBoatReservations,
       fetchReservations,
     }}>
       {children}
