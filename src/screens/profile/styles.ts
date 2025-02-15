@@ -26,9 +26,9 @@ export const styles = StyleSheet.create({
     color: colors.grayDark,
   },
   boatReservationName: {
-    marginLeft: 12,
     fontSize: 16,
     color: colors.grayDark,
+    marginLeft: 12,
   },
   boatContainer: {
     flex: 1,

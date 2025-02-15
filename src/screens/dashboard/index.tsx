@@ -25,30 +25,42 @@ export function Dashboard() {
   const { user } = useAuth();
 
   const [dropdownList, setDropdownList] = useState<DropdownListProps["list"]>([]);
-  const [selectedBoat, setSelectedBoat] = useState<DropdownListProps["value"]>(null);
+  const [selectedBoat, setSelectedBoat] = useState<DropdownListProps["value"]>();
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
+  // Fetch reservations from the API
+  async function fetchReservations() {
+    if (!selectedBoat) return;
+
+    try {
+      const data = await reservationsApi.getReservationsByBoatId(selectedBoat.id);
+      setReservations(data);
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    }
+  }
+
+  // Fetch user boats from local storage and set the dropdown list
+  async function fetchUserBoats() {
+    const userBoats = await storageUserBoatGet();
+    const boats = await storageBoatGet();
+    const boatsList = userBoats.map((userBoat) => ({
+      key: Number(userBoat.boatId),
+      id: userBoat.boatId,
+      label: boats.find((boat) => boat.boatId === userBoat.boatId)?.name || "",
+    }));
+    setDropdownList(boatsList);
+
+    // Set initial selected boat if none is selected
+    if (!selectedBoat && boatsList.length > 0) {
+      setSelectedBoat(boatsList[0]);
+    }
+  }
+
+  // Fetch data from local storage when the screen is focused
   useFocusEffect(
     useCallback(() => {
-      async function fetchUserBoats() {
-        try {
-          if (user) {
-            const userBoats = await storageUserBoatGet();
-            const boats = await storageBoatGet();
-            setDropdownList(userBoats.map((userBoat) => ({
-              key: Number(userBoat.boatId),
-              id: userBoat.boatId,
-              label: boats.find((boat) => boat.boatId === userBoat.boatId)?.name || "",
-            })));
-          }
-        } catch (error) {
-          console.error("Error fetching boats:", error);
-        }
-      }
-
-      if (user?.userId) {
-        fetchUserBoats();
-      }
+      fetchUserBoats();
     }, [])
   );
 
@@ -56,12 +68,9 @@ export function Dashboard() {
     navigation.navigate("reservationTypeInfo", { reservationType: type });
   }
 
+  // Fetch reservations from the API when the selected boat changes
   useEffect(() => {
-    if (selectedBoat) {
-      reservationsApi.getReservationsByBoatId(selectedBoat.id).then((reservations) => {
-        setReservations(reservations);
-      });
-    }
+    fetchReservations();
   }, [selectedBoat]);
 
   return (
