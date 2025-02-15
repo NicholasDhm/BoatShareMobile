@@ -22,7 +22,7 @@ export function Dashboard() {
   const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, setCurrentBoatReservations, currentUserReservations, currentUserContracts } = useInfo();
 
   // Fetch reservations from the API
-  async function fetchReservations() {
+  async function fetchCalendarReservations() {
     if (!boatSelectedInDropdown) return;
 
     try {
@@ -33,28 +33,13 @@ export function Dashboard() {
     }
   }
 
-  // Fetch user boats from local storage and set the dropdown list
-  async function fetchUserBoats() {
-    // Set initial selected boat if none is selected
-    if (!boatSelectedInDropdown && currentUserBoats.length > 0) {
-      setBoatSelectedInDropdown(currentUserBoats[0]);
-    }
-  }
 
   function handleInfoIconPress(type: ReservationType) {
     navigation.navigate("reservationTypeInfo", { reservationType: type });
   }
 
-  // Fetch data from local storage when the screen is focused
-  useFocusEffect(
-    useCallback(() => {
-      fetchUserBoats();
-    }, [])
-  );
-
-  // TODO: Fetch reservations from the API when the selected boat changes
   useEffect(() => {
-    fetchReservations();
+    fetchCalendarReservations();
   }, [boatSelectedInDropdown]);
 
   return (

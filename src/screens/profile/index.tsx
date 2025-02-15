@@ -11,7 +11,7 @@ import { Boat } from "../../@types/boat";
 import { Reservation } from "../../@types/reservation";
 
 export function Profile() {
-  const { signOut, user, currentUserBoats, currentUserReservations, updateAllDataByFetchingFromApi } = useInfo();
+  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, updateAllDataByFetchingFromApi } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
 
   // Fetch data from local storage when the screen is focused
@@ -106,10 +106,10 @@ export function Profile() {
             {/* show all reservations that the user has */}
             {currentUserReservations.length > 0 ? (
               currentUserReservations.map((reservation) => {
-                const userBoat = currentUserBoats.find(boat =>
-                  boat.id === reservation.boatId
+                const contract = currentUserContracts.find(contract =>
+                  contract.id === reservation.contractId
                 );
-                const boat = currentUserBoats.find(b => b.id === userBoat?.id);
+                const boat = currentUserBoats.find(b => b.id === contract?.boatId);
                 return (
                   <View key={reservation.id} style={styles.row}>
                     <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />

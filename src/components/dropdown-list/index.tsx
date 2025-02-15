@@ -1,7 +1,7 @@
 import { ScrollView, View, Text, Pressable } from "react-native";
 import { s } from "./styles";
 import { ChevronRight } from "lucide-react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Boat } from "../../@types/boat";
 
 type DropdownListProps = {
@@ -13,14 +13,8 @@ type DropdownListProps = {
 export function DropdownList({ list, onSelect, value }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Boat | null>(
-    value || (list.length > 0 ? list[0] : null)
+    value || null
   );
-
-  useEffect(() => {
-    if (list.length > 0 && selectedItem === null) {
-      setSelectedItem(list[0]);
-    }
-  }, [list]);
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
