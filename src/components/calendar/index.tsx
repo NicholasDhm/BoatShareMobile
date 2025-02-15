@@ -51,13 +51,12 @@ export function Calendar() {
 
       <View style={styles.calendarGrid}>
         {generateCalendar(currentYear, currentMonth, currentBoatReservations).map((item, index) => (
-          <View style={styles.dayWrapper} key={`${index}`}>
-            <CalendarDay
-              {...item}
-              currentMonth={currentMonth}
-              onPress={() => handlePressDay(item)}
-            />
-          </View>
+          <CalendarDay
+            key={`${index}`}
+            {...item}
+            currentMonth={currentMonth}
+            onPress={() => handlePressDay(item)}
+          />
         ))}
       </View>
     </View>

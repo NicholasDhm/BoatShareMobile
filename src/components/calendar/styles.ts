@@ -26,12 +26,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-
-  // this changes the calendar day component
-  dayWrapper: {
-    width: `${100 / 7}%`,
-    aspectRatio: 0.9,
-    padding: 1,
+    gap: 4,
   },
 });
