@@ -37,7 +37,7 @@ export function ReservationTypeInfo() {
   const reservationsPending: Reservation[] = [
     {
       id: '1',
-      boatId: 'boat1',
+      contractId: 'contract1',
       createdAtDate: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.PENDING,
@@ -47,7 +47,7 @@ export function ReservationTypeInfo() {
   const reservationsUnconfirmed: Reservation[] = [
     {
       id: '2',
-      boatId: 'boat2',
+      contractId: 'contract2',
       createdAtDate: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.UNCONFIRMED,
@@ -57,7 +57,7 @@ export function ReservationTypeInfo() {
   const reservationsConfirmed: Reservation[] = [
     {
       id: '3',
-      boatId: 'boat3',
+      contractId: 'contract3',
       createdAtDate: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.CONFIRMED,
