@@ -12,8 +12,12 @@ export const colors = {
   orangeLightSecondary: "#FFF3E0",
 
   grayDark: "#595959",
-  grayLight: "#EAEAEA", //use this later for past reservation background colors
+  grayLight: "#EAEAEA", // Use this later for past reservation background colors
+  grayBorder: "#CCCCCC", // Subtle border color for better visibility
   white: "#FFFFFF",
 
   green: "#4CAF50",
+  disabled: "#BDBDBD",
+
+  hoverBackground: "#F5F5F5", // Slight hover effect color
 };
