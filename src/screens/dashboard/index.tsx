@@ -2,11 +2,11 @@ import { Pressable, View, Text } from "react-native";
 import { Calendar } from "../../components/calendar";
 import { InfoIcon } from "../../components/info-icon";
 import { styles } from "./styles";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { ReservationType } from "../../@types/reservation-type";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { DropdownList } from "../../components/dropdown-list";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { boatsApi } from "../../apis/boatsApi";
 import { useInfo } from "../../contexts/info";
 import { contractsApi } from "../../apis/contractsApi";
@@ -19,7 +19,15 @@ const list: { type: ReservationType }[] = [
 
 export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
-  const { user, boatSelectedInDropdown, setBoatSelectedInDropdown, currentUserBoats, setCurrentBoatReservations, currentUserReservations, currentUserContracts } = useInfo();
+  const {
+    user,
+    boatSelectedInDropdown,
+    setBoatSelectedInDropdown,
+    currentUserBoats,
+    setCurrentBoatReservations,
+    currentUserReservations,
+    currentUserContracts
+  } = useInfo();
 
   // Fetch reservations from the API
   async function fetchCalendarReservations() {

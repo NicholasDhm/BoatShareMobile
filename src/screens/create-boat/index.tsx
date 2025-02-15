@@ -18,7 +18,7 @@ export function CreateBoat() {
   const [boatName, setBoatName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TabNavigatorProps>();
-  const { user, updateAllDataByFetchingFromApi } = useInfo();
+  const { user, updateAllDataByFetchingFromApi, setBoatSelectedInDropdown, boatSelectedInDropdown } = useInfo();
 
   function handleGoBack() {
     navigation.goBack();
@@ -40,6 +40,10 @@ export function CreateBoat() {
 
       // Create user-boat relationship and save to API
       await contractsApi.createContract(user.id, newBoat.id);
+
+      if (!boatSelectedInDropdown) {
+        setBoatSelectedInDropdown(newBoat);
+      }
 
       // Update local storage
       await updateAllDataByFetchingFromApi();

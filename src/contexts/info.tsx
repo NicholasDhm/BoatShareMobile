@@ -72,14 +72,14 @@ export function InfoProvider({ children }: InfoProviderProps) {
 
   async function updateAllDataByFetchingFromApi() {
     try {
-      if (user) {
+      if (user && boatSelectedInDropdown) {
         const newUserInfo = await usersApi.getUserById(user.id);
         setUser(newUserInfo);
         const newUserContracts = await contractsApi.getContractsByUserId(user.id);
         setCurrentUserContracts(newUserContracts);
         const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
         setCurrentUserReservations(newUserReservations);
-        const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown?.id || "");
+        const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
         setCurrentBoatReservations(newUserBoatReservations);
         const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
         setCurrentUserBoats(newUserBoats);
@@ -90,11 +90,11 @@ export function InfoProvider({ children }: InfoProviderProps) {
   }
 
   async function fetchReservations() {
-    if (user) {
+    if (user && boatSelectedInDropdown) {
       const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
       setCurrentUserReservations(newUserReservations);
 
-      const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown?.id || "");
+      const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
       setCurrentBoatReservations(newUserBoatReservations);
     }
   }

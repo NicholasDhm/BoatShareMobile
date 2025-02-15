@@ -6,9 +6,7 @@ import { StackNavigatorProps } from "../../routes/app.routes";
 import { Plus, User, LogOut, CalendarCheck, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
-import { useCallback, useState } from "react";
-import { Boat } from "../../@types/boat";
-import { Reservation } from "../../@types/reservation";
+import { useCallback } from "react";
 
 export function Profile() {
   const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, updateAllDataByFetchingFromApi } = useInfo();
