@@ -3,7 +3,7 @@ import { CalendarDayProps } from "../../@types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
 import { Reservation } from "../../@types/reservation";
 import { colors } from "../../themes/colors";
-import { Dot, Check, Clock2, X } from "lucide-react-native";
+import { Dot, Check, Clock2, AlertCircle } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
 
 export function getFirstReservation(reservations: Reservation[]) {
@@ -53,19 +53,21 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
       case ReservationStatus.PENDING:
         return <Clock2 size={10} color={colors.grayDark} strokeWidth={3} />;
       case ReservationStatus.UNCONFIRMED:
-        return <X size={10} color={colors.redPrimary} strokeWidth={5} />;
+        return <AlertCircle size={12} color={colors.redPrimary} strokeWidth={3} />;
       default:
         return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
     }
   }
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={getReservationStyle()}
-    >
-      <Text style={styles.dayText}>{day}</Text>
-      {getStatusIcon()}
-    </Pressable>
+    <View style={styles.dayWrapper}>
+      <Pressable
+        onPress={onPress}
+        style={getReservationStyle()}
+      >
+        <Text style={styles.dayText}>{day}</Text>
+        {getStatusIcon()}
+      </Pressable>
+    </View>
   );
 }

@@ -3,6 +3,14 @@ import { ReservationType } from '../../@types/reservation-type';
 import { colors } from '../../themes/colors';
 
 export const styles = StyleSheet.create({
+  dayWrapper: {
+    width: `${92 / 7}%`,
+    aspectRatio: 0.9,
+    // padding: 1,
+    borderWidth: 1.2,
+    borderColor: colors.grayBorder,
+    borderRadius: 4,
+  },
   container: {
     flex: 1,
     height: "100%",
