@@ -6,20 +6,20 @@ import { StackNavigatorProps, StackRoutes } from "../../routes/app.routes";
 import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../../themes/colors";
-
+import { ReservationType } from "../../@types/reservation-type";
 type ReservationTypeInfoRouteProp = RouteProp<StackRoutes, 'reservationTypeInfo'>;
 
 export function ReservationTypeInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationTypeInfoRouteProp>();
   const reservationType = route.params.reservationType;
-  const primaryColor = reservationType === 'Standard'
+  const primaryColor = reservationType === ReservationType.STANDARD
     ? colors.bluePrimary
-    : reservationType === 'Substitution'
-    ? colors.redPrimary
-    : reservationType === 'Contingency'
-    ? colors.orangePrimary
-    : 'transparent';
+    : reservationType === ReservationType.SUBSTITUTION
+      ? colors.redPrimary
+      : reservationType === ReservationType.CONTINGENCY
+        ? colors.orangePrimary
+        : 'transparent';
 
   function handleGoBack() {
     navigation.goBack();
@@ -27,7 +27,7 @@ export function ReservationTypeInfo() {
 
   function renderReservationInfo() {
     switch (reservationType) {
-      case 'Standard':
+      case ReservationType.STANDARD:
         return (
           <View style={styles.infoBox}>
             <Text style={styles.subTitle}>Standard Reservation</Text>
@@ -40,7 +40,7 @@ export function ReservationTypeInfo() {
             </Text>
           </View>
         );
-      case 'Substitution':
+      case ReservationType.SUBSTITUTION:
         return (
           <View style={styles.infoBox}>
             <Text style={styles.subTitle}>Substitution Reservation</Text>
@@ -54,7 +54,7 @@ export function ReservationTypeInfo() {
             </Text>
           </View>
         );
-      case 'Contingency':
+      case ReservationType.CONTINGENCY:
         return (
           <View style={styles.infoBox}>
             <Text style={styles.subTitle}>Contingency Reservation</Text>

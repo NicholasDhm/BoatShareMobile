@@ -14,6 +14,15 @@ import { storageUserBoatGet } from "../../storage/userBoatStorage";
 import { storageBoatGet } from "../../storage/boatStorage";
 import { reservationsApi } from "../../apis/reservationsApi";
 import { Reservation } from "../../@types/reservation";
+
+// Define a new interface to include userBoatId
+interface DropdownBoatItem {
+  key: number;
+  id: string; // boatId
+  label: string;
+  userBoatId: string;
+}
+
 const list: { type: ReservationType }[] = [
   { type: ReservationType.STANDARD },
   { type: ReservationType.SUBSTITUTION },
@@ -24,8 +33,9 @@ export function Dashboard() {
   const navigation = useNavigation<StackNavigatorProps>();
   const { user } = useAuth();
 
-  const [dropdownList, setDropdownList] = useState<DropdownListProps["list"]>([]);
-  const [selectedBoat, setSelectedBoat] = useState<DropdownListProps["value"]>();
+  // Update state to use DropdownBoatItem
+  const [dropdownList, setDropdownList] = useState<DropdownBoatItem[]>([]);
+  const [selectedBoat, setSelectedBoat] = useState<DropdownBoatItem | undefined>();
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   // Fetch reservations from the API
@@ -44,10 +54,11 @@ export function Dashboard() {
   async function fetchUserBoats() {
     const userBoats = await storageUserBoatGet();
     const boats = await storageBoatGet();
-    const boatsList = userBoats.map((userBoat) => ({
+    const boatsList: DropdownBoatItem[] = userBoats.map((userBoat) => ({
       key: Number(userBoat.boatId),
       id: userBoat.boatId,
       label: boats.find((boat) => boat.boatId === userBoat.boatId)?.name || "",
+      userBoatId: userBoat.userBoatId, // Include userBoatId
     }));
     setDropdownList(boatsList);
 
@@ -83,7 +94,7 @@ export function Dashboard() {
           <Text style={styles.dropdownUpperText}>Selected Boat</Text>
           <DropdownList
             list={dropdownList}
-            onSelect={setSelectedBoat}
+            onSelect={(item) => setSelectedBoat(item as DropdownBoatItem)}
             value={selectedBoat}
           />
         </View>
@@ -99,7 +110,9 @@ export function Dashboard() {
             ))}
           </View>
 
-          <Calendar reservations={reservations} />
+          {/* Pass userBoatId instead of boatId */}
+          <Calendar reservations={reservations} userBoatId={selectedBoat?.userBoatId || ""} />
+
           <Pressable onPress={async () => {
             const boats = await boatsApi.getBoats();
             console.log(JSON.stringify(boats, null, 2));

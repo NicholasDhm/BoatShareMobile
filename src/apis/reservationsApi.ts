@@ -1,4 +1,6 @@
 import { Reservation } from '../@types/reservation';
+import { ReservationStatus } from '../@types/reservation-status';
+import { ReservationType } from '../@types/reservation-type';
 import { api } from './api';
 
 export const reservationsApi = {
@@ -57,8 +59,8 @@ export const reservationsApi = {
   },
 
   // Post a new reservation
-  async createReservation(reservation: Omit<Reservation, 'reservationId'>): Promise<void> {
-    const response = await api.post('/reservations', reservation);
+  async createReservation(userBoatId: string, date: string, status: ReservationStatus, type: ReservationType): Promise<void> {
+    const response = await api.post('/reservations', { userBoatId, date, status, type });
     if (response.status !== 201) {
       throw new Error(response.data.message);
     }

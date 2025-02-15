@@ -12,15 +12,16 @@ import { CalendarDay } from "../calendar-day";
 
 interface CalendarProps {
   reservations: Reservation[];
+  userBoatId: string;
 }
 
-export function Calendar({ reservations }: CalendarProps) {
+export function Calendar({ reservations, userBoatId }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigation = useNavigation<StackNavigatorProps>();
 
   function handlePressDay(item: CalendarDayProps) {
-    navigation.navigate("reservationInfo", { calendarDay: item });
+    navigation.navigate("reservationInfo", { calendarDay: item, userBoatId: userBoatId });
   }
 
 

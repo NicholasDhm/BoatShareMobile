@@ -11,7 +11,8 @@ import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { useAuth } from "../../contexts/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import { reservationsApi } from "../../apis/reservationsApi";
+import { ReservationStatus } from "../../@types/reservation-status";
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 
@@ -21,6 +22,7 @@ export function ReservationInfo() {
   const { user } = useAuth();
 
   const calendarDay = route.params.calendarDay;
+  const userBoatId = route.params.userBoatId;
 
   const activeReservation = getFirstReservation(calendarDay.reservations);
   const reservationColors = {
@@ -40,6 +42,15 @@ export function ReservationInfo() {
 
   function handleGoBack() {
     navigation.goBack();
+  }
+
+  async function handleMakeReservation() {
+    try {
+      await reservationsApi.createReservation(userBoatId, date.toISOString(), ReservationStatus.PENDING, ReservationType.STANDARD);
+      navigation.goBack();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -88,10 +99,7 @@ export function ReservationInfo() {
               </View>
               <Pressable
                 style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]}
-                onPress={() => {
-                  // TODO: Implement reservation logic
-                  console.log('Making reservation for:', date.toDateString());
-                }}
+                onPress={() => { handleMakeReservation() }}
               >
                 <Text style={[styles.description, { color: 'white' }]}>
                   Place Reservation
