@@ -60,5 +60,13 @@ export const contractsApi = {
     if (response.status !== 200) {
       throw new Error(response.data.message);
     }
+  },
+
+  async getContractByBoatAndUserId(boatId: string, userId: string): Promise<Contract> {
+    const response = await api.get(`/contracts/get-by-boat-and-user/${boatId}/${userId}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
+    return response.data.contract;
   }
 };

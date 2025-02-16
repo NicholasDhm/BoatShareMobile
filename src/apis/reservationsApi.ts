@@ -59,10 +59,10 @@ export const reservationsApi = {
   },
 
   // Post a new reservation
-  async createReservation(contractId: string, date: string, status: ReservationStatus, type: ReservationType): Promise<void> {
-    const response = await api.post('/reservations', { contractId, date, status, type });
+  async createReservation(contractId: string, date: string): Promise<void> {
+    const response = await api.post('/reservations', { contractId, date });
     if (response.status !== 201) {
-      throw new Error(response.data.message);
+      throw new Error("Error creating reservation: " + response.data.message);
     }
   },
 
@@ -80,5 +80,13 @@ export const reservationsApi = {
     if (response.status !== 200) {
       throw new Error(response.data.message);
     }
+  },
+
+  async getReservationsByContractId(contractId: string): Promise<Reservation[]> {
+    const response = await api.get(`/reservations/get-by-contract-id/${contractId}`);
+    if (response.status !== 200) {
+      throw new Error("Error fetching reservations by contract id: " + response.data.message);
+    }
+    return response.data.reservations;
   }
 };

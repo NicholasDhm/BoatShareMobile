@@ -13,13 +13,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { reservationsApi } from "../../apis/reservationsApi";
 import { ReservationStatus } from "../../@types/reservation-status";
 import { useInfo } from "../../contexts/info";
+import { contractsApi } from "../../apis/contractsApi";
 
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
-  const { currentUserContracts, boatSelectedInDropdown, fetchReservations } = useInfo();
+  const { user, boatSelectedInDropdown, fetchReservationsForCurrentBoat } = useInfo();
 
   const calendarDay = route.params.calendarDay;
 
@@ -45,13 +46,22 @@ export function ReservationInfo() {
 
   async function handleMakeReservation() {
     try {
-      const contract = currentUserContracts.find(contract => contract.boatId === boatSelectedInDropdown?.id);
-      await reservationsApi.createReservation(contract?.id || "", date.toISOString(), ReservationStatus.PENDING, ReservationType.STANDARD);
-      await fetchReservations();
-      Alert.alert("Reservation created successfully");
-      navigation.goBack();
+      if (user && boatSelectedInDropdown) {
+        const contract = await contractsApi.getContractByBoatAndUserId(boatSelectedInDropdown.id, user.id);
+        if (contract) {
+          await reservationsApi.createReservation(contract.id, date.toISOString());
+          await fetchReservationsForCurrentBoat();
+          Alert.alert("Reservation created successfully");
+          navigation.goBack();
+        } else {
+          Alert.alert("Error", "No contract found for the selected boat");
+        }
+      } else {
+        Alert.alert("Error", "No user or boat selected");
+      }
     } catch (error) {
       console.error(error);
+      Alert.alert("Error", "Failed to make reservation");
     }
   }
 

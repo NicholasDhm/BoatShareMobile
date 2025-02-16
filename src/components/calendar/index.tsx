@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { CalendarHeader } from "../calendar-header";
 import { styles } from "./styles";
@@ -38,6 +38,21 @@ export function Calendar() {
     }
   }
 
+  function generateCalendarDays() {
+    return generateCalendar(currentYear, currentMonth, currentBoatReservations).map((item, index) => (
+      <CalendarDay
+        key={`${index}`}
+        {...item}
+        currentMonth={currentMonth}
+        onPress={() => handlePressDay(item)}
+      />
+    ))
+  }
+
+  // useEffect(() => {
+  //   generateCalendarDays();
+  // }, [currentBoatReservations]);
+
   return (
     <View style={styles.container}>
       <CalendarHeader
@@ -50,14 +65,7 @@ export function Calendar() {
       <CalendarSubheader />
 
       <View style={styles.calendarGrid}>
-        {generateCalendar(currentYear, currentMonth, currentBoatReservations).map((item, index) => (
-          <CalendarDay
-            key={`${index}`}
-            {...item}
-            currentMonth={currentMonth}
-            onPress={() => handlePressDay(item)}
-          />
-        ))}
+        {generateCalendarDays()}
       </View>
     </View>
   );

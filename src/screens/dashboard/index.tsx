@@ -24,23 +24,16 @@ export function Dashboard() {
     boatSelectedInDropdown,
     setBoatSelectedInDropdown,
     currentUserBoats,
-    setCurrentBoatReservations,
-    currentUserReservations,
-    currentUserContracts
+    fetchReservationsForCurrentBoat,
+    currentBoatReservations
   } = useInfo();
 
   // Fetch reservations from the API
   async function fetchCalendarReservations() {
     if (!boatSelectedInDropdown) return;
 
-    try {
-      const currentBoatContract = currentUserContracts.find(contract => contract.boatId === boatSelectedInDropdown.id);
-      setCurrentBoatReservations(currentUserReservations.filter((reservation) => reservation.contractId === currentBoatContract?.id));
-    } catch (error) {
-      console.error('Error fetching reservations:', error);
-    }
+    await fetchReservationsForCurrentBoat();
   }
-
 
   function handleInfoIconPress(type: ReservationType) {
     navigation.navigate("reservationTypeInfo", { reservationType: type });

@@ -9,20 +9,15 @@ import { SvgIcon } from "../../components/svg";
 import { useCallback } from "react";
 
 export function Profile() {
-  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, updateAllDataByFetchingFromApi } = useInfo();
+  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
 
   // Fetch data from local storage when the screen is focused
   useFocusEffect(
     useCallback(() => {
       async function fetchData() {
-        try {
-          await updateAllDataByFetchingFromApi();
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
+        await fetchBoats();
       }
-
       fetchData();
     }, [])
   );

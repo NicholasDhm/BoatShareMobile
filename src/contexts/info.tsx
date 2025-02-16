@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import { User } from '../@types/user';
 import { usersApi } from '../apis/usersApi';
 import { InfoContextData } from '../@types/info-context';
@@ -30,8 +30,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setIsLoading(true);
       try {
         const response = await authApi.login(email, password);
-        setUser(response.user);
-        await updateAllDataByFetchingFromApi();
+        await setUser(response.user);
       } catch (error) {
         throw error;
       }
@@ -70,36 +69,42 @@ export function InfoProvider({ children }: InfoProviderProps) {
     }
   }
 
-  async function updateAllDataByFetchingFromApi() {
-    try {
-      if (user && boatSelectedInDropdown) {
-        const newUserInfo = await usersApi.getUserById(user.id);
-        setUser(newUserInfo);
-        const newUserContracts = await contractsApi.getContractsByUserId(user.id);
-        setCurrentUserContracts(newUserContracts);
-        const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
-        setCurrentUserReservations(newUserReservations);
-        const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
-        setCurrentBoatReservations(newUserBoatReservations);
-        const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
-        setCurrentUserBoats(newUserBoats);
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async function fetchReservations() {
-    if (user && boatSelectedInDropdown) {
+    if (user) {
       const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
       setCurrentUserReservations(newUserReservations);
-
-      const newUserBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
-      setCurrentBoatReservations(newUserBoatReservations);
     }
   }
 
+  async function fetchBoats() {
+    if (user) {
+      const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
+      setCurrentUserBoats(newUserBoats);
+    }
+  }
 
+  async function fetchContracts() {
+    if (user) {
+      const newUserContracts = await contractsApi.getContractsByUserId(user.id);
+      setCurrentUserContracts(newUserContracts);
+    }
+  }
+
+  async function fetchReservationsForCurrentBoat() {
+    if (user && boatSelectedInDropdown) {
+      const contract = await contractsApi.getContractByBoatAndUserId(boatSelectedInDropdown.id, user.id);
+      const newBoatReservations = await reservationsApi.getReservationsByContractId(contract.id);
+      setCurrentBoatReservations(newBoatReservations);
+    }
+  }
+
+  useEffect(() => {
+    if (user) {
+      fetchBoats();
+      fetchReservations();
+      fetchContracts();
+    }
+  }, [user]);
 
   return (
     <InfoContext.Provider value={{
@@ -112,15 +117,12 @@ export function InfoProvider({ children }: InfoProviderProps) {
       currentUserReservations,
       currentUserBoats,
       boatSelectedInDropdown,
-      setUser,
-      setCurrentUserContracts,
-      setCurrentUserReservations,
-      setCurrentUserBoats,
       setBoatSelectedInDropdown,
-      updateAllDataByFetchingFromApi,
       currentBoatReservations,
-      setCurrentBoatReservations,
       fetchReservations,
+      fetchBoats,
+      fetchContracts,
+      fetchReservationsForCurrentBoat,
     }}>
       {children}
     </InfoContext.Provider>

@@ -15,11 +15,8 @@ export type InfoContextData = {
   signOut: () => Promise<void>;
   signUp: (name: string, email: string, password: string) => Promise<void>;
   setBoatSelectedInDropdown: (boat: Boat) => void;
-  setCurrentUserContracts: (contracts: Contract[]) => void;
-  setCurrentUserReservations: (reservations: Reservation[]) => void;
-  setCurrentUserBoats: (boats: Boat[]) => void;
-  setUser: (user: User) => void;
-  updateAllDataByFetchingFromApi: () => Promise<void>;
-  setCurrentBoatReservations: (reservations: Reservation[]) => void;
   fetchReservations: () => Promise<void>;
+  fetchBoats: () => Promise<void>;
+  fetchContracts: () => Promise<void>;
+  fetchReservationsForCurrentBoat: () => Promise<void>;
 };
