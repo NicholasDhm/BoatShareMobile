@@ -32,7 +32,9 @@ export const styles = StyleSheet.create({
 
 export const getBackgroundColor = (
   type: ReservationType,
+  currentUserReservation: boolean,
 ): string => {
+  if (!currentUserReservation) return colors.redLightSecondary;
   if (!type) return colors.blueLightSecondary;
 
   switch (type) {

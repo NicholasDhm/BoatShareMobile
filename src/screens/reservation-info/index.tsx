@@ -19,9 +19,14 @@ type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
-  const { user, boatSelectedInDropdown, fetchReservationsForCurrentBoat, fetchReservations } = useInfo();
+  const { user, currentUserReservations, boatSelectedInDropdown, fetchReservationsForCurrentBoat, fetchReservations } = useInfo();
 
   const calendarDay = route.params.calendarDay;
+
+  const currentUserHasReservation = calendarDay.reservations.some(r => currentUserReservations.some(cur => cur.id === r.id));
+  const hasRes = currentUserHasReservation ? true : false;
+
+  let quotaType = ReservationType.STANDARD;
 
   const activeReservation = getFirstReservation(calendarDay.reservations);
   const reservationColors = {
@@ -29,9 +34,30 @@ export function ReservationInfo() {
     [ReservationType.SUBSTITUTION]: { primary: colors.redPrimary, secondary: colors.redLight },
     [ReservationType.CONTINGENCY]: { primary: colors.orangePrimary, secondary: colors.orangeLight },
   };
-  const { primary: primaryColor, secondary: secondaryColor } = activeReservation
-    ? reservationColors[activeReservation.type] || { primary: colors.bluePrimary, secondary: colors.blueLight }
-    : { primary: colors.bluePrimary, secondary: colors.blueLight };
+
+  if (activeReservation) {
+    quotaType = currentUserReservations.some(cur => cur.id === activeReservation.id) ? activeReservation.type : ReservationType.SUBSTITUTION;
+  }
+
+  let primaryColor = colors.bluePrimary;
+  let secondaryColor = colors.blueLight;
+
+  const now = new Date();
+  const isToday = now.getFullYear() === calendarDay.year && now.getMonth() + 1 === calendarDay.month && now.getDate() === calendarDay.day;
+  const isPastSixOClock = now.getHours() >= 18;
+
+  if (activeReservation) {
+    const isCurrentUserReservation = currentUserReservations.some(cur => cur.id === activeReservation.id);
+    primaryColor = isCurrentUserReservation ? reservationColors[activeReservation.type]?.primary : colors.redPrimary;
+    secondaryColor = isCurrentUserReservation ? reservationColors[activeReservation.type]?.secondary : colors.redLight;
+
+  } else if (isToday && isPastSixOClock) {
+    primaryColor = colors.orangePrimary;
+    secondaryColor = colors.orangeLight;
+    quotaType = ReservationType.CONTINGENCY;
+  }
+
+  const quotaTypeString = quotaType.charAt(0).toUpperCase() + quotaType.slice(1).toLowerCase();
 
   const date = new Date(calendarDay.year, calendarDay.month - 1, calendarDay.day);
   const confirmationStartDate = new Date(date);
@@ -96,12 +122,12 @@ export function ReservationInfo() {
             <Text style={styles.description}>
               This reservation consumes a{" "}
               <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
-                {activeReservation?.type ?? "Standard"} Quota.
+                {quotaTypeString} Quota.
               </Text>
             </Text>
           </View>
 
-          {!calendarDay.isReserved ? (
+          {!hasRes ? (
             <>
               <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
                 <Text style={styles.subTitle}>Reservation Status</Text>

@@ -5,7 +5,7 @@ export type Reservation = {
   id: string;
   contractId: string;
   date: string;
-  createdAtDate: string;
+  createdAt: string;
   type: ReservationType;
   status: ReservationStatus;
 };
