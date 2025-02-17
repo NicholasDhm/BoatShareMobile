@@ -53,7 +53,6 @@ export function Dashboard() {
           <DropdownList
             list={currentUserBoats}
             onSelect={(item) => setBoatSelectedInDropdown(item!)}
-            value={boatSelectedInDropdown}
           />
         </View>
       </View>

@@ -80,6 +80,10 @@ export function InfoProvider({ children }: InfoProviderProps) {
     if (user) {
       const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
       setCurrentUserBoats(newUserBoats);
+      if (boatSelectedInDropdown === null) {
+        await setBoatSelectedInDropdown(newUserBoats[0]);
+        await fetchReservationsForCurrentBoat();
+      }
     }
   }
 

@@ -3,25 +3,23 @@ import { s } from "./styles";
 import { ChevronRight } from "lucide-react-native";
 import { useState } from "react";
 import { Boat } from "../../@types/boat";
-
+import { useInfo } from "../../contexts/info";
 type DropdownListProps = {
   list: Boat[];
   onSelect?: (boat: Boat | null) => void;
-  value: Boat | null;
 };
 
-export function DropdownList({ list, onSelect, value }: DropdownListProps) {
+export function DropdownList({ list, onSelect }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Boat | null>(
-    value || null
-  );
+
+  const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
   }
 
   function handleSelect(item: Boat) {
-    setSelectedItem(item);
+    setBoatSelectedInDropdown(item);
     onSelect?.(item);
     handlePress();
   }
@@ -32,7 +30,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
         style={[s.container, list.length === 0 ? s.disabled : undefined]}
         onPress={list.length > 0 ? handlePress : undefined}
       >
-        <Text style={s.placeholder}>{selectedItem?.name || "No boats"}</Text>
+        <Text style={s.placeholder}>{boatSelectedInDropdown?.name || "No boats"}</Text>
 
         <ChevronRight
           style={viewDropdown ? s.chevron : undefined}
@@ -48,7 +46,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
               <Pressable
                 key={index}
                 style={({ pressed }) => [
-                  selectedItem?.id === item.id
+                  boatSelectedInDropdown?.id === item.id
                     ? s.dropdownItemSelected
                     : s.dropdownItem,
                   pressed ? s.dropdownItemPressed : {},
@@ -57,7 +55,7 @@ export function DropdownList({ list, onSelect, value }: DropdownListProps) {
               >
                 <Text
                   style={
-                    selectedItem?.id === item.id
+                    boatSelectedInDropdown?.id === item.id
                       ? s.dropdownItemTextSelected
                       : s.dropdownItemText
                   }
