@@ -13,7 +13,6 @@ function parseDate(dateString: string) {
   return new Date(`${date}T${time}Z`).getTime();
 };
 
-
 export function getFirstReservation(reservations: Reservation[]) {
   if (!reservations || reservations.length === 0) return null;
   return reservations.reduce((earliest, current) => {
