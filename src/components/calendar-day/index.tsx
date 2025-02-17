@@ -6,6 +6,7 @@ import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, AlertCircle } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
 import { useInfo } from "../../contexts/info";
+<<<<<<< HEAD
 
 function parseDate(dateString: string) {
   if (!dateString) return 0;
@@ -14,6 +15,9 @@ function parseDate(dateString: string) {
 };
 
 
+=======
+import { usersApi } from "../../apis/usersApi";
+>>>>>>> dd5f030d9c9d65bec2906d51287f4f8f524dd903
 export function getFirstReservation(reservations: Reservation[]) {
   if (!reservations || reservations.length === 0) return null;
   return reservations.reduce((earliest, current) => {
