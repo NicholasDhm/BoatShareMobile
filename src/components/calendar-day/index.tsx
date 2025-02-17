@@ -5,7 +5,8 @@ import { Reservation } from "../../@types/reservation";
 import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, AlertCircle } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
-
+import { useInfo } from "../../contexts/info";
+import { usersApi } from "../../apis/usersApi";
 export function getFirstReservation(reservations: Reservation[]) {
   if (!reservations || reservations.length === 0) return null;
   return reservations.reduce((earliest, current) => {
@@ -16,14 +17,9 @@ export function getFirstReservation(reservations: Reservation[]) {
 }
 
 export function CalendarDay({ day, month, year, reservations, currentMonth, onPress }: CalendarDayProps) {
-  const today = new Date();
-  const isToday =
-    today.getDate() === day &&
-    today.getMonth() + 1 === month &&
-    today.getFullYear() === year;
-
   const isOtherMonth = month !== currentMonth;
   const firstReservation = getFirstReservation(reservations);
+  const { user } = useInfo();
 
   function getReservationStyle() {
     const baseStyles = [
