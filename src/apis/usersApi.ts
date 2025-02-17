@@ -50,5 +50,13 @@ export const usersApi = {
       throw new Error(response.data.message);
     }
     return response.data.user;
+  },
+
+  async getUserByContractId(contractId: string): Promise<User> {
+    const response = await api.get(`/users/contract/${contractId}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
+    return response.data.user;
   }
 };
