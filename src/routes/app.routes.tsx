@@ -18,6 +18,8 @@ import { CalendarDayProps } from "../@types/calendar-day";
 import { ReservationType } from "../@types/reservation-type";
 import { colors } from "../themes/colors";
 import { Platform, View } from "react-native";
+import { Boat } from "../@types/boat";
+import { BoatDetails } from "../screens/boat-details";
 
 type TabRoutes = {
   dashboard: undefined;
@@ -35,6 +37,9 @@ export type StackRoutes = {
   };
   profile: undefined;
   createBoat: undefined;
+  boatDetails: {
+    boat: Boat;
+  };
 };
 
 
@@ -106,6 +111,10 @@ export function AppRoutes() {
       <Stack.Screen
         name="createBoat"
         component={CreateBoat}
+      />
+      <Stack.Screen
+        name="boatDetails"
+        component={BoatDetails}
       />
     </Stack.Navigator>
   );

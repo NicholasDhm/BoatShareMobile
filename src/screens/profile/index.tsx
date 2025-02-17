@@ -1,13 +1,12 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { useInfo } from "../../contexts/info";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { Plus, User, LogOut, CalendarCheck, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
-import { useCallback } from "react";
-
+import { Boat } from "../../@types/boat";
 export function Profile() {
   const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
@@ -24,6 +23,10 @@ export function Profile() {
 
   function handleNavigateToAddBoat() {
     navigation.navigate("createBoat");
+  }
+
+  function handleNavigateToBoatDetails(boat: Boat) {
+    navigation.navigate("boatDetails", { boat });
   }
 
   return (
@@ -70,19 +73,21 @@ export function Profile() {
             {/* show all boats that the user has */}
             {currentUserBoats.length > 0 ? (
               currentUserBoats.map((boat) => (
-                <View key={boat.id} style={styles.row}>
-                  <SvgIcon
-                    icon="boat"
-                    size={26}
-                    color={colors.grayDark}
-                  />
-                  <Text style={styles.text && styles.boatName}>
-                    {boat.name}
-                  </Text>
+                <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}>
+                  <View style={styles.row}>
+                    <SvgIcon
+                      icon="boat"
+                      size={26}
+                      color={colors.grayDark}
+                    />
+                    <Text style={styles.text && styles.boatName}>
+                      {boat.name}
+                    </Text>
 
-                  <User size={16} color="black" style={styles.userIcon} />
-                  <Text style={styles.text}>{boat.capacity}</Text>
-                </View>
+                    <User size={16} color="black" style={styles.userIcon} />
+                    <Text style={styles.text}>{boat.capacity}</Text>
+                  </View>
+                </TouchableOpacity>
               ))
             ) : (
               <View style={styles.boatContainer}>

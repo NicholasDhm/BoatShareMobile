@@ -3,14 +3,14 @@ import { View, Text, TextInput as RNTextInput, TextInputProps } from "react-nati
 import { styles } from "./styles";
 
 interface CustomTextInputProps extends TextInputProps {
-  title: string;
+  title?: string;
   error?: string;
 }
 
 export function TextInput({ title, error, ...rest }: CustomTextInputProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      {title && <Text style={styles.title}>{title}</Text>}
       <RNTextInput
         style={[styles.input, error && styles.inputError]}
         {...rest}

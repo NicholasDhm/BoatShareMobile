@@ -4,6 +4,7 @@ import { colors } from '../../themes/colors';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.grayLight,
   },
   dataContainer: {
     padding: 15,

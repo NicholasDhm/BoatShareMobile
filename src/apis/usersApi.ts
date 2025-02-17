@@ -42,5 +42,13 @@ export const usersApi = {
       throw new Error(response.data.message);
     }
     return response.data;
+  },
+
+  async getUserByEmail(email: string): Promise<User> {
+    const response = await api.get(`/users/email/${email}`);
+    if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
+    return response.data.user;
   }
 };
