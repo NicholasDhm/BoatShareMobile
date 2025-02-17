@@ -4,7 +4,7 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { StackRoutes } from "../../routes/app.routes";
 import { RouteProp } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ChevronLeft, Trash2, User } from "lucide-react-native";
+import { ChevronLeft, Crown, Trash2, User } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { StackNavigatorProps } from "../../routes/app.routes";
 import { Button } from "../../components/button";
@@ -18,6 +18,7 @@ type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 type Partner = {
   id: string;
   name: string;
+  role: string;
 }
 
 export function BoatDetails() {
@@ -34,7 +35,7 @@ export function BoatDetails() {
   async function handleAddPartner(email: string) {
     try {
       const partner = await usersApi.getUserByEmail(email);
-      await contractsApi.createContract(partner.id, boat.id);
+      await contractsApi.createMemberContract(partner.id, boat.id);
       await fetchPartners();
       setEmail("")
     } catch (error) {
@@ -57,14 +58,17 @@ export function BoatDetails() {
   async function fetchPartners() {
     try {
       const response = await contractsApi.getContractsByBoatId(boat.id);
-      const partners = response.map((contract) => contract.userId);
-      const partnersNames = await Promise.all(partners.map(async (partner) => {
-        const fetchedUser = await usersApi.getUserById(partner);
+      const partnersNames = await Promise.all(response.map(async (contract) => {
+        const fetchedUser = await usersApi.getUserById(contract.userId);
         if (fetchedUser.id !== user?.id) {
-          return { id: fetchedUser.id, name: fetchedUser.name };
+          return {
+            id: fetchedUser.id,
+            name: fetchedUser.name,
+            role: contract.role
+          };
         }
       }));
-      setPartners(partnersNames.filter((partner) => partner !== undefined));
+      setPartners(partnersNames.filter((partner): partner is Partner => partner !== undefined));
     } catch (error) {
       console.log(error);
       Alert.alert("Error", "Failed to fetch partners");
@@ -104,14 +108,19 @@ export function BoatDetails() {
             {partners.map((partner, index) => (
               <View style={styles.partnerItem} key={index}>
                 <View style={styles.partnerInfo}>
-                  <User size={20} color={"black"} />
+                  {partner.role === 'admin' ? (
+                    <Crown size={20} color={"black"}></Crown>
+                  ) : (<User size={20} color={"black"} />)}
                   <Text>{partner.name}</Text>
                 </View>
-                <Pressable onPress={() => handleRemovePartner(partner.id)} style={styles.removePartnerButton}>
-                  <Trash2 size={20} color={"black"} />
-                </Pressable>
+                {partner.role !== 'admin' && (
+                  <Pressable onPress={() => handleRemovePartner(partner.id)} style={styles.removePartnerButton}>
+                    <Trash2 size={20} color={"black"} />
+                  </Pressable>
+                )}
               </View>
             ))}
+
           </View>
         </View>
       </View>

@@ -3,16 +3,25 @@ import { api } from './api';
 
 export const contractsApi = {
   // Create a new contract
-  async createContract(userId: string, boatId: string): Promise<Contract> {
-    const response = await api.post('/contracts', {
+  async createAdminContract(userId: string, boatId: string, standardQuota: number, substitutionQuota: number): Promise<Contract> {
+    const response = await api.post('/contracts/admin', {
       userId,
       boatId,
-      role: "admin",
-      standardQuota: 2,
-      substitutionQuota: 2,
-      contingencyQuota: 1,
+      standardQuota: standardQuota,
+      substitutionQuota: substitutionQuota,
     });
     if (response.status !== 201) {
+      throw new Error(response.data.message);
+    }
+    return response.data;
+  },
+
+  async createMemberContract(userId: string, boatId: string): Promise<Contract> {
+    const response = await api.post('/contracts/member', {
+      userId,
+      boatId,
+    });
+    if (response.status!== 201) {
       throw new Error(response.data.message);
     }
     return response.data;

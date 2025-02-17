@@ -14,7 +14,9 @@ import { boatsApi } from "../../apis/boatsApi";
 import { contractsApi } from "../../apis/contractsApi";
 
 export function CreateBoat() {
-  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [selectedCapacity, setSelectedCapacity] = useState(0);
+  const [selectedStandardQuota, setSelectedStandardQuota] = useState(0);
+  const [selectedSubstitutionQuota, setSelectedSubstitutionQuota] = useState(0);
   const [boatName, setBoatName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TabNavigatorProps>();
@@ -27,7 +29,7 @@ export function CreateBoat() {
   async function handleCreateBoat() {
     if (!user) return;
 
-    if (!boatName.trim() || selectedNumber <= 0) {
+    if (!boatName.trim() || selectedCapacity <= 0) {
       Alert.alert("Error", "Please enter a valid name and capacity.");
       return;
     }
@@ -36,10 +38,10 @@ export function CreateBoat() {
       setLoading(true);
 
       // Create boat and save to API
-      const newBoat = await boatsApi.createBoat(boatName, selectedNumber);
+      const newBoat = await boatsApi.createBoat(boatName, selectedCapacity);
 
       // Create user-boat relationship and save to API
-      await contractsApi.createContract(user.id, newBoat.id);
+      await contractsApi.createAdminContract(user.id, newBoat.id, selectedStandardQuota, selectedSubstitutionQuota);
 
       if (!boatSelectedInDropdown) {
         setBoatSelectedInDropdown(newBoat);
@@ -79,8 +81,20 @@ export function CreateBoat() {
 
           <NumberInput
             title="Capacity"
-            value={selectedNumber.toString()}
-            onChangeNumber={setSelectedNumber}
+            value={selectedCapacity.toString()}
+            onChangeNumber={setSelectedCapacity}
+          />
+
+          <NumberInput
+            title="Standard Quotas"
+            value={selectedStandardQuota.toString()}
+            onChangeNumber={setSelectedStandardQuota}
+          />
+
+          <NumberInput
+            title="Substitution Quotas"
+            value={selectedSubstitutionQuota.toString()}
+            onChangeNumber={setSelectedSubstitutionQuota}
           />
 
           <Button title={loading ? "Creating..." : "Create"} onPress={handleCreateBoat} disabled={loading} />
