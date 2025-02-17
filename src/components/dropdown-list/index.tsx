@@ -7,7 +7,7 @@ import { Boat } from "../../@types/boat";
 type DropdownListProps = {
   list: Boat[];
   onSelect?: (boat: Boat | null) => void;
-  value?: Boat | null;
+  value: Boat | null;
 };
 
 export function DropdownList({ list, onSelect, value }: DropdownListProps) {

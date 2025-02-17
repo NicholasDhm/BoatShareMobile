@@ -25,7 +25,6 @@ export function Dashboard() {
     setBoatSelectedInDropdown,
     currentUserBoats,
     fetchReservationsForCurrentBoat,
-    currentBoatReservations
   } = useInfo();
 
   // Fetch reservations from the API

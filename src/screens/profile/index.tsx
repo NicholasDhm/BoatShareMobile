@@ -9,18 +9,18 @@ import { SvgIcon } from "../../components/svg";
 import { useCallback } from "react";
 
 export function Profile() {
-  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats } = useInfo();
+  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
 
   // Fetch data from local storage when the screen is focused
-  useFocusEffect(
-    useCallback(() => {
-      async function fetchData() {
-        await fetchBoats();
-      }
-      fetchData();
-    }, [])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     async function fetchData() {
+  //       await fetchReservations();
+  //     }
+  //     fetchData();
+  //   }, [])
+  // );
 
   function handleNavigateToAddBoat() {
     navigation.navigate("createBoat");
