@@ -7,8 +7,11 @@ export function generateCalendar(
   reservations: Reservation[]
 ): CalendarDayProps[] {
   const reservationDict: { [key: string]: Reservation[] } = {};
+
+  // Normalize dates with explicit timezone handling
   reservations.forEach(reservation => {
-    const dateKey = `${new Date(reservation.date).getMonth() + 1}/${new Date(reservation.date).getDate()}/${new Date(reservation.date).getFullYear()}`;
+    const date = new Date(reservation.date + 'T00:00:00.000-03:00');
+    const dateKey = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     if (!reservationDict[dateKey]) {
       reservationDict[dateKey] = [];
     }
