@@ -69,6 +69,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
     }
   }
 
+  // This is used to fetch the reservations for the current user and display them in the Profile screen
   async function fetchReservations() {
     if (user) {
       const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
@@ -76,6 +77,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
     }
   }
 
+  // This is used to fetch the boats for the current user and display them in the Profile screen
   async function fetchBoats() {
     if (user) {
       const newUserBoats = await boatsApi.getBoatsByUserId(user.id);
@@ -94,10 +96,10 @@ export function InfoProvider({ children }: InfoProviderProps) {
     }
   }
 
+  // This is used to fetch the reservations for the current boat and display them in the calendar
   async function fetchReservationsForCurrentBoat() {
     if (user && boatSelectedInDropdown) {
-      const contract = await contractsApi.getContractByBoatAndUserId(boatSelectedInDropdown.id, user.id);
-      const newBoatReservations = await reservationsApi.getReservationsByContractId(contract.id);
+      const newBoatReservations = await reservationsApi.getReservationsByBoatId(boatSelectedInDropdown.id);
       setCurrentBoatReservations(newBoatReservations);
     }
   }
