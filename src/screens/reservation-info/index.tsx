@@ -91,6 +91,23 @@ export function ReservationInfo() {
     }
   }
 
+  async function handleCancelReservation() {
+    try {
+      if (activeReservation) {
+        await reservationsApi.deleteReservation(activeReservation.id);
+        await fetchReservationsForCurrentBoat();
+        await fetchReservations();
+        Alert.alert("Reservation canceled successfully");
+        navigation.goBack();
+      } else {
+        Alert.alert("Error", "No active reservation found");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Failed to cancel reservation");
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: primaryColor }}>
       <ScrollView style={styles.container}>
@@ -145,12 +162,22 @@ export function ReservationInfo() {
               </Pressable>
             </>
           ) : (
-            <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
-              <Text style={styles.subTitle}>Reservation Status</Text>
-              <Text style={styles.description}>
-                This date is already reserved
-              </Text>
-            </View>
+            <>
+              <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
+                <Text style={styles.subTitle}>Reservation Status</Text>
+                <Text style={styles.description}>
+                  This date is already reserved
+                </Text>
+              </View>
+              <Pressable
+                style={[styles.infoBox, { backgroundColor: colors.redPrimary, alignItems: 'center' }]}
+                onPress={() => { handleCancelReservation() }}
+              >
+                <Text style={[styles.description, { color: 'white' }]}>
+                  Cancel Reservation
+                </Text>
+              </Pressable>
+            </>
           )}
         </View>
       </ScrollView>

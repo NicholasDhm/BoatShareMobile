@@ -10,10 +10,12 @@ import { ReservationType } from "../../@types/reservation-type";
 import { CalendarDay } from "../../components/calendar-day";
 import { ReservationStatus } from "../../@types/reservation-status";
 import { Reservation } from "../../@types/reservation";
+import { useInfo } from "../../contexts/info";
 
 type ReservationTypeInfoRouteProp = RouteProp<StackRoutes, 'reservationTypeInfo'>;
 
 export function ReservationTypeInfo() {
+  const { user } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationTypeInfoRouteProp>();
   const reservationType = route.params.reservationType;
@@ -36,9 +38,9 @@ export function ReservationTypeInfo() {
   const reservationsNotReserved: Reservation[] = [];
   const reservationsPending: Reservation[] = [
     {
-      id: '1',
+      id: user!.id,
       contractId: 'contract1',
-      createdAtDate: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.PENDING,
       type: reservationType,
@@ -46,9 +48,9 @@ export function ReservationTypeInfo() {
   ];
   const reservationsUnconfirmed: Reservation[] = [
     {
-      id: '2',
+      id: user!.id,
       contractId: 'contract2',
-      createdAtDate: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.UNCONFIRMED,
       type: reservationType,
@@ -56,9 +58,9 @@ export function ReservationTypeInfo() {
   ];
   const reservationsConfirmed: Reservation[] = [
     {
-      id: '3',
+      id: user!.id,
       contractId: 'contract3',
-      createdAtDate: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       date: `${year}-${month}-${day}`,
       status: ReservationStatus.CONFIRMED,
       type: reservationType,
