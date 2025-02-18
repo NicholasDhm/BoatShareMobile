@@ -7,6 +7,7 @@ import { Plus, User, LogOut, CalendarCheck, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { Boat } from "../../@types/boat";
+
 export function Profile() {
   const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
@@ -33,6 +34,7 @@ export function Profile() {
     <ScrollView
       bounces={false}
       showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: colors.grayLight }}
     >
       <View style={styles.container}>
 
@@ -56,11 +58,7 @@ export function Profile() {
             </View>
             <Text style={styles.text}>Username: {user?.name}</Text>
             <Text style={styles.text}>Email: {user?.email}</Text>
-
-
           </View>
-
-
 
           <View style={styles.dataContainer}>
             <View style={styles.rowSpaced}>
