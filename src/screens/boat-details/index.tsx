@@ -13,7 +13,7 @@ import { usersApi } from "../../apis/usersApi";
 import { useInfo } from "../../contexts/info";
 import { Contract } from "../../@types/contract";
 
-import { Plus } from "lucide-react-native";
+import { Plus, RectangleVertical } from "lucide-react-native";
 
 type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 
@@ -94,6 +94,21 @@ export function BoatDetails() {
         </View>
 
         <Text style={styles.boatName}>{boat.name}</Text>
+
+        <View style={[styles.row, { justifyContent: "center", gap: 20, marginTop: 18 }]}>
+          <View style={styles.row}>
+            <RectangleVertical size={20} fill={colors.bluePrimary} />
+            <Text >{userContract?.standardQuota}</Text>
+          </View>
+          <View style={styles.row}>
+            <RectangleVertical size={20} fill={colors.redPrimary} />
+            <Text >{userContract?.substitutionQuota}</Text>
+          </View>
+          <View style={styles.row}>
+            <RectangleVertical size={20} fill={colors.orangePrimary} />
+            <Text >{userContract?.contingencyQuota}</Text>
+          </View>
+        </View>
 
         <View style={styles.partnersContainer}>
           <View style={styles.spacedRow}>

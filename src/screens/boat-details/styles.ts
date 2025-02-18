@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 4,
   },
   spacedRow: {
     flexDirection: 'row',

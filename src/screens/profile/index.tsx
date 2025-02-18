@@ -122,16 +122,6 @@ export function Profile() {
               <Text style={styles.text}>You don't have any reservations</Text>
             )}
           </View>
-
-          <View style={styles.dataContainer}>
-            <View style={styles.row}>
-              <Text style={styles.dataContainerTitle}>Your Quotas</Text>
-            </View>
-            <Text style={styles.text}>Standard: 2</Text>
-            <Text style={styles.text}>Substitution: 2</Text>
-            <Text style={styles.text}>Contingency: 1</Text>
-          </View>
-
         </View>
       </View>
       {/* <History></History> */}
