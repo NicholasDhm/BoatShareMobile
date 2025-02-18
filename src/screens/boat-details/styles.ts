@@ -11,6 +11,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
+  spacedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   title: {
     fontSize: 24,
   },
@@ -40,6 +45,17 @@ export const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 5,
     gap: 10,
+    height: 60,
+  },
+  partnerInputContainer:{
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: "100%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    height: 60,
   },
   partnerInfo: {
     flexDirection: 'row',
@@ -55,11 +71,23 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.green,
     padding: 5,
     borderRadius: 5,
+    alignSelf: "center"
   },
   boatName: {
     fontSize: 24,
     alignSelf: 'center',
     marginTop: 48,
   },
-
+  partnerName: {
+    fontSize: 14,
+  },
+  detailText: {
+    fontSize: 14,
+    color: colors.grayMedium,
+  },
+  partnerInput : {
+    width: "80%",
+    alignSelf: "center",
+    height: 60,
+  }
 });

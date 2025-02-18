@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert } from "react-native";
+import { View, Text, Pressable, Alert, TextInput } from "react-native";
 import { styles } from "./styles";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { StackRoutes } from "../../routes/app.routes";
@@ -7,12 +7,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ChevronLeft, Crown, Trash2, User } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { Button } from "../../components/button";
-import { TextInput } from "../../components/text-input";
 import { useState, useEffect } from "react";
 import { contractsApi } from "../../apis/contractsApi";
 import { usersApi } from "../../apis/usersApi";
 import { useInfo } from "../../contexts/info";
+import { Contract } from "../../@types/contract";
+
+import { Plus } from "lucide-react-native";
+
 type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 
 type Partner = {
@@ -24,6 +26,7 @@ type Partner = {
 export function BoatDetails() {
   const { user } = useInfo();
   const [partners, setPartners] = useState<Partner[]>([]);
+  const [userContract, setUserContract] = useState<Contract | null>(null);
   const [email, setEmail] = useState<string>("");
   const { boat } = useRoute<BoatDetailsRouteProp>().params;
   const navigation = useNavigation<StackNavigatorProps>();
@@ -60,13 +63,14 @@ export function BoatDetails() {
       const response = await contractsApi.getContractsByBoatId(boat.id);
       const partnersNames = await Promise.all(response.map(async (contract) => {
         const fetchedUser = await usersApi.getUserById(contract.userId);
-        if (fetchedUser.id !== user?.id) {
-          return {
-            id: fetchedUser.id,
-            name: fetchedUser.name,
-            role: contract.role
-          };
+        if (contract.userId === user?.id) {
+          setUserContract(contract);
         }
+        return {
+          id: fetchedUser.id,
+          name: fetchedUser.name,
+          role: contract.role
+        };
       }));
       setPartners(partnersNames.filter((partner): partner is Partner => partner !== undefined));
     } catch (error) {
@@ -91,29 +95,36 @@ export function BoatDetails() {
 
         <Text style={styles.boatName}>{boat.name}</Text>
 
-        <View style={styles.form}>
-          <TextInput
-            title="Partner email"
-            placeholder="joe@email.com"
-            onChangeText={setEmail}
-            value={email}
-          />
-
-          <Button title="Add partner" onPress={() => handleAddPartner(email)} disabled={email.length === 0} />
-        </View>
-
         <View style={styles.partnersContainer}>
-          <Text style={styles.partnersTitle}>Partners</Text>
+          <View style={styles.spacedRow}>
+            <Text style={styles.partnersTitle}>Partners ({partners.length}/{boat.capacity})</Text>
+          </View>
           <View style={styles.partnersList}>
+            {userContract?.role === "admin" && (
+              <View style={styles.partnerInputContainer}>
+                <TextInput
+                  placeholder="Enter partner email"
+                  value={email}
+                  onChangeText={setEmail}
+                  style={styles.partnerInput}
+                />
+                <Pressable onPress={() => handleAddPartner(email)} style={styles.addPartnerButton}>
+                  <Plus size={20} color={"black"} />
+                </Pressable>
+              </View>
+            )}
             {partners.map((partner, index) => (
               <View style={styles.partnerItem} key={index}>
                 <View style={styles.partnerInfo}>
                   {partner.role === 'admin' ? (
                     <Crown size={20} color={"black"}></Crown>
                   ) : (<User size={20} color={"black"} />)}
-                  <Text>{partner.name}</Text>
+                  <Text style={styles.partnerName}>{partner.name}</Text>
+                  {partner.id === user?.id && (
+                    <Text style={styles.detailText}>(You)</Text>
+                  )}
                 </View>
-                {partner.role !== 'admin' && (
+                {userContract?.role === "admin" && user?.id !== partner.id && (
                   <Pressable onPress={() => handleRemovePartner(partner.id)} style={styles.removePartnerButton}>
                     <Trash2 size={20} color={"black"} />
                   </Pressable>

@@ -12,6 +12,7 @@ export const colors = {
   orangeLightSecondary: "#FFF3E0",
 
   grayDark: "#595959",
+  grayMedium: "#9E9E9E",
   grayLight: "#EAEAEA", // Use this later for past reservation background colors
   grayBorder: "#CCCCCC", // Subtle border color for better visibility
   white: "#FFFFFF",
