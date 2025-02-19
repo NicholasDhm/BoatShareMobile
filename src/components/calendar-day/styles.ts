@@ -23,11 +23,14 @@ export const styles = StyleSheet.create({
   dayText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: colors.grayDark,
   },
   otherMonth: {
     opacity: 0.3,
   },
+  pastDate: {
+    backgroundColor: colors.grayLight,
+  }
 });
 
 export const getBackgroundColor = (
