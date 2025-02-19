@@ -1,33 +1,12 @@
 import { Text, Pressable, View } from "react-native";
 import { CalendarDayProps } from "../../@types/calendar-day";
 import { styles, getBackgroundColor } from "./styles";
-import { Reservation } from "../../@types/reservation";
 import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, AlertCircle, X } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
-import { useInfo } from "../../contexts/info";
 
-function parseDate(dateString: string) {
-  if (!dateString) return 0;
-  const [date, time] = dateString.split(' ');
-  return new Date(`${date}T${time}Z`).getTime();
-};
-
-export function getFirstReservation(reservations: Reservation[]) {
-  if (!reservations || reservations.length === 0) return null;
-  return reservations.reduce((earliest, current) => {
-    return parseDate(earliest.createdAt) < parseDate(current.createdAt)
-      ? earliest
-      : current;
-  });
-}
-
-export function CalendarDay({ day, month, year, reservations, currentMonth, onPress }: CalendarDayProps) {
-  const { user, currentUserReservations } = useInfo();
-
-  const isOtherMonth = month !== currentMonth;
-  const firstReservation = getFirstReservation(reservations);
-  const currentUserHasReservation = reservations.some(r => currentUserReservations.some(cur => cur.id === r.id));
+export function CalendarDay({ day, month, year, currentMonth, isReserved, type, status, onPress }: CalendarDayProps) {
+  const isCurrentMonth = month === currentMonth;
 
   //Verify if date is past today and disable date
   const today = new Date();
@@ -36,20 +15,19 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
   const isPast = dateToCompare < today;
 
   function getReservationStyle() {
-    if (isPast && !isOtherMonth) {
+    if (isPast && isCurrentMonth) {
       return [styles.pastDays];
     }
 
     const baseStyles = [
-      isOtherMonth && styles.otherMonth,
+      !isCurrentMonth && styles.otherMonth,
     ];
 
-    if (!firstReservation || !user) {
+    if (!isReserved || type === null) {
       return baseStyles;
     }
-
     const reservationStyle = {
-      backgroundColor: getBackgroundColor(firstReservation.type, currentUserHasReservation),
+      backgroundColor: getBackgroundColor(type, status !== null),
     };
 
     return [...baseStyles, reservationStyle];
@@ -59,11 +37,11 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
     if (isPast) {
       return <X size={10} color={colors.grayDark} strokeWidth={0} />;
     }
-    if (!firstReservation || !currentUserHasReservation) {
+    if (!isReserved || status === null) {
       return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
     }
 
-    switch (firstReservation.status) {
+    switch (status) {
       case ReservationStatus.CONFIRMED:
         return <Check size={12} color={colors.green} strokeWidth={5} />;
       case ReservationStatus.PENDING:

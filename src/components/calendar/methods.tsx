@@ -1,11 +1,31 @@
 import { CalendarDayProps } from "../../@types/calendar-day";
 import { Reservation } from "../../@types/reservation";
+import { ReservationStatus } from "../../@types/reservation-status";
+import { ReservationType } from "../../@types/reservation-type";
+import { useInfo } from "../../contexts/info";
+
+
+function parseDate(dateString: string) {
+  if (!dateString) return 0;
+  const [date, time] = dateString.split(' ');
+  return new Date(`${date}T${time}Z`).getTime();
+};
+
+export function getFirstReservation(reservations: Reservation[]) {
+  if (!reservations || reservations.length === 0) return null;
+  return reservations.reduce((earliest, current) => {
+    return parseDate(earliest.createdAt) < parseDate(current.createdAt)
+      ? earliest
+      : current;
+  });
+}
 
 export function generateCalendar(
   currentYear: number,
   currentMonth: number,
   reservations: Reservation[]
 ): CalendarDayProps[] {
+  const { currentUserReservations } = useInfo();
   const reservationDict: { [key: string]: Reservation[] } = {};
 
   // Normalize dates with explicit timezone handling
@@ -51,15 +71,36 @@ export function generateCalendar(
       const dateKey = `${month}/${day}/${year}`;
       const reservations = reservationDict[dateKey] || [];
 
-      daysOfMonth.push({
+      const firstReservation = getFirstReservation(reservations);
+      const currentUserHasReservation = reservations.some(r => currentUserReservations.some(cur => cur.id === r.id));
+      let type: ReservationType | null = null;
+      let status: ReservationStatus | null = null;
+
+      if (currentUserHasReservation) {
+        const userReservation = reservations.find(r => currentUserReservations.some(cur => cur.id === r.id));
+        if (userReservation) {
+          type = userReservation.type;
+          status = userReservation.status;
+        }
+      } else if (firstReservation && firstReservation.status === ReservationStatus.CONFIRMED) {
+        type = null;
+        status = null;
+      } else {
+        type = ReservationType.SUBSTITUTION;
+        status = null;
+      }
+      const calendarDay: CalendarDayProps = {
         day,
         month,
         year,
-        isReserved: reservations.length > 0,
-        reservations,
         currentMonth,
-      });
+        isReserved: reservations.length > 0,
+        type: type,
+        status: status,
+        reservations: reservations,
+      };
 
+      daysOfMonth.push(calendarDay);
       currentDay++;
     }
   }
