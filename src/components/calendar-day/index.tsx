@@ -36,8 +36,8 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
   const isPast = dateToCompare < today;
 
   function getReservationStyle() {
-    if (isPast) {
-      return [styles.pastDate];
+    if (isPast && !isOtherMonth) {
+      return [styles.pastDays];
     }
 
     const baseStyles = [
@@ -57,7 +57,7 @@ export function CalendarDay({ day, month, year, reservations, currentMonth, onPr
 
   function getStatusIcon() {
     if (isPast) {
-      return <X size={10} color={colors.grayDark} strokeWidth={2} />;
+      return <X size={10} color={colors.grayDark} strokeWidth={0} />;
     }
     if (!firstReservation || !currentUserHasReservation) {
       return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;

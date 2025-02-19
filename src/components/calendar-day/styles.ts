@@ -28,9 +28,9 @@ export const styles = StyleSheet.create({
   otherMonth: {
     opacity: 0.3,
   },
-  pastDate: {
-    backgroundColor: colors.grayLight,
-  }
+  pastDays: {
+    backgroundColor: colors.grayLightSecondary,
+  },
 });
 
 export const getBackgroundColor = (
