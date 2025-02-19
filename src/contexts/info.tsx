@@ -20,6 +20,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [currentUserContracts, setCurrentUserContracts] = useState<Contract[]>([]);
   const [currentUserReservations, setCurrentUserReservations] = useState<Reservation[]>([]);
+  const [currentUserLegacyReservations, setCurrentUserLegacyReservations] = useState<Reservation[]>([]);
   const [currentUserBoats, setCurrentUserBoats] = useState<Boat[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [boatSelectedInDropdown, setBoatSelectedInDropdown] = useState<Boat | null>(null);
@@ -72,8 +73,11 @@ export function InfoProvider({ children }: InfoProviderProps) {
   // This is used to fetch the reservations for the current user and display them in the Profile screen
   async function fetchReservations() {
     if (user) {
-      const newUserReservations = await reservationsApi.getReservationsByUserId(user.id);
-      setCurrentUserReservations(newUserReservations);
+      const newUserActiveReservations = await reservationsApi.getActiveReservationsByUserId(user.id);
+      setCurrentUserReservations(newUserActiveReservations);
+
+      const newUserLegacyReservations = await reservationsApi.getLegacyReservationsByUserId(user.id);
+      setCurrentUserLegacyReservations(newUserLegacyReservations);
     }
   }
 
@@ -121,6 +125,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       signUp,
       currentUserContracts,
       currentUserReservations,
+      currentUserLegacyReservations,
       currentUserBoats,
       boatSelectedInDropdown,
       setBoatSelectedInDropdown,

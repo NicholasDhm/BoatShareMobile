@@ -9,7 +9,7 @@ import { SvgIcon } from "../../components/svg";
 import { Boat } from "../../@types/boat";
 
 export function Profile() {
-  const { signOut, user, currentUserBoats, currentUserReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
+  const { signOut, user, currentUserBoats, currentUserReservations, currentUserLegacyReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
 
   // Fetch data from local storage when the screen is focused
@@ -96,7 +96,7 @@ export function Profile() {
 
           <View style={styles.dataContainer}>
             <View style={styles.row}>
-              <Text style={styles.dataContainerTitle}>Your Reservations</Text>
+              <Text style={styles.dataContainerTitle}>Your active reservations</Text>
             </View>
 
             {/* show all reservations that the user has */}
@@ -120,9 +120,38 @@ export function Profile() {
               <Text style={styles.text}>You don't have any reservations</Text>
             )}
           </View>
+
+          {/* Show all legacy reservations */}
+          <View style={styles.dataContainer}>
+            <View style={styles.row}>
+              <Text style={styles.dataContainerTitle}>Your legacy reservations</Text>
+            </View>
+
+            {currentUserLegacyReservations.length > 0 ? (
+
+              currentUserLegacyReservations.map((reservation) => {
+                const contract = currentUserContracts.find(contract =>
+                  contract.id === reservation.contractId
+                );
+                const boat = currentUserBoats.find(b => b.id === contract?.boatId);
+                return (
+                  <View key={reservation.id} style={styles.row}>
+                    <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
+                    <Text style={styles.text}>{reservation.date}</Text>
+                    <Text style={styles.boatReservationName}>
+                      {boat?.name}
+                    </Text>
+                  </View>
+                );
+              })
+
+            ) : (
+              <Text style={styles.text}>You don't have any legacy reservations</Text>
+            )}
+          </View>
         </View>
       </View>
-      {/* <History></History> */}
+
     </ScrollView>
   );
 }

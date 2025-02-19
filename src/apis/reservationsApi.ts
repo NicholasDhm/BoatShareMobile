@@ -40,10 +40,26 @@ export const reservationsApi = {
     return response.data.legacyReservations;
   },
 
+  async getLegacyReservationsByUserId(userId: string): Promise<Reservation[]> {
+    const response = await api.get(`/reservations/legacy/user/${userId}`);
+    if (response.status!== 200) {
+      throw new Error(response.data.message);
+    }
+    return response.data.reservations;
+  },
+
   // Fetch all reservations by user id
   async getReservationsByUserId(userId: string): Promise<Reservation[]> {
     const response = await api.get(`/reservations/user/${userId}`);
     if (response.status !== 200) {
+      throw new Error(response.data.message);
+    }
+    return response.data.reservations;
+  },
+
+  async getActiveReservationsByUserId(userId: string): Promise<Reservation[]> {
+    const response = await api.get(`/reservations/active/user/${userId}`);
+    if (response.status!== 200) {
       throw new Error(response.data.message);
     }
     return response.data.reservations;

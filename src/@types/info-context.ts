@@ -7,6 +7,7 @@ export type InfoContextData = {
   currentUserContracts: Contract[];
   currentUserReservations: Reservation[];
   currentBoatReservations: Reservation[];
+  currentUserLegacyReservations: Reservation[];
   currentUserBoats: Boat[];
   boatSelectedInDropdown: Boat | null;
   user: User | null;
