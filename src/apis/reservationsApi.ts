@@ -90,10 +90,9 @@ export const reservationsApi = {
     }
   },
 
-  // Update reservation status
-  async updateReservationStatus(id: string, status: string): Promise<void> {
-    const response = await api.put(`/reservations/${id}/status`, { status });
-    if (response.status !== 200) {
+  async confirmReservation(id: string): Promise<void> {
+    const response = await api.put(`/reservations/confirm/${id}`);
+    if (response.status!== 200) {
       throw new Error(response.data.message);
     }
   },

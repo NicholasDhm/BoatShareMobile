@@ -138,7 +138,7 @@ export function ReservationInfo() {
   async function handleConfirmReservation() {
     try {
       if (activeReservation) {
-        // await reservationsApi.confirmReservation(activeReservation.id);
+        await reservationsApi.confirmReservation(activeReservation.id);
         await fetchReservationsForCurrentBoat();
         await fetchReservations();
         Alert.alert("Reservation confirmed successfully");
