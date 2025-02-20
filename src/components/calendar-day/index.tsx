@@ -7,12 +7,19 @@ import { ReservationStatus } from "../../@types/reservation-status";
 
 export function CalendarDay({ day, month, year, currentMonth, isReserved, type, status, onPress }: CalendarDayProps) {
   const isCurrentMonth = month === currentMonth;
+  let otherUserHasConfirmedReservation = false;
+
+  console.log(day, month, year, isReserved, type, status)
 
   //Verify if date is past today and disable date
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const dateToCompare = new Date(year, month - 1, day);
   const isPast = dateToCompare < today;
+
+  if (status === null && type === null) {
+    otherUserHasConfirmedReservation = true;
+  }
 
   function getReservationStyle() {
     if (isPast && isCurrentMonth) {
@@ -37,7 +44,7 @@ export function CalendarDay({ day, month, year, currentMonth, isReserved, type, 
     if (isPast) {
       return <X size={10} color={colors.grayDark} strokeWidth={0} />;
     }
-    if (!isReserved || status === null) {
+    if (!isReserved) {
       return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
     }
 
@@ -48,6 +55,8 @@ export function CalendarDay({ day, month, year, currentMonth, isReserved, type, 
         return <Clock2 size={10} color={colors.grayDark} strokeWidth={3} />;
       case ReservationStatus.UNCONFIRMED:
         return <AlertCircle size={12} color={colors.redPrimary} strokeWidth={3} />;
+      case null:
+        return <X size={10} color={colors.grayDark} strokeWidth={5} />;
       default:
         return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
     }
