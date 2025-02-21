@@ -14,6 +14,7 @@ import { useInfo } from "../../contexts/info";
 import { Contract } from "../../@types/contract";
 
 import { Plus, RectangleVertical } from "lucide-react-native";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 
@@ -30,6 +31,15 @@ export function BoatDetails() {
   const [email, setEmail] = useState<string>("");
   const { boat } = useRoute<BoatDetailsRouteProp>().params;
   const navigation = useNavigation<StackNavigatorProps>();
+
+  // Animation stuff
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
 
   function handleGoBack() {
     navigation.goBack();
@@ -79,6 +89,13 @@ export function BoatDetails() {
     }
   }
 
+  function addPressIn() {
+    scale.value = withSpring(0.8);
+  }
+  function addPressOut() {
+    scale.value = withSpring(1);
+  }
+
   useEffect(() => {
     fetchPartners();
   }, []);
@@ -123,9 +140,11 @@ export function BoatDetails() {
                   onChangeText={setEmail}
                   style={styles.partnerInput}
                 />
-                <Pressable onPress={() => handleAddPartner(email)} style={styles.addPartnerButton}>
-                  <Plus size={20} color={"black"} />
-                </Pressable>
+                <Animated.View style={[styles.addPartnerButton, animatedStyle]}>
+                  <Pressable onPress={() => handleAddPartner(email)} onPressIn={addPressIn} onPressOut={addPressOut}>
+                    <Plus size={20} color={"black"} />
+                  </Pressable>
+                </Animated.View>
               </View>
             )}
             {partners.map((partner, index) => (

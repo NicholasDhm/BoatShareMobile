@@ -13,13 +13,13 @@ type DropdownListProps = {
 
 export function DropdownList({ list, onSelect }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
+  const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
+
   // Animation stuff
   const rotation = useSharedValue(270);
   const opacity = useSharedValue(0);
   const offset = useSharedValue(0);
   const scale = useSharedValue(1);
-
-  const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
