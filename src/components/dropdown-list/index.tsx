@@ -17,12 +17,12 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
   const rotation = useSharedValue(270);
   const opacity = useSharedValue(0);
   const offset = useSharedValue(0);
+  const disableDropdown = useSharedValue(false);
+  const scale = useSharedValue(1);
 
   const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
 
   function handlePress() {
-    setViewDropdown(!viewDropdown);
-
     rotation.value = withSpring(
       viewDropdown ? 270 : 360,
       {
@@ -33,16 +33,31 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
     opacity.value = withTiming(
       viewDropdown ? 0 : 1,
       {
-        duration: 300,
+        duration: 200,
       }
     );
     offset.value = withSpring(
-      viewDropdown ? -15 : 0,
+      viewDropdown ? -5 : 0,
       {
         stiffness: 300,
         damping: 20,
       }
     );
+    disableDropdown.value = Boolean(withTiming(
+      viewDropdown ? 1 : 0,
+      {
+        duration: 300,
+      }
+    ));
+    scale.value = withSpring(
+      viewDropdown ? 0.9 : 1,
+      {
+        stiffness: 300,
+        damping: 20,
+      }
+    );
+
+    setViewDropdown(!viewDropdown);
   }
 
   function handleSelect(item: Boat) {
@@ -60,7 +75,8 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
   const animatedDropdownListStyle = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,
-      transform: [{ translateY: offset.value }],
+      transform: [{ translateY: offset.value }, { scale: scale.value }],
+      display: disableDropdown ? "flex" : "none",
     };
   });
 
@@ -82,7 +98,7 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
 
       </Pressable>
 
-      {viewDropdown && list.length > 0 ? (
+      {list.length > 0 ? (
         <Animated.View style={[s.dropdownList, animatedDropdownListStyle]}>
           <ScrollView style={s.scrollView} nestedScrollEnabled>
             {list.map((item, index) => (
