@@ -4,6 +4,8 @@ import { ChevronRight } from "lucide-react-native";
 import { useState } from "react";
 import { Boat } from "../../@types/boat";
 import { useInfo } from "../../contexts/info";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+
 type DropdownListProps = {
   list: Boat[];
   onSelect?: (boat: Boat | null) => void;
@@ -11,11 +13,21 @@ type DropdownListProps = {
 
 export function DropdownList({ list, onSelect }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
+  // Animation stuff
+  const rotation = useSharedValue(270);
 
   const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
+
+    rotation.value = withSpring(
+      viewDropdown ? 360 : 270,
+      {
+        stiffness: 200,
+        damping: 15,
+      }
+    );
   }
 
   function handleSelect(item: Boat) {
@@ -24,6 +36,13 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
     handlePress();
   }
 
+  const animatedContainerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: rotation.value + "deg" }],
+    };
+  });
+
+
   return (
     <View style={s.dropdown}>
       <Pressable
@@ -31,12 +50,14 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
         onPress={list.length > 0 ? handlePress : undefined}
       >
         <Text style={s.placeholder}>{boatSelectedInDropdown?.name || "No boats"}</Text>
+        <Animated.View style={animatedContainerStyle}>
+          <ChevronRight
+            style={s.chevron}
+            size={20}
+            color={"black"}
+          />
+        </Animated.View>
 
-        <ChevronRight
-          style={viewDropdown ? s.chevron : undefined}
-          size={20}
-          color={"black"}
-        />
       </Pressable>
 
       {viewDropdown && list.length > 0 ? (
