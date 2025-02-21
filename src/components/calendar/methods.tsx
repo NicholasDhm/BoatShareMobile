@@ -85,10 +85,14 @@ export function generateCalendar(
       } else if (firstReservation && firstReservation.status === ReservationStatus.CONFIRMED) {
         type = null;
         status = null;
-      } else {
+      } else if (firstReservation) {
         type = ReservationType.SUBSTITUTION;
         status = null;
+      } else {
+        type = null;
+        status = null;
       }
+      
       const calendarDay: CalendarDayProps = {
         day,
         month,

@@ -31,7 +31,7 @@ export function ReservationInfo() {
   const reservedByCurrentUser = activeReservation && currentUserReservations.some(cur => cur.id === activeReservation.id);
 
   let otherUserHasConfirmedReservation = false
-  if (calendarDay.status === null && calendarDay.type === null) {
+  if (calendarDay.status === null && calendarDay.type === null && calendarDay.isReserved) {
     otherUserHasConfirmedReservation = true;
   }
 
@@ -49,7 +49,7 @@ export function ReservationInfo() {
   const type = activeReservation?.type;
 
   if (activeReservation) {
-    quotaType = !currentUserHasReservation ? activeReservation.type : ReservationType.SUBSTITUTION;
+    quotaType = !currentUserHasReservation ? ReservationType.SUBSTITUTION : activeReservation.type;
     primaryColor = reservedByCurrentUser ? type === ReservationType.STANDARD ? colors.bluePrimary :
       type === ReservationType.SUBSTITUTION ? colors.redPrimary :
         type === ReservationType.CONTINGENCY ? colors.orangePrimary

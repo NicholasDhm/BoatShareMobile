@@ -48,6 +48,10 @@ export function CalendarDay({ day, month, year, currentMonth, isReserved, type, 
       return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
     }
 
+    if (type && status === null) {
+      return <Dot size={10} color={colors.grayDark} strokeWidth={8} />;
+    }
+
     switch (status) {
       case ReservationStatus.CONFIRMED:
         return <Check size={12} color={colors.green} strokeWidth={5} />;
