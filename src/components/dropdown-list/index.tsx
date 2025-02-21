@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react-native";
 import { useState } from "react";
 import { Boat } from "../../@types/boat";
 import { useInfo } from "../../contexts/info";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 type DropdownListProps = {
   list: Boat[];
@@ -15,6 +15,8 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
   // Animation stuff
   const rotation = useSharedValue(270);
+  const opacity = useSharedValue(0);
+  const offset = useSharedValue(0);
 
   const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
 
@@ -22,10 +24,23 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
     setViewDropdown(!viewDropdown);
 
     rotation.value = withSpring(
-      viewDropdown ? 360 : 270,
+      viewDropdown ? 270 : 360,
       {
-        stiffness: 200,
+        stiffness: 300,
         damping: 15,
+      }
+    )
+    opacity.value = withTiming(
+      viewDropdown ? 0 : 1,
+      {
+        duration: 300,
+      }
+    );
+    offset.value = withSpring(
+      viewDropdown ? -15 : 0,
+      {
+        stiffness: 300,
+        damping: 20,
       }
     );
   }
@@ -39,6 +54,13 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
       transform: [{ rotate: rotation.value + "deg" }],
+    };
+  });
+
+  const animatedDropdownListStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [{ translateY: offset.value }],
     };
   });
 
@@ -61,7 +83,7 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
       </Pressable>
 
       {viewDropdown && list.length > 0 ? (
-        <View style={s.dropdownList}>
+        <Animated.View style={[s.dropdownList, animatedDropdownListStyle]}>
           <ScrollView style={s.scrollView} nestedScrollEnabled>
             {list.map((item, index) => (
               <Pressable
@@ -86,7 +108,7 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
               </Pressable>
             ))}
           </ScrollView>
-        </View>
+        </Animated.View>
       ) : null}
     </View>
   );
