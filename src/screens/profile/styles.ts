@@ -56,7 +56,6 @@ export const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
   },
   boatName: {
     marginInline: 16,
@@ -79,5 +78,9 @@ export const styles = StyleSheet.create({
     padding: 32,
     gap: 20,
   },
+  reservationList: {
+    gap: 10,
+    paddingTop: 10,
+  }
 });
 

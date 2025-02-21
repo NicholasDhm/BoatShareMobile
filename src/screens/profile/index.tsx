@@ -71,7 +71,8 @@ export function Profile() {
             {/* show all boats that the user has */}
             {currentUserBoats.length > 0 ? (
               currentUserBoats.map((boat) => (
-                <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}>
+                <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
+                  style={[styles.row, { justifyContent: 'space-between' }]}>
                   <View style={styles.row}>
                     <SvgIcon
                       icon="boat"
@@ -85,6 +86,7 @@ export function Profile() {
                     <User size={16} color="black" style={styles.userIcon} />
                     <Text style={styles.text}>{boat.capacity}</Text>
                   </View>
+                  {/* <Info size={16} color="black" style={styles.userIcon} /> */}
                 </TouchableOpacity>
               ))
             ) : (
@@ -98,27 +100,30 @@ export function Profile() {
             <View style={styles.row}>
               <Text style={styles.dataContainerTitle}>Your active reservations</Text>
             </View>
+            <Text style={styles.text}>active - in queue - legacy</Text>
 
-            {/* show all reservations that the user has */}
-            {currentUserReservations.length > 0 ? (
-              currentUserReservations.map((reservation) => {
-                const contract = currentUserContracts.find(contract =>
-                  contract.id === reservation.contractId
-                );
-                const boat = currentUserBoats.find(b => b.id === contract?.boatId);
-                return (
-                  <View key={reservation.id} style={styles.row}>
-                    <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
-                    <Text style={styles.text}>{reservation.date}</Text>
-                    <Text style={styles.boatReservationName}>
-                      {boat?.name}
-                    </Text>
-                  </View>
-                );
-              })
-            ) : (
-              <Text style={styles.text}>You don't have any reservations</Text>
-            )}
+            <View style={styles.reservationList}>
+              {/* show all reservations that the user has */}
+              {currentUserReservations.length > 0 ? (
+                currentUserReservations.map((reservation) => {
+                  const contract = currentUserContracts.find(contract =>
+                    contract.id === reservation.contractId
+                  );
+                  const boat = currentUserBoats.find(b => b.id === contract?.boatId);
+                  return (
+                    <View key={reservation.id} style={styles.row}>
+                      <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
+                      <Text style={styles.text}>{reservation.date}</Text>
+                      <Text style={styles.boatReservationName}>
+                        {boat?.name}
+                      </Text>
+                    </View>
+                  );
+                })
+              ) : (
+                <Text style={styles.text}>You don't have any reservations</Text>
+              )}
+            </View>
           </View>
 
           {/* Show all legacy reservations */}
@@ -127,27 +132,29 @@ export function Profile() {
               <Text style={styles.dataContainerTitle}>Your legacy reservations</Text>
             </View>
 
-            {currentUserLegacyReservations.length > 0 ? (
+            <View style={styles.reservationList}>
+              {currentUserLegacyReservations.length > 0 ? (
 
-              currentUserLegacyReservations.map((reservation) => {
-                const contract = currentUserContracts.find(contract =>
-                  contract.id === reservation.contractId
-                );
-                const boat = currentUserBoats.find(b => b.id === contract?.boatId);
-                return (
-                  <View key={reservation.id} style={styles.row}>
-                    <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
-                    <Text style={styles.text}>{reservation.date}</Text>
-                    <Text style={styles.boatReservationName}>
-                      {boat?.name}
-                    </Text>
-                  </View>
-                );
-              })
+                currentUserLegacyReservations.map((reservation) => {
+                  const contract = currentUserContracts.find(contract =>
+                    contract.id === reservation.contractId
+                  );
+                  const boat = currentUserBoats.find(b => b.id === contract?.boatId);
+                  return (
+                    <View key={reservation.id} style={styles.row}>
+                      <CalendarCheck size={24} color="black" style={{ marginRight: 12 }} />
+                      <Text style={styles.text}>{reservation.date}</Text>
+                      <Text style={styles.boatReservationName}>
+                        {boat?.name}
+                      </Text>
+                    </View>
+                  );
+                })
 
-            ) : (
-              <Text style={styles.text}>You don't have any legacy reservations</Text>
-            )}
+              ) : (
+                <Text style={styles.text}>You don't have any legacy reservations</Text>
+              )}
+            </View>
           </View>
         </View>
       </View>
