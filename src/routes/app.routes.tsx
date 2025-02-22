@@ -9,7 +9,7 @@ import {
 } from "@react-navigation/stack";
 import { Dashboard } from "../screens/dashboard";
 import { Profile } from "../screens/profile";
-import { ReservationTypeInfo } from "../screens/reservation-type-info";
+import { ReservationDescription } from "../screens/reservation-description";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CalendarDays, User } from "lucide-react-native";
 import { ReservationInfo } from "../screens/reservation-info";
@@ -29,7 +29,7 @@ type TabRoutes = {
 
 export type StackRoutes = {
   tabNavigator: undefined;
-  reservationTypeInfo: {
+  reservationDescription: {
     reservationType: ReservationType;
   };
   reservationInfo: {
@@ -101,8 +101,8 @@ export function AppRoutes() {
         component={TabNavigator}
       />
       <Stack.Screen
-        name="reservationTypeInfo"
-        component={ReservationTypeInfo}
+        name="reservationDescription"
+        component={ReservationDescription}
       />
       <Stack.Screen
         name="reservationInfo"

@@ -35,7 +35,7 @@ export function Dashboard() {
   }
 
   function handleInfoIconPress(type: ReservationType) {
-    navigation.navigate("reservationTypeInfo", { reservationType: type });
+    navigation.navigate("reservationDescription", { reservationType: type });
   }
 
   useEffect(() => {
