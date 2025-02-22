@@ -4,7 +4,7 @@ import { styles, getBackgroundColor } from "./styles";
 import { colors } from "../../themes/colors";
 import { Dot, Check, Clock2, AlertCircle, X } from "lucide-react-native";
 import { ReservationStatus } from "../../@types/reservation-status";
-import Animated, { FadeIn, FadeInDown, FadeInUp, FadeOutDown } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 
 export function CalendarDay({ day, month, year, currentMonth, isReserved, type, status, onPress }: CalendarDayProps) {
   const isCurrentMonth = month === currentMonth;
@@ -68,7 +68,7 @@ export function CalendarDay({ day, month, year, currentMonth, isReserved, type, 
   }
 
   return (
-    <Animated.View entering={FadeInUp.delay(100)} exiting={FadeOutDown} style={styles.dayWrapper}>
+    <Animated.View entering={FadeInUp.delay(100)} exiting={FadeOutUp} style={styles.dayWrapper}>
       <Pressable
         onPress={onPress}
         disabled={isPast}

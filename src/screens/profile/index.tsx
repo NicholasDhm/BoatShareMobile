@@ -75,8 +75,8 @@ export function Profile() {
             <View style={styles.dataContainerContent}>
 
               {currentUserBoats.length > 0 ? (
-                currentUserBoats.map((boat) => (
-                  <AnimatedTouchableOpacity entering={FadeInUp} key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
+                currentUserBoats.map((boat, index) => (
+                  <AnimatedTouchableOpacity entering={FadeInUp.delay(100*index)} key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
                     style={styles.dataContainerItem}>
                     <View style={styles.boatName}>
                       <SvgIcon
