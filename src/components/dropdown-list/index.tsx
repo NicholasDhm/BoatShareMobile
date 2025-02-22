@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react-native";
 import { useState } from "react";
 import { Boat } from "../../@types/boat";
 import { useInfo } from "../../contexts/info";
-import Animated, { FadeInUp, FadeOut, FadeOutDown, FadeOutUp, FlipInEasyX, FlipOutEasyX, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOut, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 type DropdownListProps = {
   list: Boat[];
@@ -17,9 +17,6 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
 
   // Animation stuff
   const rotation = useSharedValue(270);
-  // const opacity = useSharedValue(0);
-  // const offset = useSharedValue(0);
-  // const scale = useSharedValue(1);
 
   function handlePress() {
     setViewDropdown(!viewDropdown);
@@ -31,26 +28,6 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
         damping: 15,
       }
     )
-    // opacity.value = withTiming(
-    //   viewDropdown ? 0 : 1,
-    //   {
-    //     duration: 200,
-    //   }
-    // );
-    // offset.value = withSpring(
-    //   viewDropdown ? -5 : 0,
-    //   {
-    //     stiffness: 300,
-    //     damping: 20,
-    //   }
-    // );
-    // scale.value = withSpring(
-    //   viewDropdown ? 0.9 : 1,
-    //   {
-    //     stiffness: 300,
-    //     damping: 20,
-    //   }
-    // );
 
   }
 
@@ -65,14 +42,6 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
       transform: [{ rotate: rotation.value + "deg" }],
     };
   });
-
-  // const animatedDropdownListStyle = useAnimatedStyle(() => {
-  //   return {
-  //     opacity: opacity.value,
-  //     transform: [{ translateY: offset.value }, { scale: scale.value }],
-  //   };
-  // });
-
 
   return (
     <View style={s.dropdown}>
