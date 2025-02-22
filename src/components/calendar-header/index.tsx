@@ -10,6 +10,8 @@ type CalendarHeaderProps = {
   onLeftPress: () => void;
 };
 
+const PressableAnimated = Animated.createAnimatedComponent(Pressable)
+
 export function CalendarHeader({
   onRightPress,
   onLeftPress,
@@ -53,11 +55,9 @@ export function CalendarHeader({
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.button, animatedButtonLeftStyle]}>
-        <Pressable onPress={onLeftPress} onPressIn={onPressInLeft} onPressOut={onPressOutLeft} hitSlop={15}>
-          <ArrowLeft size={16} color={"black"} />
-        </Pressable>
-      </Animated.View>
+      <PressableAnimated style={[styles.button, animatedButtonLeftStyle]} onPress={onLeftPress} onPressIn={onPressInLeft} onPressOut={onPressOutLeft} hitSlop={15}>
+        <ArrowLeft size={16} color={"black"} />
+      </PressableAnimated>
       <View style={styles.textContainer}>
         <Text style={styles.dateText}>{year}</Text>
         <Text style={styles.dateText}>{monthText}</Text>

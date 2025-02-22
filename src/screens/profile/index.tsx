@@ -69,31 +69,35 @@ export function Profile() {
             </View>
 
             {/* show all boats that the user has */}
-            {currentUserBoats.length > 0 ? (
-              currentUserBoats.map((boat) => (
-                <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
-                  style={[styles.row, { justifyContent: 'space-between' }]}>
-                  <View style={styles.row}>
-                    <SvgIcon
-                      icon="boat"
-                      size={26}
-                      color={colors.grayDark}
-                    />
-                    <Text style={styles.text && styles.boatName}>
-                      {boat.name}
-                    </Text>
+            <View style={styles.dataContainerContent}>
 
-                    <User size={16} color="black" style={styles.userIcon} />
-                    <Text style={styles.text}>{boat.capacity}</Text>
-                  </View>
-                  {/* <Info size={16} color="black" style={styles.userIcon} /> */}
-                </TouchableOpacity>
-              ))
-            ) : (
-              <View style={styles.boatContainer}>
-                <Text style={styles.text}>You don't have any boats yet</Text>
-              </View>
-            )}
+              {currentUserBoats.length > 0 ? (
+                currentUserBoats.map((boat) => (
+                  <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
+                    style={styles.dataContainerItem}>
+                    <View style={styles.boatName}>
+                      <SvgIcon
+                        icon="boat"
+                        size={26}
+                        color={colors.grayDark}
+                      />
+                      <Text style={styles.text}>
+                        {boat.name}
+                      </Text>
+                    </View>
+                    <View style={styles.boatCapacity}>
+                      <User size={16} color="black" />
+                      <Text style={styles.text}>{boat.capacity}</Text>
+                    </View>
+                    {/* <Info size={16} color="black" style={styles.userIcon} /> */}
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <View style={styles.boatContainer}>
+                  <Text style={styles.text}>You don't have any boats yet</Text>
+                </View>
+              )}
+            </ View>
           </View>
 
           <View style={styles.dataContainer}>

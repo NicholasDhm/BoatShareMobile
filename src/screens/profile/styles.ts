@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.grayLight,
   },
   dataContainer: {
-    padding: 15,
+    padding: 20,
     backgroundColor: colors.white,
     borderRadius: 10,
     gap: 2,
@@ -21,7 +21,19 @@ export const styles = StyleSheet.create({
   dataContainerTitle: {
     fontSize: 20,
   },
+  dataContainerContent: {
+    gap: 8
+  },
+  dataContainerItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: 16,
 
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: colors.grayBorder,
+  },
   text: {
     fontSize: 16,
     color: colors.grayDark,
@@ -35,18 +47,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  dropdownHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dropdownTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dropdownTitle: {
-    fontSize: 16,
-  },
   rowSpaced: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -58,11 +58,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boatName: {
-    marginInline: 16,
-    fontSize: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
-  userIcon: {
-    marginRight: 4,
+  boatCapacity: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 12,
+
+    marginLeft: "auto"
   },
   headerContainer: {
     width: '100%',

@@ -24,6 +24,8 @@ type Partner = {
   role: string;
 }
 
+const PressableAnimated = Animated.createAnimatedComponent(Pressable)
+
 export function BoatDetails() {
   const { user } = useInfo();
   const [partners, setPartners] = useState<Partner[]>([]);
@@ -140,11 +142,9 @@ export function BoatDetails() {
                   onChangeText={setEmail}
                   style={styles.partnerInput}
                 />
-                <Animated.View style={[styles.addPartnerButton, animatedStyle]}>
-                  <Pressable onPress={() => handleAddPartner(email)} onPressIn={addPressIn} onPressOut={addPressOut}>
-                    <Plus size={20} color={"black"} />
-                  </Pressable>
-                </Animated.View>
+                <PressableAnimated style={[styles.addPartnerButton, animatedStyle]} onPress={() => handleAddPartner(email)} onPressIn={addPressIn} onPressOut={addPressOut}>
+                  <Plus size={20} color={"black"} />
+                </PressableAnimated>
               </View>
             )}
             {partners.map((partner, index) => (
