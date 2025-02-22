@@ -20,7 +20,7 @@ export function CreateBoat() {
   const [boatName, setBoatName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TabNavigatorProps>();
-  const { user, setBoatSelectedInDropdown, boatSelectedInDropdown, fetchBoats, fetchContracts } = useInfo();
+  const { user, setBoatSelectedInDropdown, fetchBoatContracts, boatSelectedInDropdown, fetchBoats, fetchUserContracts } = useInfo();
 
   function handleGoBack() {
     navigation.goBack();
@@ -45,10 +45,11 @@ export function CreateBoat() {
 
       if (!boatSelectedInDropdown) {
         setBoatSelectedInDropdown(newBoat);
+        fetchBoatContracts(newBoat.id);
       }
 
       await fetchBoats();
-      await fetchContracts();
+      await fetchUserContracts();
 
       Alert.alert("Success", "Boat created successfully!");
       navigation.goBack();

@@ -5,6 +5,7 @@ import { User } from "./user";
 
 export type InfoContextData = {
   currentUserContracts: Contract[];
+  currentBoatContracts: Contract[];
   currentUserReservations: Reservation[];
   currentBoatReservations: Reservation[];
   currentUserLegacyReservations: Reservation[];
@@ -18,6 +19,7 @@ export type InfoContextData = {
   setBoatSelectedInDropdown: (boat: Boat) => void;
   fetchReservations: () => Promise<void>;
   fetchBoats: () => Promise<void>;
-  fetchContracts: () => Promise<void>;
+  fetchUserContracts: () => Promise<void>;
+  fetchBoatContracts: (boatId: string) => Promise<void>;
   fetchReservationsForCurrentBoat: () => Promise<void>;
 };

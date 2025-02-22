@@ -19,6 +19,7 @@ const InfoContext = createContext<InfoContextData>({} as InfoContextData);
 export function InfoProvider({ children }: InfoProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [currentUserContracts, setCurrentUserContracts] = useState<Contract[]>([]);
+  const [currentBoatContracts, setCurrentBoatContracts] = useState<Contract[]>([]);
   const [currentUserReservations, setCurrentUserReservations] = useState<Reservation[]>([]);
   const [currentUserLegacyReservations, setCurrentUserLegacyReservations] = useState<Reservation[]>([]);
   const [currentUserBoats, setCurrentUserBoats] = useState<Boat[]>([]);
@@ -59,6 +60,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setIsLoading(true);
       setUser(null);
       setCurrentUserContracts([]);
+      setCurrentBoatContracts([]);
       setCurrentUserReservations([]);
       setCurrentUserBoats([]);
       setBoatSelectedInDropdown(null);
@@ -88,15 +90,24 @@ export function InfoProvider({ children }: InfoProviderProps) {
       setCurrentUserBoats(newUserBoats);
       if (boatSelectedInDropdown === null) {
         await setBoatSelectedInDropdown(newUserBoats[0]);
+        await fetchBoatContracts(newUserBoats[0].id);
         await fetchReservationsForCurrentBoat();
       }
     }
   }
 
-  async function fetchContracts() {
+  async function fetchUserContracts() {
     if (user) {
       const newUserContracts = await contractsApi.getContractsByUserId(user.id);
       setCurrentUserContracts(newUserContracts);
+    }
+  }
+
+  async function fetchBoatContracts(boatId: string) {
+    if (boatSelectedInDropdown) {
+      const newBoatContracts = await contractsApi.getContractsByBoatId(boatId);
+      setCurrentBoatContracts(newBoatContracts);
+      console.log(newBoatContracts);
     }
   }
 
@@ -112,7 +123,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
     if (user) {
       fetchBoats();
       fetchReservations();
-      fetchContracts();
+      fetchUserContracts();
     }
   }, [user]);
 
@@ -124,6 +135,7 @@ export function InfoProvider({ children }: InfoProviderProps) {
       signOut,
       signUp,
       currentUserContracts,
+      currentBoatContracts,
       currentUserReservations,
       currentUserLegacyReservations,
       currentUserBoats,
@@ -132,7 +144,8 @@ export function InfoProvider({ children }: InfoProviderProps) {
       currentBoatReservations,
       fetchReservations,
       fetchBoats,
-      fetchContracts,
+      fetchUserContracts,
+      fetchBoatContracts,
       fetchReservationsForCurrentBoat,
     }}>
       {children}

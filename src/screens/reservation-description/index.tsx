@@ -133,19 +133,6 @@ export function ReservationDescription() {
         </View>
 
         { renderReservationInfo() }
-
-        <View style={styles.calendarInfoBox}>
-          <Text style={styles.subTitle}>Calendar Status</Text>
-          <Text style={styles.description}>
-            <Text style={{fontWeight: 'bold'}}>Blue:</Text> Available{"\n"}
-            <Text style={{fontWeight: 'bold'}}>Red:</Text> Available for Substitution{"\n"}
-            <Text style={{fontWeight: 'bold'}}>Yellow:</Text> Available for Contingency
-            {"\n"}
-            <Text style={{fontWeight: 'bold'}}>Red dot:</Text> Confirmation Needed{"\n"}
-            <Text style={{fontWeight: 'bold'}}>Green dot:</Text> Confirmed Reservation
-            {"\n"}
-          </Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
