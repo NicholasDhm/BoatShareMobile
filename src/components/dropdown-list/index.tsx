@@ -13,7 +13,7 @@ type DropdownListProps = {
 
 export function DropdownList({ list, onSelect }: DropdownListProps) {
   const [viewDropdown, setViewDropdown] = useState(false);
-  const { boatSelectedInDropdown, setBoatSelectedInDropdown } = useInfo();
+  const { boatSelectedInDropdown, setBoatSelectedInDropdown, fetchBoatContracts } = useInfo();
 
   // Animation stuff
   const rotation = useSharedValue(270);
@@ -33,6 +33,7 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
 
   function handleSelect(item: Boat) {
     setBoatSelectedInDropdown(item);
+    fetchBoatContracts(item.id);
     onSelect?.(item);
     handlePress();
   }

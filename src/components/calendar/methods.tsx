@@ -11,7 +11,7 @@ function parseDate(dateString: string) {
   return new Date(`${date}T${time}Z`).getTime();
 };
 
-export function getFirstReservation(reservations: Reservation[]) {
+export function getFirstReservation(reservations: Reservation[] | undefined) {
   if (!reservations || reservations.length === 0) return null;
   return reservations.reduce((earliest, current) => {
     return parseDate(earliest.createdAt) < parseDate(current.createdAt)

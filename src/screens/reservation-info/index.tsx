@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Pressable, Alert } from "react-native";
 import { ChevronLeft } from "lucide-react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -12,40 +12,67 @@ import { reservationsApi } from "../../apis/reservationsApi";
 import { useInfo } from "../../contexts/info";
 import { contractsApi } from "../../apis/contractsApi";
 import { getFirstReservation } from "../../components/calendar/methods";
-import { Reservation } from "../../@types/reservation";
 import { ReservationStatus } from "../../@types/reservation-status";
+import { Reservation } from "../../@types/reservation";
+import { Contract } from "../../@types/contract";
+import { usersApi } from "../../apis/usersApi";
 
+// Type Definitions
 type ReservationInfoRouteProp = RouteProp<StackRoutes, 'reservationInfo'>;
+
+async function getActiveReservationOwner(reservation: Reservation | undefined, contracts: Contract[]) {
+  if (reservation && reservation.contractId) {
+    const contract = contracts.find(contract => contract.id === reservation.contractId);
+    if (contract) {
+      return usersApi.getUserById(contract.userId).then(user => {
+        if (user) {
+          return user.name;
+        } else {
+          return '';
+        }
+      });
+    }
+  }
+}
 
 export function ReservationInfo() {
   const navigation = useNavigation<StackNavigatorProps>();
   const route = useRoute<ReservationInfoRouteProp>();
-  const { user, currentUserReservations, boatSelectedInDropdown, fetchReservationsForCurrentBoat, fetchReservations, fetchContracts } = useInfo();
-
+  const { user, currentUserReservations, boatSelectedInDropdown, currentBoatContracts, fetchReservationsForCurrentBoat, fetchReservations } = useInfo();
+  const [reservationOwner, setReservationOwner] = useState("");
 
   const calendarDay = route.params.calendarDay;
-  let activeReservation: Reservation | null = null;
-  if (calendarDay.reservations) {
-    activeReservation = getFirstReservation(calendarDay.reservations);
-  }
+  const activeReservation = getFirstReservation(calendarDay.reservations);
   const reservedByCurrentUser = activeReservation && currentUserReservations.some(cur => cur.id === activeReservation.id);
 
   let otherUserHasConfirmedReservation = false
   if (calendarDay.status === null && calendarDay.type === null && calendarDay.isReserved) {
     otherUserHasConfirmedReservation = true;
-  }
+  }  
 
   const currentUserHasReservation = calendarDay.reservations?.some(reservation =>
     currentUserReservations.some(cur => cur.id === reservation.id)
   ) || false;
-  const queueCount = calendarDay.reservations?.length || 0;
+  
+  let queueCount = calendarDay.reservations?.length || 0;
+  if (activeReservation) {
+    queueCount -= 1
+  }
+  
+  useEffect(() => {
+    async function fetchReservationOwner() {
+      const owner = await getActiveReservationOwner(activeReservation!, currentBoatContracts);
+      setReservationOwner(owner || "");
+    }
+    fetchReservationOwner();
+  }, [activeReservation, currentBoatContracts]);
 
-  // const reservationOwner = activeReservation?.user?.name || "Unknown";
-
-  let quotaType = ReservationType.STANDARD;
+  // Define colors based on reservation type
   let primaryColor = colors.bluePrimary;
   let secondaryColor = colors.blueLight;
-
+  let quotaType = ReservationType.STANDARD;
+  
+  
   const type = activeReservation?.type;
 
   if (activeReservation) {
@@ -54,33 +81,34 @@ export function ReservationInfo() {
       type === ReservationType.SUBSTITUTION ? colors.redPrimary :
         type === ReservationType.CONTINGENCY ? colors.orangePrimary
           : colors.redPrimary
-      : colors.redPrimary;
+      : colors.bluePrimary;
     secondaryColor = reservedByCurrentUser ? type === ReservationType.STANDARD ? colors.blueLight :
       type === ReservationType.SUBSTITUTION ? colors.redLight :
         type === ReservationType.CONTINGENCY ? colors.orangeLight
           : colors.redLight
-      : colors.redLight;
+      : colors.grayLight;
   }
+
   const quotaTypeString = quotaType.charAt(0).toUpperCase() + quotaType.slice(1).toLowerCase();
 
+  
+  // Define status message
   let statusMessage = "This date is available for reservation";
   if (otherUserHasConfirmedReservation) {
-    statusMessage = "This date is already reserved";
-  }
-  else if (calendarDay.status === ReservationStatus.PENDING) {
-    statusMessage = "This date is pending the confirmation period";
-    if (!reservedByCurrentUser) {
-      statusMessage = "You're in queue for this date, you will be yours and you will be prompted to confirm if the owner cancels";
-    }
+    statusMessage = `This date is unavailable`;
+  } else if (calendarDay.status === ReservationStatus.PENDING) {
+    statusMessage = reservedByCurrentUser ? "This date is pending confirmation" : "You're in queue for this date";
   } else if (calendarDay.status === ReservationStatus.CONFIRMED) {
-    statusMessage = "This reservation is yours and it's already confirmed! Have a good trip!";
+    statusMessage = "Your reservation is confirmed! Have a good trip!";
   } else if (calendarDay.status === ReservationStatus.UNCONFIRMED) {
     statusMessage = "This date is awaiting confirmation";
   }
 
+  // Date Handling
   const now = new Date();
   const isToday = now.getFullYear() === calendarDay.year && now.getMonth() + 1 === calendarDay.month && now.getDate() === calendarDay.day;
   const isPastSixOClock = now.getHours() >= 18;
+  
   if (isToday && isPastSixOClock) {
     primaryColor = colors.orangePrimary;
     secondaryColor = colors.orangeLight;
@@ -96,6 +124,8 @@ export function ReservationInfo() {
   const pastConfirmedPeriod = now > confirmationEndDate;
   const confirmationMessage = "If you make this reservation, it will be automatically confirmed and you won't be able to cancel it."
 
+
+  // Action Handlers
   async function handleMakeReservation() {
     try {
       if (user && boatSelectedInDropdown) {
@@ -154,65 +184,99 @@ export function ReservationInfo() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: primaryColor }}>
-      <ScrollView style={styles.container}>
-        <View style={styles.subcontainer}>
-          <View style={styles.row}>
-            <Pressable onPress={() => navigation.goBack()}>
-              <ChevronLeft size={30} color={"black"} />
-            </Pressable>
-            <Text style={styles.title}>Reservation</Text>
-            <SvgIcon icon="boat" size={30} color={primaryColor} />
-          </View>
+      <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={styles.dataContainer}>
+          <View style={styles.subcontainer}>
+            <View style={styles.row}>
+              <Pressable onPress={() => navigation.goBack()}>
+                <ChevronLeft size={30} color={"black"} />
+              </Pressable>
+              <Text style={styles.title}>Reservation</Text>
+              <SvgIcon icon="boat" size={30} color={primaryColor} />
+            </View>
 
-          <View style={styles.infoBox}>
-            <Text style={styles.subTitle}>{date.toDateString()}</Text>
-          </View>
+            <View style={styles.infoBox}>
+              <Text style={styles.subTitle}>{date.toDateString()}</Text>
+            </View>
 
-          <View style={styles.infoBox}>
-            <Text style={styles.description}>
-              Confirmation window: {confirmationStartDate.toLocaleDateString()} - {confirmationEndDate.toLocaleDateString()}
-            </Text>
+            {!otherUserHasConfirmedReservation && (
+              <View style={styles.infoBox}>
+                <Text style={styles.description}>
+                  Confirmation window: {confirmationStartDate.toLocaleDateString()} - {confirmationEndDate.toLocaleDateString()}
+                </Text>
 
-            <Text style={styles.description}>
-              This reservation consumes a{" "}
-              <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
-                {quotaTypeString} Quota.
-              </Text>
-            </Text>
-          </View>
+                {!currentUserHasReservation && (
+                  <Text style={styles.description}>
+                    This reservation consumes a{" "}
+                    <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
+                      {quotaTypeString} Quota.
+                    </Text>
+                  </Text>
+                )}
+              </View>
+            )}
 
-          <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
-            <Text style={styles.subTitle}>Reservation Status</Text>
-            <Text style={styles.description}>
-              {statusMessage}
-            </Text>
-          </View>
-
-          {pastConfirmedPeriod && !currentUserHasReservation && !otherUserHasConfirmedReservation && (
-            <View style={[styles.infoBox, { backgroundColor: colors.orangeLight }]}>
+            <View style={[styles.infoBox, { backgroundColor: secondaryColor }]}>
+              <Text style={styles.subTitle}>Reservation Status</Text>
               <Text style={styles.description}>
-                {confirmationMessage}
+                {statusMessage}
               </Text>
             </View>
-          )}
 
-          {!currentUserHasReservation && !otherUserHasConfirmedReservation ? (
-            <Pressable style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]} onPress={handleMakeReservation}>
-              <Text style={[styles.description, { color: 'white' }]}>Make Reservation</Text>
-            </Pressable>
-          ) : (
-            isInConfirmationPeriod && reservedByCurrentUser && (
-              <Pressable style={[styles.infoBox, { backgroundColor: colors.green, alignItems: 'center' }]} onPress={handleConfirmReservation}>
-                <Text style={[styles.description, { color: 'white' }]}>Confirm Reservation</Text>
+            {pastConfirmedPeriod && !currentUserHasReservation && !otherUserHasConfirmedReservation && (
+              <View style={[styles.infoBox, { backgroundColor: colors.orangeLight }]}>
+                <Text style={styles.description}>
+                  {confirmationMessage}
+                </Text>
+              </View>
+            )}
+
+            {reservationOwner && (
+              <View style={[styles.infoBox]}>
+                {!reservedByCurrentUser ? (
+                  <Text style={styles.description}>
+                    This date is already reserved by{" "}
+                    <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
+                      {reservationOwner}.
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text style={styles.description}>
+                    This date is yours.
+                  </Text>
+                )}
+
+                {!otherUserHasConfirmedReservation && (
+                  <Text style={styles.description}>
+                    People in queue:{" "}
+                    <Text style={[styles.description, { color: primaryColor, fontWeight: 'bold' }]}>
+                      {queueCount}
+                    </Text>
+                  </Text>                
+                )}
+              </View>
+            )}
+          </View>
+
+          <View style={styles.subcontainer}>
+            {!currentUserHasReservation && !otherUserHasConfirmedReservation ? (
+              <Pressable style={[styles.infoBox, { backgroundColor: primaryColor, alignItems: 'center' }]} onPress={handleMakeReservation}>
+                <Text style={[styles.description, { color: 'white' }]}>Make Reservation</Text>
               </Pressable>
-            )
-          )}
+            ) : (
+              isInConfirmationPeriod && reservedByCurrentUser && calendarDay.status !== ReservationStatus.CONFIRMED && (
+                <Pressable style={[styles.infoBox, { backgroundColor: colors.green, alignItems: 'center' }]} onPress={handleConfirmReservation}>
+                  <Text style={[styles.description, { color: 'white' }]}>Confirm Reservation</Text>
+                </Pressable>
+              )
+            )}
 
-          {reservedByCurrentUser && !pastConfirmedPeriod && calendarDay.status !== ReservationStatus.CONFIRMED && (
-            <Pressable style={[styles.infoBox, { backgroundColor: colors.redPrimary, alignItems: 'center' }]} onPress={handleCancelReservation}>
-              <Text style={[styles.description, { color: 'white' }]}>Cancel Reservation</Text>
-            </Pressable>
-          )}
+            {reservedByCurrentUser && !pastConfirmedPeriod && calendarDay.status !== ReservationStatus.CONFIRMED && (
+              <Pressable style={[styles.infoBox, { backgroundColor: colors.redPrimary, alignItems: 'center' }]} onPress={handleCancelReservation}>
+                <Text style={[styles.description, { color: 'white' }]}>Cancel Reservation</Text>
+              </Pressable>
+            )}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

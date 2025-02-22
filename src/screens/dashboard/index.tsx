@@ -23,6 +23,7 @@ export function Dashboard() {
     user,
     boatSelectedInDropdown,
     setBoatSelectedInDropdown,
+    fetchBoatContracts,
     currentUserBoats,
     fetchReservationsForCurrentBoat,
   } = useInfo();
@@ -52,7 +53,10 @@ export function Dashboard() {
           <Text style={styles.dropdownUpperText}>Selected Boat</Text>
           <DropdownList
             list={currentUserBoats}
-            onSelect={(item) => setBoatSelectedInDropdown(item!)}
+            onSelect={(item) => {
+              setBoatSelectedInDropdown(item!);
+              fetchBoatContracts(item!.id);
+            }}
           />
         </View>
       </View>

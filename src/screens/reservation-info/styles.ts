@@ -5,6 +5,13 @@ export const styles = StyleSheet.create({
       padding: 20,
       backgroundColor: "#fff",
     },
+    dataContainer: {
+      flex: 1,
+      gap: 20,
+      flexDirection: "column",
+      display: "flex",
+      justifyContent: "space-between",
+    },
     subcontainer: {
       flexDirection: "column",
       display: "flex",
