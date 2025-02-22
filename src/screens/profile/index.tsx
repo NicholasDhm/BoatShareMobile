@@ -7,6 +7,7 @@ import { Plus, User, LogOut, CalendarCheck, Pencil } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { Boat } from "../../@types/boat";
+import Animated, { FadeIn, FadeInUp } from "react-native-reanimated";
 
 export function Profile() {
   const { signOut, user, currentUserBoats, currentUserReservations, currentUserLegacyReservations, currentUserContracts, fetchBoats, fetchReservations } = useInfo();
@@ -29,6 +30,8 @@ export function Profile() {
   function handleNavigateToBoatDetails(boat: Boat) {
     navigation.navigate("boatDetails", { boat });
   }
+
+  const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
   return (
     <ScrollView
@@ -73,7 +76,7 @@ export function Profile() {
 
               {currentUserBoats.length > 0 ? (
                 currentUserBoats.map((boat) => (
-                  <TouchableOpacity key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
+                  <AnimatedTouchableOpacity entering={FadeInUp} key={boat.id} onPress={() => handleNavigateToBoatDetails(boat)}
                     style={styles.dataContainerItem}>
                     <View style={styles.boatName}>
                       <SvgIcon
@@ -90,7 +93,7 @@ export function Profile() {
                       <Text style={styles.text}>{boat.capacity}</Text>
                     </View>
                     {/* <Info size={16} color="black" style={styles.userIcon} /> */}
-                  </TouchableOpacity>
+                  </AnimatedTouchableOpacity>
                 ))
               ) : (
                 <View style={styles.boatContainer}>
