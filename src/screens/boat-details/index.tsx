@@ -14,7 +14,8 @@ import { useInfo } from "../../contexts/info";
 import { Contract } from "../../@types/contract";
 
 import { Plus, RectangleVertical } from "lucide-react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, SlideInLeft, SlideOutRight, LightSpeedInLeft, LightSpeedInRight, LightSpeedOutRight, BounceIn, SequencedTransition, Layout } from "react-native-reanimated";
+import { SlideFromLeftIOS } from "@react-navigation/stack/lib/typescript/commonjs/src/TransitionConfigs/TransitionPresets";
 
 type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 
@@ -133,7 +134,7 @@ export function BoatDetails() {
           <View style={styles.spacedRow}>
             <Text style={styles.partnersTitle}>Partners ({partners.length}/{boat.capacity})</Text>
           </View>
-          <View style={styles.partnersList}>
+          <Animated.View style={styles.partnersList}>
             {userContract?.role === "admin" && (
               <View style={styles.partnerInputContainer}>
                 <TextInput
@@ -148,7 +149,7 @@ export function BoatDetails() {
               </View>
             )}
             {partners.map((partner, index) => (
-              <View style={styles.partnerItem} key={index}>
+              <Animated.View style={styles.partnerItem} key={index} entering={LightSpeedInLeft} exiting={LightSpeedOutRight}>
                 <View style={styles.partnerInfo}>
                   {partner.role === 'admin' ? (
                     <Crown size={20} color={"black"}></Crown>
@@ -163,10 +164,10 @@ export function BoatDetails() {
                     <Trash2 size={20} color={"black"} />
                   </Pressable>
                 )}
-              </View>
+              </Animated.View>
             ))}
 
-          </View>
+          </Animated.View>
         </View>
       </View>
     </SafeAreaView>
