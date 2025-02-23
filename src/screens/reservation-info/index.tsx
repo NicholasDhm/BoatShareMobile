@@ -77,11 +77,10 @@ export function ReservationInfo() {
 
   if (activeReservation) {
     quotaType = !currentUserHasReservation ? ReservationType.SUBSTITUTION : activeReservation.type;
-    primaryColor = reservedByCurrentUser ? type === ReservationType.STANDARD ? colors.bluePrimary :
+    primaryColor = reservedByCurrentUser && type === ReservationType.STANDARD ? colors.bluePrimary :
       type === ReservationType.SUBSTITUTION ? colors.redPrimary :
         type === ReservationType.CONTINGENCY ? colors.orangePrimary
           : colors.redPrimary
-      : colors.bluePrimary;
     secondaryColor = reservedByCurrentUser ? type === ReservationType.STANDARD ? colors.blueLight :
       type === ReservationType.SUBSTITUTION ? colors.redLight :
         type === ReservationType.CONTINGENCY ? colors.orangeLight
