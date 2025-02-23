@@ -77,19 +77,33 @@ export function ReservationInfo() {
 
   if (activeReservation) {
     quotaType = !currentUserHasReservation ? ReservationType.SUBSTITUTION : activeReservation.type;
-    primaryColor = reservedByCurrentUser && type === ReservationType.STANDARD ? colors.bluePrimary :
-      type === ReservationType.SUBSTITUTION ? colors.redPrimary :
-        type === ReservationType.CONTINGENCY ? colors.orangePrimary
-          : colors.redPrimary
-    secondaryColor = reservedByCurrentUser ? type === ReservationType.STANDARD ? colors.blueLight :
-      type === ReservationType.SUBSTITUTION ? colors.redLight :
-        type === ReservationType.CONTINGENCY ? colors.orangeLight
-          : colors.redLight
-      : colors.grayLight;
+    if (reservedByCurrentUser) {
+      switch (type) {
+        case ReservationType.STANDARD:
+          primaryColor = colors.bluePrimary;
+          secondaryColor = colors.blueLight;
+          break;
+        case ReservationType.SUBSTITUTION:
+          primaryColor = colors.redPrimary;
+          secondaryColor = colors.redLight;
+          break;
+        case ReservationType.CONTINGENCY:
+          primaryColor = colors.orangePrimary;
+          secondaryColor = colors.orangeLight;
+          break;
+        default:
+          primaryColor = colors.redPrimary;
+          secondaryColor = colors.redLight;
+          break;
+      }
+    } else if (otherUserHasConfirmedReservation) {
+      primaryColor = colors.redPrimary;
+      secondaryColor = colors.grayLight;
+    } else {      
+      primaryColor = colors.redPrimary;
+      secondaryColor = colors.redLight
+    }
   }
-
-  const quotaTypeString = quotaType.charAt(0).toUpperCase() + quotaType.slice(1).toLowerCase();
-
   
   // Define status message
   let statusMessage = "This date is available for reservation";
@@ -106,13 +120,14 @@ export function ReservationInfo() {
   // Date Handling
   const now = new Date();
   const isToday = now.getFullYear() === calendarDay.year && now.getMonth() + 1 === calendarDay.month && now.getDate() === calendarDay.day;
-  const isPastSixOClock = now.getHours() >= 18;
+  const isPastSixOClock = now.getHours() >= 6;
   
-  if (isToday && isPastSixOClock) {
+  if (isToday && isPastSixOClock && calendarDay.reservations?.length === 0) {
     primaryColor = colors.orangePrimary;
     secondaryColor = colors.orangeLight;
     quotaType = ReservationType.CONTINGENCY;
   }
+  const quotaTypeString = quotaType.charAt(0).toUpperCase() + quotaType.slice(1).toLowerCase();
 
   const date = new Date(calendarDay.year, calendarDay.month - 1, calendarDay.day);
   const confirmationStartDate = new Date(date);
@@ -198,7 +213,7 @@ export function ReservationInfo() {
               <Text style={styles.subTitle}>{date.toDateString()}</Text>
             </View>
 
-            {!otherUserHasConfirmedReservation && (
+            {!otherUserHasConfirmedReservation && calendarDay.status !== ReservationStatus.CONFIRMED && (
               <View style={styles.infoBox}>
                 <Text style={styles.description}>
                   Confirmation window: {confirmationStartDate.toLocaleDateString()} - {confirmationEndDate.toLocaleDateString()}

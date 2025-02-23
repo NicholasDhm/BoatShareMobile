@@ -19,6 +19,8 @@ export const colors = {
   white: "#FFFFFF",
 
   green: "#4CAF50",
+  greenLight: "#C8E6C9", // Added light green color
+
   disabled: "#BDBDBD",
 
   hoverBackground: "#F5F5F5", // Slight hover effect color
