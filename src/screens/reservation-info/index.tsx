@@ -244,7 +244,7 @@ export function ReservationInfo() {
               </View>
             )}
 
-            {reservationOwner && (
+            {reservationOwner && calendarDay.status !== ReservationStatus.CONFIRMED && (
               <View style={[styles.infoBox]}>
                 {!reservedByCurrentUser ? (
                   <Text style={styles.description}>
