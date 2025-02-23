@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert, TextInput } from "react-native";
+import { View, Text, Pressable, Alert, TextInput, FlatList } from "react-native";
 import { styles } from "./styles";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { StackRoutes } from "../../routes/app.routes";
@@ -14,8 +14,7 @@ import { useInfo } from "../../contexts/info";
 import { Contract } from "../../@types/contract";
 
 import { Plus, RectangleVertical } from "lucide-react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, SlideInLeft, SlideOutRight, LightSpeedInLeft, LightSpeedInRight, LightSpeedOutRight, BounceIn, SequencedTransition, Layout } from "react-native-reanimated";
-import { SlideFromLeftIOS } from "@react-navigation/stack/lib/typescript/commonjs/src/TransitionConfigs/TransitionPresets";
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, LightSpeedInLeft, LightSpeedOutRight, LinearTransition } from "react-native-reanimated";
 
 type BoatDetailsRouteProp = RouteProp<StackRoutes, 'boatDetails'>;
 
@@ -134,7 +133,7 @@ export function BoatDetails() {
           <View style={styles.spacedRow}>
             <Text style={styles.partnersTitle}>Partners ({partners.length}/{boat.capacity})</Text>
           </View>
-          <Animated.View style={styles.partnersList}>
+          <View style={styles.partnersList}>
             {userContract?.role === "admin" && (
               <View style={styles.partnerInputContainer}>
                 <TextInput
@@ -148,26 +147,31 @@ export function BoatDetails() {
                 </PressableAnimated>
               </View>
             )}
-            {partners.map((partner, index) => (
-              <Animated.View style={styles.partnerItem} key={index} entering={LightSpeedInLeft} exiting={LightSpeedOutRight}>
-                <View style={styles.partnerInfo}>
-                  {partner.role === 'admin' ? (
-                    <Crown size={20} color={"black"}></Crown>
-                  ) : (<User size={20} color={"black"} />)}
-                  <Text style={styles.partnerName}>{partner.name}</Text>
-                  {partner.id === user?.id && (
-                    <Text style={styles.detailText}>(You)</Text>
+            <Animated.FlatList
+              data={partners}
+              itemLayoutAnimation={LinearTransition}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={{ gap: 10 }}
+              renderItem={({ item: partner, index}) => (
+                <Animated.View key={index} style={styles.partnerItem} entering={LightSpeedInLeft} exiting={LightSpeedOutRight}>
+                  <View style={styles.partnerInfo}>
+                    {partner.role === 'admin' ? (
+                      <Crown size={20} color={"black"} />
+                    ) : (<User size={20} color={"black"} />)}
+                    <Text style={styles.partnerName}>{partner.name}</Text>
+                    {partner.id === user?.id && (
+                      <Text style={styles.detailText}>(You)</Text>
+                    )}
+                  </View>
+                  {userContract?.role === "admin" && user?.id !== partner.id && (
+                    <Pressable onPress={() => handleRemovePartner(partner.id)} style={styles.removePartnerButton}>
+                      <Trash2 size={20} color={"black"} />
+                    </Pressable>
                   )}
-                </View>
-                {userContract?.role === "admin" && user?.id !== partner.id && (
-                  <Pressable onPress={() => handleRemovePartner(partner.id)} style={styles.removePartnerButton}>
-                    <Trash2 size={20} color={"black"} />
-                  </Pressable>
-                )}
-              </Animated.View>
-            ))}
-
-          </Animated.View>
+                </Animated.View>
+              )}
+            />
+          </View>
         </View>
       </View>
     </SafeAreaView>
