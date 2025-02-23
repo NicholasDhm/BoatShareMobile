@@ -57,7 +57,7 @@ export const s = StyleSheet.create({
     borderRadius: 6,
   },
   dropdownItemSelected: {
-    backgroundColor: colors.bluePrimary,
+    backgroundColor: colors.prussianBluePrimary,
     paddingHorizontal: 14,
     paddingVertical: 12,
     width: 220,

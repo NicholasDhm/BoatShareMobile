@@ -8,9 +8,9 @@ import { colors } from "../../themes/colors";
 export function InfoIcon({ type }: { type: string }) {
   const backgroundColor =
     type === ReservationType.STANDARD
-      ? colors.bluePrimary
+      ? colors.prussianBluePrimary
       : type === ReservationType.SUBSTITUTION
-        ? colors.redPrimary
+        ? colors.tealPrimary
         : type === ReservationType.CONTINGENCY
           ? colors.orangePrimary
           : "transparent";

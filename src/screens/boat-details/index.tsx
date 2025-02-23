@@ -103,7 +103,7 @@ export function BoatDetails() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.prussianBluePrimary }}>
       <View style={styles.container}>
         <View style={styles.row}>
           <Pressable onPress={handleGoBack}>
@@ -116,11 +116,11 @@ export function BoatDetails() {
 
         <View style={[styles.row, { justifyContent: "center", gap: 20, marginTop: 18 }]}>
           <View style={styles.row}>
-            <RectangleVertical size={20} fill={colors.bluePrimary} />
+            <RectangleVertical size={20} fill={colors.prussianBluePrimary} />
             <Text >{userContract?.standardQuota}</Text>
           </View>
           <View style={styles.row}>
-            <RectangleVertical size={20} fill={colors.redPrimary} />
+            <RectangleVertical size={20} fill={colors.tealPrimary} />
             <Text >{userContract?.substitutionQuota}</Text>
           </View>
           <View style={styles.row}>

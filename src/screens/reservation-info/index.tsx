@@ -68,8 +68,8 @@ export function ReservationInfo() {
   }, [activeReservation, currentBoatContracts]);
 
   // Define colors based on reservation type
-  let primaryColor = colors.bluePrimary;
-  let secondaryColor = colors.blueLight;
+  let primaryColor = colors.prussianBluePrimary;
+  let secondaryColor = colors.prussianBlueLight;
   let quotaType = ReservationType.STANDARD;
   
   
@@ -80,28 +80,28 @@ export function ReservationInfo() {
     if (reservedByCurrentUser) {
       switch (type) {
         case ReservationType.STANDARD:
-          primaryColor = colors.bluePrimary;
-          secondaryColor = colors.blueLight;
+          primaryColor = colors.prussianBluePrimary;
+          secondaryColor = colors.prussianBlueLight;
           break;
         case ReservationType.SUBSTITUTION:
-          primaryColor = colors.redPrimary;
-          secondaryColor = colors.redLight;
+          primaryColor = colors.tealPrimary;
+          secondaryColor = colors.tealLight;
           break;
         case ReservationType.CONTINGENCY:
           primaryColor = colors.orangePrimary;
           secondaryColor = colors.orangeLight;
           break;
         default:
-          primaryColor = colors.redPrimary;
-          secondaryColor = colors.redLight;
+          primaryColor = colors.tealPrimary;
+          secondaryColor = colors.tealLight;
           break;
       }
     } else if (otherUserHasConfirmedReservation) {
-      primaryColor = colors.redPrimary;
+      primaryColor = colors.tealPrimary;
       secondaryColor = colors.grayLight;
     } else {      
-      primaryColor = colors.redPrimary;
-      secondaryColor = colors.redLight
+      primaryColor = colors.tealPrimary;
+      secondaryColor = colors.tealLight
     }
   }
   
@@ -137,7 +137,6 @@ export function ReservationInfo() {
   const isInConfirmationPeriod = now >= confirmationStartDate && now <= confirmationEndDate;
   const pastConfirmedPeriod = now > confirmationEndDate;
   const confirmationMessage = "If you make this reservation, it will be automatically confirmed and you won't be able to cancel it."
-
 
   // Action Handlers
   async function handleMakeReservation() {
@@ -285,7 +284,7 @@ export function ReservationInfo() {
               )
             )}
 
-            {reservedByCurrentUser && !pastConfirmedPeriod && calendarDay.status !== ReservationStatus.CONFIRMED && (
+            {currentUserHasReservation && calendarDay.status !== ReservationStatus.CONFIRMED && (
               <Pressable style={[styles.infoBox, { backgroundColor: colors.redPrimary, alignItems: 'center' }]} onPress={handleCancelReservation}>
                 <Text style={[styles.description, { color: 'white' }]}>Cancel Reservation</Text>
               </Pressable>

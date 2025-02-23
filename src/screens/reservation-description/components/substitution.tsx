@@ -27,7 +27,7 @@ export function SubstitutionDescription({
           A substitution reservation places you in line to replace a confirmed
           reservation. You'll get that reservation if the owner decides to
           cancel it. This reservation type consumes a{" "}
-          <Text style={[styles.description, { color: colors.redPrimary, fontWeight: 'bold' }]}>
+          <Text style={[styles.description, { color: colors.tealPrimary, fontWeight: 'bold' }]}>
             Substitution Quota.
           </Text>
         </Text>

@@ -1,16 +1,19 @@
-export const colors = {
-  bluePrimary: "#2364AA",
-  redPrimary: "#D72638",
-  orangePrimary: "#F49D37",
+export const colors = { 
+  // Main app colours:
+  tealPrimary: "#007272",
+  tealLight: "#5AAFAF",
+  tealLightSecondary: "#A7D6D6",
 
-  blueLight: "#D4E9F9",
-  redLight: "#FCC7CD",
-  orangeLight: "#FFE3B2",
+  prussianBluePrimary: "#003153",
+  prussianBlueLight: "#4F6D7A",
+  prussianBlueLightSecondary: "#B0BEC5",
 
-  blueLightSecondary: "#E3F2FD",
-  redLightSecondary: "#FFEBEE",
-  orangeLightSecondary: "#FFF3E0",
+  orangePrimary: "#D77A24",
+  orangeLight: "#F1B166",
+  orangeLightSecondary: "#F8D9A2",
+  
 
+  // Additional colours:
   grayDark: "#595959",
   grayMedium: "#9E9E9E",
   grayLight: "#EAEAEA", 
@@ -18,10 +21,7 @@ export const colors = {
   grayBorder: "#CCCCCC", // Subtle border color for better visibility
   white: "#FFFFFF",
 
-  green: "#4CAF50",
-  greenLight: "#C8E6C9", // Added light green color
-
+  green: "#388E3C",
   disabled: "#BDBDBD",
-
-  hoverBackground: "#F5F5F5", // Slight hover effect color
+  redPrimary: "#D72638",
 };

@@ -37,17 +37,17 @@ export const getBackgroundColor = (
   type: ReservationType,
   currentUserReservation: boolean,
 ): string => {
-  if (!currentUserReservation) return colors.redLightSecondary;
-  if (!type) return colors.blueLightSecondary;
+  if (!currentUserReservation) return colors.tealLightSecondary;
+  if (!type) return colors.prussianBlueLightSecondary;
 
   switch (type) {
     case ReservationType.STANDARD:
-      return colors.blueLightSecondary;
+      return colors.prussianBlueLightSecondary;
     case ReservationType.SUBSTITUTION:
-      return colors.redLightSecondary;
+      return colors.tealLightSecondary;
     case ReservationType.CONTINGENCY:
       return colors.orangeLightSecondary;
     default:
-      return colors.blueLightSecondary;
+      return colors.prussianBlueLightSecondary;
   }
 };

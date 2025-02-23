@@ -25,7 +25,7 @@ export function StandardDescription({
         <Text style={styles.description}>
           This type of reservation allows you to book a boat for the specified
           date. It is the most common type of reservation and consumes a{" "}
-          <Text style={[styles.description, { color: colors.bluePrimary, fontWeight: 'bold' }]}>
+          <Text style={[styles.description, { color: colors.prussianBluePrimary, fontWeight: 'bold' }]}>
             Standard Quota.
           </Text>
         </Text>

@@ -34,7 +34,7 @@ export function Login() {
 
   return (
     <View style={styles.container}>
-      <SvgIcon icon="boat" size={48} color={colors.bluePrimary} />
+      <SvgIcon icon="boat" size={48} color={colors.prussianBluePrimary} />
       <Text style={styles.title}>Boat Share</Text>
       <TextInput
         title="Email"

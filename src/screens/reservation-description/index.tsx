@@ -30,9 +30,9 @@ export function ReservationDescription() {
   const route = useRoute<ReservationDescriptionRouteProp>();
   const reservationType = route.params.reservationType;
   const primaryColor = reservationType === ReservationType.STANDARD
-    ? colors.bluePrimary
+    ? colors.prussianBluePrimary
     : reservationType === ReservationType.SUBSTITUTION
-      ? colors.redPrimary
+      ? colors.tealPrimary
       : reservationType === ReservationType.CONTINGENCY
         ? colors.orangePrimary
         : 'transparent';

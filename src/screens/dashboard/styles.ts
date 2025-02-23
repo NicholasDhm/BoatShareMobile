@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },    
   headerContainer: {
     width: '100%',
-    backgroundColor: colors.bluePrimary,
+    backgroundColor: colors.prussianBluePrimary,
     gap: 20,
     padding: 32,
   },

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../themes/colors';
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.bluePrimary,
+    backgroundColor: colors.prussianBluePrimary,
     paddingHorizontal: 16,
     height: 64,
     flexDirection: 'row',

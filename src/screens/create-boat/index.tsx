@@ -63,7 +63,7 @@ export function CreateBoat() {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.prussianBluePrimary }}>
       <View style={styles.container}>
         <View style={styles.row}>
           <Pressable onPress={handleGoBack}>

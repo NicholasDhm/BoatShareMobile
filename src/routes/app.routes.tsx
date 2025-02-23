@@ -52,7 +52,7 @@ const Stack = createStackNavigator<StackRoutes>();
 
 function TabNavigator() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bluePrimary }} edges={["right", "top", "left"]}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.prussianBluePrimary }} edges={["right", "top", "left"]}>
       <View style={{ backgroundColor: colors.grayLight, height: "100%" }}>
         <Tab.Navigator
           screenOptions={{

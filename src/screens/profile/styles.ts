@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '100%',
-    backgroundColor: colors.bluePrimary,
+    backgroundColor: colors.prussianBluePrimary,
     padding: 32
   },
   headerText: {
