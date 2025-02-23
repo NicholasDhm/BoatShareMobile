@@ -62,7 +62,7 @@ export function DropdownList({ list, onSelect }: DropdownListProps) {
       </Pressable>
 
       {viewDropdown && list.length > 0 ? (
-        <Animated.View style={[s.dropdownList]} entering={FadeInUp.withInitialValues({opacity: 0, transform: [{ translateY: -10 }]})} exiting={FadeOut}>
+        <Animated.View style={[s.dropdownList]} entering={FadeInUp.withInitialValues({opacity: 0, transform: [{ translateY: -10 }]}).duration(100)} exiting={FadeOut.duration(100)}>
           <ScrollView style={s.scrollView} nestedScrollEnabled>
             {list.map((item, index) => (
               <Pressable
