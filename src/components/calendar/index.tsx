@@ -9,6 +9,8 @@ import { StackNavigatorProps } from "../../routes/app.routes";
 import { CalendarDayProps } from "../../@types/calendar-day";
 import { CalendarDay } from "../calendar-day";
 import { useInfo } from "../../contexts/info";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { useSharedValue, runOnJS } from "react-native-reanimated";
 
 export function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
@@ -29,7 +31,7 @@ export function Calendar() {
     }
   }
 
-  function handleLeftRight() {
+  function handlePressLeft() {
     if (currentMonth === 1) {
       setCurrentYear(currentYear - 1);
       setCurrentMonth(12);
@@ -53,20 +55,35 @@ export function Calendar() {
   //   generateCalendarDays();
   // }, [currentBoatReservations]);
 
+  const calendarGesture = useSharedValue(0);
+
+  const onPan = Gesture.Pan().onUpdate(({ translationX }) => {
+    calendarGesture.value = translationX;
+  }).onEnd(() => {
+    if (calendarGesture.value > 80) {
+      runOnJS(handlePressLeft)();
+    }
+    else if (calendarGesture.value < -80) {
+      runOnJS(handlePressRight)();
+    }
+    calendarGesture.value = 0;
+  });
   return (
-    <View style={styles.container}>
-      <CalendarHeader
-        onRightPress={handlePressRight}
-        onLeftPress={handleLeftRight}
-        year={currentYear}
-        month={currentMonth}
-      />
+    <GestureDetector gesture={onPan}>
+      <View style={styles.container}>
+        <CalendarHeader
+          onRightPress={handlePressRight}
+          onLeftPress={handlePressLeft}
+          year={currentYear}
+          month={currentMonth}
+        />
 
-      <CalendarSubheader />
+        <CalendarSubheader />
 
-      <View style={styles.calendarGrid}>
-        {generateCalendarDays()}
+        <View style={styles.calendarGrid}>
+          {generateCalendarDays()}
+        </View>
       </View>
-    </View>
+    </GestureDetector>
   );
 } 

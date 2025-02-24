@@ -43,6 +43,7 @@ export function ReservationInfo() {
 
   const calendarDay = route.params.calendarDay;
   const activeReservation = getFirstReservation(calendarDay.reservations);
+  console.log(activeReservation);
   const reservedByCurrentUser = activeReservation && currentUserReservations.some(cur => cur.id === activeReservation.id);
 
   let otherUserHasConfirmedReservation = false
