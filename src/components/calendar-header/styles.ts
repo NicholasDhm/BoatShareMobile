@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 48,
     paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: colors.prussianBluePrimary,
     borderRadius: 16,
     borderBottomWidth: 1,
@@ -15,9 +15,7 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
   textContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
   },
   button: {
     height: 32,
@@ -26,9 +24,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
   },
-  monthYearText: {
-    fontSize: 16,
+  monthText: {
+    fontSize: 18,
     color: colors.white,
     fontWeight: '600',
+  },
+  yearText: {
+    fontSize: 14,
+    opacity: 0.6,
+    color: colors.white,
+    fontWeight: '400',
   },
 });

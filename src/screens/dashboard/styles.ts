@@ -12,7 +12,7 @@ headerContainer: {
     width: '100%',
     backgroundColor: colors.prussianBluePrimary,
     padding: 24,
-    paddingTop: 48,
+    paddingTop: 24,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     shadowColor: "#000",

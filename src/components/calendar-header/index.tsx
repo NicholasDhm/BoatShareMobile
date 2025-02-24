@@ -63,15 +63,15 @@ return (
       onPressOut={onPressOutLeft} 
       hitSlop={8}
     >
-      <ArrowLeft size={16} color={colors.white} />
+      <ArrowLeft size={24} color={colors.white} />
     </PressableAnimated>
 
     <View style={styles.textContainer}>
-      <Text style={styles.monthYearText}>
-        {monthText}
-      </Text>      
-      <Text style={styles.monthYearText}>
+      <Text style={styles.yearText}>
         {year}
+      </Text>      
+      <Text style={styles.monthText}>
+        {monthText}
       </Text>
     </View>
 
@@ -82,7 +82,7 @@ return (
       onPressOut={onPressOutRight} 
       hitSlop={8}
     >
-      <ArrowRight size={16} color={colors.white} />
+      <ArrowRight size={24} color={colors.white} />
     </PressableAnimated>
   </View>
 );
