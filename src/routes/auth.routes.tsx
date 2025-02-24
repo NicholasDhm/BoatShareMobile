@@ -19,7 +19,7 @@ const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>();
 
 export function AuthRoutes() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.prussianBlueLight }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.prussianBluePrimary }}>
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="login" component={Login} />
         <Screen name="signup" component={SignUp} />
