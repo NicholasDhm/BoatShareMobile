@@ -3,28 +3,17 @@ import { styles } from "./styles";
 import { useInfo } from "../../contexts/info";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigatorProps } from "../../routes/app.routes";
-import { Plus, User, LogOut, CalendarCheck, ChevronDown } from "lucide-react-native";
+import { Plus, User, LogOut, CalendarCheck } from "lucide-react-native";
 import { colors } from "../../themes/colors";
 import { SvgIcon } from "../../components/svg";
 import { Boat } from "../../@types/boat";
-import { useState } from 'react';
 import Animated, { 
   FadeInUp, 
-  SlideInDown,
-  useAnimatedStyle, 
-  withSpring, 
-  LinearTransition,
-  FadeOut
 } from "react-native-reanimated";
 
 export function Profile() {
   const { signOut, user, currentUserBoats, currentUserReservations, currentUserLegacyReservations, currentUserContracts } = useInfo();
   const navigation = useNavigation<StackNavigatorProps>();
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const rotateAnimation = useAnimatedStyle(() => ({
-    transform: [{ rotate: withSpring(isExpanded ? '180deg' : '0deg', {damping: 20, stiffness: 200}) }],
-  }))
 
   function handleNavigateToAddBoat() {
     navigation.navigate("createBoat");
