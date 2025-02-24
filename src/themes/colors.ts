@@ -25,4 +25,7 @@ export const colors = {
   green: "#388E3C",
   disabled: "#BDBDBD",
   redPrimary: "#D72638",
+
+  error: '#DC2626',
+  success: '#059669',
 };

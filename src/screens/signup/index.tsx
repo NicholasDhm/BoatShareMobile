@@ -41,44 +41,63 @@ export function SignUp() {
 
   return (
     <View style={styles.container}>
-      <SvgIcon icon="boat" size={48} color={colors.prussianBluePrimary} />
-      <Text style={styles.title}>Boat Share</Text>
-      <TextInput
-        title="Username"
-        placeholder="Username"
-        value={name}
-        onChangeText={setName}
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <View style={styles.logo}>
+            <SvgIcon icon="boat" size={64} color={colors.white} />
+          </View>
+          <Text style={styles.title}>Create Account</Text>
+          <Text style={styles.subtitle}>Join our boat sharing community</Text>
+        </View>
 
-      />
-      <TextInput
-        title="Email"
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
+        <View style={styles.formContainer}>
+          <View style={styles.inputsContainer}>
+            <TextInput
+              title="Username"
+              placeholder="Enter your username"
+              value={name}
+              onChangeText={setName}
+              autoCapitalize="words"
+            />
+            <TextInput
+              title="Email"
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              title="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+            <TextInput
+              title="Confirm Password"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+            />
+          </View>
 
-      />
-      <TextInput
-        title="Password"
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+          <Button 
+            title="Create Account" 
+            onPress={handleUserSignup}
+          />
 
-      />
-      <TextInput
-        title="Confirm password"
-        placeholder="Confirm password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-
-      />
-      <Button title="Create account" onPress={handleUserSignup} />
-      <Pressable onPress={handleUserToLogin}>
-        <Text style={styles.subText}>Already have an account? Login</Text>
-      </Pressable>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Already have an account?
+            </Text>
+            <Pressable onPress={handleUserToLogin}>
+              <Text style={styles.footerLink}>Login</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
