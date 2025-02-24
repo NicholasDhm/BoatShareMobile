@@ -1,37 +1,34 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../themes/colors';
+
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.prussianBluePrimary,
-    paddingHorizontal: 16,
-    height: 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: 4,
-    marginBottom: 10,
-
+    height: 48,
+    paddingHorizontal: 12,
+    backgroundColor: colors.prussianBluePrimary,
+    borderRadius: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.grayLight,
+    marginBottom: 12,
   },
   textContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    gap: 12,
   },
   button: {
-    backgroundColor: colors.grayLight,
     height: 32,
     width: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: colors.grayDark,
-
-
+    borderRadius: 16,
   },
-  dateText: {
-    fontSize: 18,
+  monthYearText: {
+    fontSize: 16,
     color: colors.white,
+    fontWeight: '600',
   },
 });

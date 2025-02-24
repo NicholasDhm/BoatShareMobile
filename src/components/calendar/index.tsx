@@ -70,7 +70,7 @@ export function Calendar() {
   });
   return (
     <GestureDetector gesture={onPan}>
-      <View style={styles.container}>
+      <View>
         <CalendarHeader
           onRightPress={handlePressRight}
           onLeftPress={handlePressLeft}
