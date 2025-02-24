@@ -45,7 +45,6 @@ export function Dashboard() {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Welcome back, {user?.name}!</Text>
 
@@ -72,30 +71,8 @@ export function Dashboard() {
           </View>
 
           <Calendar />
-
-          <Pressable onPress={async () => {
-            const boats = await boatsApi.getBoats();
-            console.log(JSON.stringify(boats, null, 2));
-          }}>
-            <Text>Show All Boats</Text>
-          </Pressable>
-          <Pressable onPress={async () => {
-            const contracts = await contractsApi.getContractsByUserId(user?.id || "");
-            console.log(JSON.stringify(contracts, null, 2));
-          }}>
-            <Text>Show All User Contracts</Text>
-          </Pressable>
-
-          {/* <Pressable onPress={async () => {
-            const newBoat = { name: "Wanderer", capacity: 4 };
-            await boatsApi.createBoat("Wanderer", 4);
-            console.log("Boat added:", newBoat);
-          }}>
-            <Text>Add Boat</Text>
-          </Pressable> */}
         </View>
       </View>
-
     </View>
   );
 }
