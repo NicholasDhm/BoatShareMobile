@@ -26,7 +26,7 @@ export function Profile() {
   const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100}}>
       <View style={styles.headerContainer}>
         <View style={styles.headerContent}>
           <View style={styles.userInfo}>
