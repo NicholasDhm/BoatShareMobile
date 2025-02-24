@@ -20,6 +20,7 @@ export const colors = {
   grayLightSecondary: "#F5F5F5", // Use this later for past reservation background colors
   grayBorder: "#CCCCCC", // Subtle border color for better visibility
   white: "#FFFFFF",
+  coldWhite: "#f8f9fa",
 
   green: "#388E3C",
   disabled: "#BDBDBD",

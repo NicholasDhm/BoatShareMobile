@@ -1,91 +1,178 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { colors } from '../../themes/colors';
 
+const { width } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
+  // Base Container
   container: {
     flex: 1,
-    backgroundColor: colors.grayLight,
+    backgroundColor: colors.coldWhite,
   },
-  dataContainer: {
-    padding: 20,
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    gap: 2,
 
+  // Header Section
+  headerContainer: {
+    width: '100%',
+    backgroundColor: colors.prussianBluePrimary,
+    padding: 24,
+    paddingTop: 48,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
   },
-  dataContainerTitle: {
-    fontSize: 20,
+  userName: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: '600',
+    marginBottom: 4,
   },
-  dataContainerContent: {
-    gap: 8
+  userEmail: {
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.8)',
   },
-  dataContainerItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 16,
 
+  // Stats Section
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 20,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 16,
+    marginTop: 24,
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statValue: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  statLabel: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 12,
+  },
+
+  // Content Section
+  contentContainer: {
+    padding: 20,
+    gap: 16,
+    marginTop: -30,
+  },
+  dataContainer: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    gap: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#1a1a1a',
+    marginBottom: 4,
+  },
+
+  // Cards
+  boatCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderColor: 'rgba(0,0,0,0.08)',
     borderWidth: 1,
-    borderRadius: 8,
-    borderColor: colors.grayBorder,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  text: {
-    fontSize: 16,
-    color: colors.grayDark,
+  reservationCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.prussianBluePrimary,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  boatReservationName: {
-    fontSize: 16,
-    color: colors.grayDark,
-    marginLeft: 12,
-  },
-  boatContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
+
+  // Common
   rowSpaced: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginBottom: 16,
   },
   boatName: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1a1a1a',
+    marginBottom: 4,
   },
   boatCapacity: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 12,
-
-    marginLeft: "auto"
+    fontSize: 14,
+    color: colors.grayDark,
   },
-  headerContainer: {
-    width: '100%',
+  reservationBoatName: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1a1a1a',
+    marginBottom: 4,
+  },
+  reservationDate: {
+    fontSize: 14,
+    color: colors.grayDark,
+  },
+  addButton: {
     backgroundColor: colors.prussianBluePrimary,
-    padding: 32
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  headerText: {
-    fontSize: 24,
-    color: colors.white,
-    fontWeight: 500,
-  },
-  contentContainer: {
-    padding: 32,
-    gap: 20,
-  },
-  reservationList: {
-    gap: 10,
-    paddingTop: 10,
-  }
 });
-
